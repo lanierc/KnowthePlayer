@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(err => {
       console.error('Failed to load players or teams:', err);
-      const players = window.__allPlayers || [];
-      const effectiveTeams = deriveTeams(players, window.__allTeams || []);
+      const players = window.__allPlayers || (typeof FOOTBALLERS !== 'undefined' ? FOOTBALLERS : []);
+      const teams = window.__allTeams || (typeof FOOTBALL_TEAMS !== 'undefined' ? FOOTBALL_TEAMS : []);
+      const effectiveTeams = deriveTeams(players, teams);
       renderStats(players, effectiveTeams);
       renderTeams(effectiveTeams);
       renderGrid(players);

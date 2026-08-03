@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oyuncular - Know the Player</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { neonGreen: '#00ff87', neonBlue: '#00d2ff', darkBg: '#090d16', darkCard: '#121a2b' } } }
+    }
+  </script>
+</head>
+<body class="flex flex-col min-h-screen items-center bg-darkBg text-white font-heading selection:bg-emerald-500 selection:text-black">
+  <header class="w-full max-w-5xl px-4 py-4 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-2 text-neon font-bold text-2xl">⚽ <span>Know the <span class="text-neon-blue">Player</span></span></a>
+  </header>
+
+  <main class="w-full max-w-5xl px-4 py-6 flex-grow">
+    <section class="mb-6 text-slate-300">
+      <div class="flex flex-wrap gap-3 items-center">
+        <div id="player-count" class="text-sm font-semibold">Oyuncu: 0</div>
+        <div id="team-count" class="text-sm font-semibold">Kulüp: 0</div>
+      </div>
+    </section>
+    <section class="mb-6">
+      <input type="text" id="player-search" placeholder="Oyuncu adı, pozisyon ya da ülke…" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-neonGreen" />
+    </section>
+    <section class="mb-6">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-white">Kulüpler</h2>
+      </div>
+      <div id="teams-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4"></div>
+    </section>
+    <section id="players-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></section>
+  </main>
+
+  <footer class="w-full max-w-5xl px-4 py-4 text-center text-xs text-slate-500 border-t border-slate-800">
+    Know the Player © 2026
+  </footer>
+
+  <script src="js/players.js"></script>
+</body>
+</html>

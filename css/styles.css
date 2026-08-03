@@ -1,0 +1,179 @@
+/* Custom Styles for 1v1 Football Quiz SPA - Esports Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+:root {
+  --neon-green: #00ff87;
+  --neon-green-glow: rgba(0, 255, 135, 0.4);
+  --dark-bg: #090d16;
+  --dark-card: rgba(18, 26, 43, 0.75);
+  --dark-card-border: rgba(255, 255, 255, 0.1);
+  --accent-blue: #00d2ff;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--dark-bg);
+  color: #f3f4f6;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(0, 255, 135, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(0, 210, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.6) 0%, transparent 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.font-heading {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Neon Text Glow */
+.text-neon {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-green-glow), 0 0 20px rgba(0, 255, 135, 0.2);
+}
+
+.text-neon-blue {
+  color: var(--accent-blue);
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+}
+
+/* Glassmorphism Card */
+.glass-panel {
+  background: var(--dark-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--dark-card-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-panel-glow {
+  position: relative;
+}
+
+.glass-panel-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 255, 135, 0.4), rgba(0, 210, 255, 0.2), transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Neon Button Base & Hover */
+.btn-neon {
+  background: linear-gradient(135deg, #00ff87 0%, #60efff 100%);
+  color: #051410;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 15px var(--neon-green-glow);
+}
+
+.btn-neon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 255, 135, 0.6), 0 0 35px rgba(96, 239, 255, 0.4);
+}
+
+.btn-neon:active {
+  transform: translateY(0);
+}
+
+.btn-outline-neon {
+  background: rgba(0, 255, 135, 0.05);
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.btn-outline-neon:hover {
+  background: rgba(0, 255, 135, 0.15);
+  box-shadow: 0 0 20px var(--neon-green-glow);
+  transform: translateY(-2px);
+}
+
+/* Pulse Glow Animation */
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 255, 135, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 135, 0.7);
+  }
+}
+
+.animate-neon-pulse {
+  animation: neonPulse 2s infinite ease-in-out;
+}
+
+/* Countdown Zoom Animation */
+@keyframes countdownPop {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+}
+
+.animate-pop {
+  animation: countdownPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Custom Autocomplete Dropdown Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 135, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 135, 0.7);
+}
+
+/* Autocomplete Item Hover */
+.autocomplete-item {
+  transition: all 0.15s ease;
+}
+
+.autocomplete-item:hover, .autocomplete-item.active {
+  background: rgba(0, 255, 135, 0.12);
+  border-left: 3px solid var(--neon-green);
+  padding-left: 1rem;
+}
+
+/* Versus badge rotate effect */
+@keyframes vsGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 135, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(0, 210, 255, 0.8));
+  }
+}
+
+.vs-badge {
+  animation: vsGlow 3s infinite ease-in-out;
+}

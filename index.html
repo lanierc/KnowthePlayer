@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Know the Player - Ortak Futbolcu Bilgi Yarışması</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom Esports Neon Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Tailwind Configuration for Custom Neon Colors -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            neonGreen: '#00ff87',
+            neonBlue: '#00d2ff',
+            darkBg: '#090d16',
+            darkCard: '#121a2b',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="flex flex-col min-h-screen justify-between items-center relative selection:bg-emerald-500 selection:text-black">
+
+  <!-- Canvas Confetti Container -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- Top Navigation Header -->
+  <header class="w-full max-w-5xl px-4 py-4 flex justify-between items-center z-20">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="UI.showScreen('screen-lobby')">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+        <i data-lucide="trophy" class="w-6 h-6 text-slate-950 font-bold"></i>
+      </div>
+      <div>
+        <h1 class="font-heading font-black text-2xl tracking-wider uppercase text-white leading-none">
+          FOOTBALL<span class="text-neon">CONNECT</span>
+        </h1>
+        <p class="text-[10px] text-slate-400 tracking-widest font-semibold uppercase">1v1 Real-Time Dual Game Modes</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-3">
+      <!-- Sound Mute/Unmute Toggle -->
+      <button id="btn-toggle-sound" title="Ses Aç/Kapat" class="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 transition-colors">
+        <i id="sound-icon" data-lucide="volume-2" class="w-5 h-5"></i>
+      </button>
+
+      <span id="socket-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
+        <span id="socket-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="socket-status-text">Bağlanılıyor...</span>
+      </span>
+    </div>
+  </header>
+<nav class="w-full max-w-5xl px-4 py-2 flex justify-center gap-4">
+  <a href="players.html" class="text-neon hover:text-neon-blue transition-colors font-semibold">Oyuncular</a>
+</nav>
+
+  <!-- Notification Toast Container -->
+  <div id="match-notification" class="fixed top-20 z-50 transition-all duration-300 opacity-0 -translate-y-4 pointer-events-none">
+    <div class="flex items-center gap-2">
+      <i data-lucide="zap" class="notify-icon w-4 h-4"></i>
+      <span class="notify-text font-semibold text-xs md:text-sm"></span>
+    </div>
+  </div>
+
+  <!-- Main SPA Viewport Container -->
+  <main class="w-full max-w-4xl px-4 py-6 flex-grow flex items-center justify-center relative z-10">
+
+    <!-- ========================================== -->
+    <!-- 1. LOBBY SCREEN (LOBİ EKRANI)              -->
+    <!-- ========================================== -->
+    <section id="screen-lobby" class="w-full max-w-md flex flex-col items-center gap-6">
+      
+      <!-- Logo Banner Card -->
+      <div class="glass-panel glass-panel-glow w-full p-8 rounded-3xl text-center flex flex-col items-center relative overflow-hidden">
+        <div class="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+
+        <div class="w-20 h-20 rounded-2xl bg-slate-900/90 border border-emerald-500/40 flex items-center justify-center mb-4 shadow-xl shadow-emerald-500/20 group">
+          <i data-lucide="swords" class="w-10 h-10 text-emerald-400 group-hover:scale-110 transition-transform"></i>
+        </div>
+
+        <h2 class="font-heading text-3xl font-extrabold text-white tracking-wide uppercase">
+          KNOW THE <span class="text-neon">PLAYER</span>
+        </h2>
+        <p class="text-xs text-slate-400 mt-2 max-w-xs leading-relaxed">
+          İlk 3 puana ulaşan maçı kazanır! Her iki takımda da oynamış futbolcuyu ilk sen tahmin et.
+        </p>
+
+        <!-- Form Elements -->
+        <div class="w-full mt-6 space-y-4">
+          <div>
+            <label class="block text-left text-xs font-semibold uppercase text-slate-400 mb-1.5 tracking-wider">
+              Kullanıcı Adı
+            </label>
+            <div class="relative">
+              <input 
+                type="text" 
+                id="input-username" 
+                placeholder="Örn: Striker_99" 
+                value="Futbolcu_1"
+                class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 font-semibold transition-all"
+              />
+              <i data-lucide="user" class="w-5 h-5 absolute right-3.5 top-3.5 text-slate-500"></i>
+            </div>
+          </div>
+
+          <!-- Game Mode Selector -->
+          <div>
+            <label class="block text-left text-xs font-semibold uppercase text-slate-400 mb-1.5 tracking-wider">
+              Oyun Modu Seçin
+            </label>
+            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-900/90 rounded-xl border border-slate-700">
+              <button id="mode-random" type="button" class="py-2.5 px-3 rounded-lg text-xs font-extrabold transition-all bg-emerald-500 text-slate-950 shadow-md">
+                🎲 Rastgele Mod
+              </button>
+              <button id="mode-custom" type="button" class="py-2.5 px-3 rounded-lg text-xs font-extrabold transition-all bg-transparent text-slate-400 hover:text-white">
+                ⚽ Takım Seçmeli Mod
+              </button>
+            </div>
+          </div>
+
+          <!-- Data Source Selector (Yerel DB vs Canlı API) -->
+          <div>
+            <label class="block text-left text-xs font-semibold uppercase text-slate-400 mb-1.5 tracking-wider">
+              Veri Kaynağı (Data Source)
+            </label>
+            <div class="grid grid-cols-2 gap-2 p-1 bg-slate-900/90 rounded-xl border border-slate-700">
+              <button id="source-local" type="button" class="py-2 px-2.5 rounded-lg text-xs font-extrabold transition-all bg-emerald-500 text-slate-950 shadow-md">
+                📦 Yerel DB (100+ Efsane)
+              </button>
+              <button id="source-api" type="button" class="py-2 px-2.5 rounded-lg text-xs font-extrabold transition-all bg-transparent text-slate-400 hover:text-white">
+                🌐 Canlı Futbol API
+              </button>
+            </div>
+          </div>
+
+          <!-- Lobby Action Buttons -->
+          <div class="grid grid-cols-1 gap-3 pt-2">
+            <button 
+              id="btn-create-room" 
+              class="btn-neon w-full py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm tracking-wider uppercase font-extrabold"
+            >
+              <i data-lucide="plus-circle" class="w-5 h-5"></i>
+              Oda Kur (Create Room)
+            </button>
+            
+            <button 
+              id="btn-join-room" 
+              class="btn-outline-neon w-full py-3 rounded-xl flex items-center justify-center gap-2 text-sm tracking-wider uppercase font-bold"
+            >
+              <i data-lucide="log-in" class="w-5 h-5"></i>
+              Odaya Katıl (Join Room)
+            </button>
+          </div>
+
+          <!-- Hidden Join Room Code Input -->
+          <div id="join-input-container" class="hidden transition-all duration-300 pt-3 border-t border-slate-800">
+            <label class="block text-left text-xs font-semibold uppercase text-slate-400 mb-1.5">
+              Oda Kodunu Girin
+            </label>
+            <div class="flex gap-2">
+              <input 
+                type="text" 
+                id="input-room-code" 
+                placeholder="MATCH-XXXX" 
+                class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-600 font-mono text-center tracking-widest text-sm font-bold uppercase focus:border-cyan-400 focus:outline-none"
+              />
+              <button 
+                id="btn-submit-join" 
+                class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs uppercase transition-colors flex items-center gap-1"
+              >
+                Katıl ➔
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 2. WAITING ROOM (BEKLEME ODASI)            -->
+    <!-- ========================================== -->
+    <section id="screen-waiting" class="w-full max-w-lg hidden flex-col items-center gap-6">
+      
+      <div class="glass-panel glass-panel-glow w-full p-8 rounded-3xl text-center flex flex-col items-center relative">
+        
+        <div class="flex items-center gap-2 mb-1 flex-wrap justify-center">
+          <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">Oda Kodu:</span>
+          <span id="waiting-mode-badge" class="px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30 text-[10px] font-extrabold uppercase">
+            Rastgele Mod
+          </span>
+          <span id="waiting-source-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/30 text-[10px] font-extrabold uppercase">
+            📦 Yerel DB
+          </span>
+        </div>
+        
+        <!-- Room Code Display with Copy Button -->
+        <div class="flex items-center gap-3 my-2 bg-slate-950/80 px-6 py-3 rounded-2xl border border-emerald-500/30">
+          <span id="waiting-room-code" class="font-mono text-3xl md:text-4xl font-extrabold text-neon tracking-widest">
+            MATCH-9482
+          </span>
+          <button id="btn-copy-code" title="Kopyala" class="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-emerald-400 transition-colors">
+            <i data-lucide="copy" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Custom Team Picker Container (Shown only in CUSTOM Mode - Secret Selection) -->
+        <div id="custom-team-picker-container" class="w-full hidden flex-col gap-3 my-4 p-4 rounded-2xl bg-slate-950/80 border border-cyan-500/30 text-left">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-xs font-bold uppercase text-cyan-400 tracking-wider">
+              <i data-lucide="shield" class="w-4 h-4"></i> Gizli Takım Seçimi (Secret Team Pick)
+            </div>
+            <span class="text-[10px] text-slate-500 font-semibold uppercase">Rakip takımını göremez 🔒</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3 items-center">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1 font-semibold">Senin Takımın:</label>
+              <select id="select-my-team" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-cyan-500/40 text-cyan-300 text-xs font-bold focus:outline-none focus:border-cyan-400">
+                <!-- Populated dynamically via js -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1 font-semibold">Rakibin Durumu:</label>
+              <div id="opponent-team-status" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-slate-400 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>⏳ Seçim Yapıyor...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matchup Players Slot Display -->
+        <div class="w-full grid grid-cols-2 gap-4 my-4">
+          
+          <!-- Host Card -->
+          <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-700/60 flex flex-col items-center gap-2">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-700 flex items-center justify-center font-bold text-slate-950 shadow-md">
+              <i data-lucide="user-check" class="w-6 h-6 text-white"></i>
+            </div>
+            <div id="host-username" class="font-bold text-white text-sm">Oyuncu 1</div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/30 uppercase font-bold">Oda Sahibi</span>
+          </div>
+
+          <!-- Guest Card -->
+          <div id="guest-card" class="p-4 rounded-2xl bg-slate-900/90 border border-slate-700/60 flex flex-col items-center gap-2 relative">
+            <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-slate-500">
+              <i data-lucide="user-plus" class="w-6 h-6"></i>
+            </div>
+            <div id="guest-username" class="font-semibold text-slate-400 text-sm italic">Rakip Bekleniyor...</div>
+            <div id="guest-status">
+              <div class="flex items-center gap-2 text-xs text-amber-400/80">
+                <div class="w-3.5 h-3.5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                Bağlanılıyor...
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Start Game Button -->
+        <button 
+          id="btn-start-game" 
+          disabled 
+          class="btn-neon w-full py-4 rounded-xl flex items-center justify-center gap-2 text-base font-extrabold uppercase opacity-50 cursor-not-allowed transition-all"
+        >
+          <i data-lucide="play" class="w-5 h-5"></i>
+          Oyunu Başlat (Start Game)
+        </button>
+
+        <button id="btn-leave-room" class="mt-4 text-xs text-slate-500 hover:text-slate-300 transition-colors">
+          ← Odadan Ayrıl
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 3. MAIN GAME SCREEN (ANA OYUN EKRANI)      -->
+    <!-- ========================================== -->
+    <section id="screen-game" class="w-full max-w-2xl hidden flex-col items-center gap-5 relative">
+      
+      <!-- Fullscreen Countdown Overlay -->
+      <div id="countdown-overlay" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex-col items-center justify-center">
+        <div class="text-xs uppercase tracking-widest text-emerald-400 font-semibold mb-2">Maç Başlıyor</div>
+        <div id="countdown-text" class="font-heading text-8xl md:text-9xl font-black text-white text-neon animate-pop">3</div>
+      </div>
+
+      <!-- Live Scoreboard Header -->
+      <div class="w-full glass-panel px-6 py-3 rounded-2xl flex items-center justify-between border border-slate-700/80">
+        <div class="flex items-center gap-2">
+          <span id="score-host-name" class="font-bold text-slate-200 text-sm">Oyuncu 1</span>
+          <span id="score-host-val" class="px-2.5 py-0.5 rounded-lg bg-emerald-950 text-emerald-400 font-black text-base border border-emerald-500/30">0</span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <span id="round-indicator" class="text-[11px] font-extrabold uppercase tracking-widest text-cyan-400 px-3 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/30">
+            TUR 1 (Hedef: 3)
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span id="score-guest-val" class="px-2.5 py-0.5 rounded-lg bg-emerald-950 text-emerald-400 font-black text-base border border-emerald-500/30">0</span>
+          <span id="score-guest-name" class="font-bold text-slate-200 text-sm">Rakip</span>
+        </div>
+      </div>
+
+      <!-- Teams Versus Header -->
+      <div class="glass-panel w-full p-6 rounded-3xl flex items-center justify-between relative overflow-hidden">
+        
+        <!-- Team 1 (Left) -->
+        <div class="flex items-center gap-4 flex-1">
+          <div id="team1-badge" class="w-14 h-14 rounded-2xl bg-amber-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg border-2 border-white/20">
+            RMA
+          </div>
+          <div>
+            <h3 id="team1-name" class="font-heading font-extrabold text-lg md:text-xl text-white">Real Madrid</h3>
+            <span id="team1-country" class="text-xs text-slate-400">İspanya</span>
+          </div>
+        </div>
+
+        <!-- Center VS & Round Timer -->
+        <div class="flex flex-col items-center px-4">
+          <div class="vs-badge w-12 h-12 rounded-full bg-slate-950 border-2 border-emerald-400 flex items-center justify-center font-heading font-black text-neon text-lg shadow-lg">
+            VS
+          </div>
+          <div id="round-timer-text" class="font-mono text-sm font-bold text-slate-300 mt-1">30s</div>
+        </div>
+
+        <!-- Team 2 (Right) -->
+        <div class="flex items-center gap-4 flex-1 justify-end text-right">
+          <div>
+            <h3 id="team2-name" class="font-heading font-extrabold text-lg md:text-xl text-white">Juventus</h3>
+            <span id="team2-country" class="text-xs text-slate-400">İtalya</span>
+          </div>
+          <div id="team2-badge" class="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center font-black text-white text-xl shadow-lg border-2 border-white/20">
+            JUV
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Round Progress Timer Bar -->
+      <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+        <div id="round-timer-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 w-full transition-all duration-300"></div>
+      </div>
+
+      <!-- Central Search Input with Autocomplete Dropdown & Mutual PAS Button -->
+      <div class="w-full relative">
+        <div class="glass-panel p-2 rounded-2xl flex items-center gap-2 border border-slate-700/80 focus-within:border-emerald-400 focus-within:ring-2 focus-within:ring-emerald-400/20 transition-all">
+          <div class="p-3 text-emerald-400">
+            <i data-lucide="search" class="w-6 h-6"></i>
+          </div>
+          <input 
+            type="text" 
+            id="player-search-input"
+            autocomplete="off"
+            placeholder="Her iki takımda da oynamış futbolcu ismini yazın (ör: Ronaldo, Di Maria...)" 
+            class="w-full bg-transparent text-white placeholder-slate-500 font-semibold text-base focus:outline-none py-2"
+          />
+          
+          <!-- Mutual Pass Button -->
+          <button 
+            id="btn-pass-round" 
+            class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs uppercase font-extrabold flex items-center gap-1.5 shrink-0 transition-colors border border-amber-500/30"
+            title="Her iki oyuncu da basarsa tur pas geçilir"
+          >
+            <i data-lucide="skip-forward" class="w-4 h-4"></i>
+            <span id="pass-btn-text">PAS (0/2)</span>
+          </button>
+
+          <button 
+            id="btn-submit-guess" 
+            class="px-6 py-3 rounded-xl btn-neon text-xs uppercase font-extrabold flex items-center gap-1 shrink-0"
+          >
+            Gönder ↵
+          </button>
+        </div>
+
+        <!-- Autocomplete Floating Dropdown Menu -->
+        <div 
+          id="autocomplete-dropdown" 
+          class="absolute left-0 right-0 top-full mt-2 glass-panel rounded-2xl border border-slate-700/80 shadow-2xl overflow-hidden hidden max-h-72 overflow-y-auto z-40"
+        >
+          <!-- Dynamic Items Rendered via js/ui.js -->
+        </div>
+      <!-- Fullscreen Round-by-Round Secret Team Selection Modal (Custom Mode) -->
+      <div id="modal-round-team-picker" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
+        <div class="glass-panel glass-panel-glow w-full max-w-md p-8 rounded-3xl text-center flex flex-col items-center relative border border-cyan-500/40">
+          <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-cyan-500/40 flex items-center justify-center mb-3 shadow-lg shadow-cyan-500/20">
+            <i data-lucide="shield" class="w-7 h-7 text-cyan-400"></i>
+          </div>
+
+          <span id="modal-round-title" class="text-xs uppercase tracking-widest text-cyan-400 font-extrabold px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/30 mb-2">
+            TUR 2 GİZLİ TAKIM SEÇİMİ
+          </span>
+
+          <h3 class="font-heading text-2xl font-black text-white tracking-wide uppercase">
+            YENİ TAKIMINI SEÇ
+          </h3>
+          <p class="text-xs text-slate-400 mt-1 mb-6">
+            Bu tur için takımları seçin. Rakip sizin seçiminizi göremez! 🔒
+          </p>
+
+          <div class="w-full space-y-4 text-left">
+            <div>
+              <label class="block text-xs font-semibold uppercase text-slate-400 mb-1.5">
+                Bu Tur İçin Takımın:
+              </label>
+              <select id="select-round-team" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-cyan-500/40 text-cyan-300 text-sm font-bold focus:outline-none focus:border-cyan-400">
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold uppercase text-slate-400 mb-1.5">
+                Rakibin Durumu:
+              </label>
+              <div id="round-opponent-status" class="px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-slate-400 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>⏳ Rakip Takımını Seçiyor...</span>
+              </div>
+            </div>
+
+            <button 
+              id="btn-confirm-round-team" 
+              class="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 text-sm font-extrabold uppercase tracking-wider transition-all shadow-lg shadow-cyan-500/20"
+            >
+              Takımı Onayla & Kilitle 🔒
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 4. GAME OVER / RESULT SCREEN (SONUÇ EKRANI)-->
+    <!-- ========================================== -->
+    <section id="screen-result" class="w-full max-w-md hidden flex-col items-center gap-6">
+      
+      <div class="glass-panel glass-panel-glow w-full p-8 rounded-3xl text-center flex flex-col items-center relative overflow-hidden">
+        
+        <div id="result-winner-badge" class="px-4 py-1.5 rounded-full bg-emerald-950 border border-emerald-500/50 text-emerald-400 font-extrabold text-sm mb-3">
+          🏆 Kazanan: Oyuncu 1
+        </div>
+
+        <h2 id="result-title" class="font-heading text-4xl font-black text-white tracking-wider uppercase">
+          TEBRİKLER, KAZANDIN!
+        </h2>
+
+        <div id="result-final-score" class="font-mono font-black text-2xl text-emerald-400 my-1">
+          SKOR: 3 - 1
+        </div>
+        
+        <!-- Winning Player Details Card -->
+        <div class="w-full my-4 p-6 rounded-2xl bg-slate-950/80 border border-slate-800 flex flex-col items-center gap-3">
+          <div id="result-player-avatar" class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center font-black text-2xl text-white shadow-xl">
+            CR7
+          </div>
+          <div>
+            <div id="result-player-name" class="font-extrabold text-white text-xl">Cristiano Ronaldo</div>
+            <div id="result-player-details" class="text-xs text-slate-400 mt-1 max-w-xs leading-relaxed">
+              Real Madrid (2009-2018) & Juventus (2018-2021)
+            </div>
+          </div>
+
+          <div class="w-full pt-3 mt-1 border-t border-slate-800 text-[11px] text-slate-500 uppercase tracking-widest font-semibold">
+            Son Eşleşme: <span id="result-matchup-summary" class="text-slate-300 font-bold">Real Madrid ✖ Juventus</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="w-full space-y-3">
+          <button 
+            id="btn-play-again" 
+            class="btn-neon w-full py-4 rounded-xl flex items-center justify-center gap-2 text-sm uppercase font-extrabold"
+          >
+            <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+            Tekrar Oyna (Play Again)
+          </button>
+          
+          <button 
+            id="btn-back-lobby" 
+            class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white font-semibold text-xs uppercase transition-colors"
+          >
+            Ana Menüye Dön
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full max-w-5xl px-4 py-4 text-center text-xs text-slate-500 relative z-10 border-t border-slate-900">
+    Football Matchup 1v1 SPA &bull; Real-Time Socket.io &bull; Dual Game Modes
+  </footer>
+
+  <!-- Socket.io & App Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -7,32 +7,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const playerCountEl = document.getElementById('player-count');
   const teamCountEl = document.getElementById('team-count');
 
-  // Fetch players and teams from server API
-  Promise.all([fetch('/api/players'), fetch('/api/teams')])
-    .then(([playersRes, teamsRes]) => {
-      if (!playersRes.ok) throw new Error('Players API failed');
-      if (!teamsRes.ok) throw new Error('Teams API failed');
-      return Promise.all([playersRes.json(), teamsRes.json()]);
-    })
-    .then(([players, teams]) => {
-      if (!Array.isArray(players)) players = [];
-      if (!Array.isArray(teams)) teams = [];
-      window.__allPlayers = players;
-      window.__allTeams = teams;
-      const effectiveTeams = deriveTeams(players, teams);
-      renderStats(players, effectiveTeams);
-      renderTeams(effectiveTeams);
-      renderGrid(players);
-    })
-    .catch(err => {
-      console.error('Failed to load players or teams:', err);
-      const players = window.__allPlayers || (typeof FOOTBALLERS !== 'undefined' ? FOOTBALLERS : []);
-      const teams = window.__allTeams || (typeof FOOTBALL_TEAMS !== 'undefined' ? FOOTBALL_TEAMS : []);
-      const effectiveTeams = deriveTeams(players, teams);
-      renderStats(players, effectiveTeams);
-      renderTeams(effectiveTeams);
-      renderGrid(players);
-    });
+  const isStaticHost = window.location.hostname.includes('github.io') || window.location.protocol === 'file:';
+
+  const renderLocalData = () => {
+    const players = typeof FOOTBALLERS !== 'undefined' ? FOOTBALLERS : [];
+    const teams = typeof FOOTBALL_TEAMS !== 'undefined' ? FOOTBALL_TEAMS : [];
+    window.__allPlayers = players;
+    window.__allTeams = teams;
+    const effectiveTeams = deriveTeams(players, teams);
+    renderStats(players, effectiveTeams);
+    renderTeams(effectiveTeams);
+    renderGrid(players);
+  };
+
+  if (isStaticHost) {
+    renderLocalData();
+  } else {
+    // Fetch players and teams from server API
+    Promise.all([fetch('/api/players'), fetch('/api/teams')])
+      .then(([playersRes, teamsRes]) => {
+        if (!playersRes.ok) throw new Error('Players API failed');
+        if (!teamsRes.ok) throw new Error('Teams API failed');
+        return Promise.all([playersRes.json(), teamsRes.json()]);
+      })
+      .then(([players, teams]) => {
+        if (!Array.isArray(players)) players = [];
+        if (!Array.isArray(teams)) teams = [];
+        window.__allPlayers = players;
+        window.__allTeams = teams;
+        const effectiveTeams = deriveTeams(players, teams);
+        renderStats(players, effectiveTeams);
+        renderTeams(effectiveTeams);
+        renderGrid(players);
+      })
+      .catch(err => {
+        console.error('Failed to load players or teams:', err);
+        renderLocalData();
+      });
+  }
 
   function deriveTeams(players, teams) {
     if (Array.isArray(teams) && teams.length > 0) return teams;

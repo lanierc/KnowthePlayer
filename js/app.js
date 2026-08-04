@@ -3,7 +3,8 @@
  * Dual Game Modes with Per-Round Secret Team Draft & Expanded Database
  */
 
-const socket = typeof io !== 'undefined' ? io() : null;
+const isStaticHost = window.location.hostname.includes('github.io') || window.location.protocol === 'file:';
+const socket = typeof io !== 'undefined' && !isStaticHost ? io({ reconnectionAttempts: 3, timeout: 5000 }) : null;
 
 const AppState = {
   username: 'Oyuncu 1',
@@ -48,10 +49,17 @@ function resetPassButton() {
 }
 
 function initSocketListeners() {
-  if (!socket) return;
-
   const statusDot = document.getElementById('socket-status-dot');
   const statusText = document.getElementById('socket-status-text');
+
+  if (!socket) {
+    if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-slate-400';
+    if (statusText) statusText.textContent = 'Sunucusuz mod';
+    return;
+  }
+
+  if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+  if (statusText) statusText.textContent = 'Bağlanıyor...';
 
   socket.on('connect', () => {
     if (statusDot) statusDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';

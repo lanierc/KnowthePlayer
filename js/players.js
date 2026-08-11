@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const playerCountEl = document.getElementById('player-count');
   const teamCountEl = document.getElementById('team-count');
 
-  const isStaticHost = window.location.hostname.includes('github.io') || window.location.protocol === 'file:';
+  const API_BASE_URL = window.API_SERVER_URL || '';
+
+  // If running on GitHub Pages or another static host,
+  // set window.API_SERVER_URL = 'https://your-backend.example.com' in players.html
+  // so the players page can retrieve live backend data.
 
   const renderLocalData = () => {
     const players = typeof FOOTBALLERS !== 'undefined' ? FOOTBALLERS : [];
@@ -20,11 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGrid(players);
   };
 
-  if (isStaticHost) {
-    renderLocalData();
-  } else {
-    // Fetch players and teams from server API
-    Promise.all([fetch('/api/players'), fetch('/api/teams')])
+  // Fetch players and teams from server API when available; otherwise fall back to local data
+  const playersEndpoint = API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, '')}/api/players` : '/api/players';
+  const teamsEndpoint = API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, '')}/api/teams` : '/api/teams';
+
+  Promise.all([fetch(playersEndpoint), fetch(teamsEndpoint)])
       .then(([playersRes, teamsRes]) => {
         if (!playersRes.ok) throw new Error('Players API failed');
         if (!teamsRes.ok) throw new Error('Teams API failed');

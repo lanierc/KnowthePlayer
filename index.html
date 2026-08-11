@@ -56,9 +56,14 @@
         <i id="sound-icon" data-lucide="volume-2" class="w-5 h-5"></i>
       </button>
 
+      <!-- Server Settings Toggle -->
+      <button id="btn-open-settings" title="Backend Sunucu Ayarları" class="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-cyan-400 transition-colors">
+        <i data-lucide="settings" class="w-5 h-5"></i>
+      </button>
+
       <span id="socket-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
-        <span id="socket-status-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
-        <span id="socket-status-text">Sunucusuz mod</span>
+        <span id="socket-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="socket-status-text">Bağlanıyor...</span>
       </span>
     </div>
   </header>
@@ -149,11 +154,19 @@
           <!-- Lobby Action Buttons -->
           <div class="grid grid-cols-1 gap-3 pt-2">
             <button 
+              id="btn-single-player" 
+              class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 flex items-center justify-center gap-2 text-sm tracking-wider uppercase font-extrabold shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
+            >
+              <i data-lucide="bot" class="w-5 h-5"></i>
+              🤖 Tek Oyunculu / Çevrimdışı Oyna (Single Player)
+            </button>
+
+            <button 
               id="btn-create-room" 
               class="btn-neon w-full py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm tracking-wider uppercase font-extrabold"
             >
               <i data-lucide="plus-circle" class="w-5 h-5"></i>
-              Oda Kur (Create Room)
+              Oda Kur (1v1 Online)
             </button>
             
             <button 
@@ -509,6 +522,42 @@
 
     </section>
 
+    <!-- Backend Server Settings Modal -->
+    <div id="modal-settings" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
+      <div class="glass-panel glass-panel-glow w-full max-w-md p-6 rounded-3xl text-center flex flex-col items-center relative border border-cyan-500/40">
+        <div class="w-12 h-12 rounded-2xl bg-slate-900 border border-cyan-500/40 flex items-center justify-center mb-3 shadow-lg shadow-cyan-500/20">
+          <i data-lucide="server" class="w-6 h-6 text-cyan-400"></i>
+        </div>
+        <h3 class="font-heading text-xl font-extrabold text-white uppercase mb-1">
+          Backend Sunucu Ayarları
+        </h3>
+        <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+          1v1 Canlı Çok Oyunculu mod için backend Socket.io sunucu URL adresinizi girebilirsiniz. Boş bırakılırsa yerel sunucu veya çevrimdışı mod kullanılır.
+        </p>
+        <div class="w-full space-y-3 text-left">
+          <div>
+            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1.5">
+              Socket.io Sunucu URL
+            </label>
+            <input 
+              type="text" 
+              id="input-server-url" 
+              placeholder="https://your-backend.onrender.com" 
+              class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-600 font-mono text-xs focus:border-cyan-400 focus:outline-none"
+            />
+          </div>
+          <div class="flex gap-2 pt-2">
+            <button id="btn-save-settings" type="button" class="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs uppercase transition-colors">
+              Kaydet & Yeniden Bağlan ⚡
+            </button>
+            <button id="btn-close-settings" type="button" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold rounded-xl text-xs uppercase transition-colors">
+              Kapat
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -518,6 +567,12 @@
 
   <!-- Socket.io & App Scripts -->
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script>
+    // Eğer GitHub Pages gibi ayrı statik host üzerinde yayınlıyorsanız,
+    // backend socket.io sunucunuzun adresini buraya yazın:
+    // window.SOCKET_SERVER_URL = 'https://your-backend.example.com';
+    // Örneğin: window.SOCKET_SERVER_URL = 'https://knowtheplayer-backend.example.com';
+  </script>
   <script src="js/data.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/confetti.js"></script>

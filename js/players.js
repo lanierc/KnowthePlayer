@@ -85,19 +85,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function normalizeStr(str) {
+    return (str || '')
+      .toLowerCase()
+      .replace(/ğ/g, 'g')
+      .replace(/ü/g, 'u')
+      .replace(/ş/g, 's')
+      .replace(/ı/g, 'i')
+      .replace(/ö/g, 'o')
+      .replace(/ç/g, 'c')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
   // Simple search filter (name / position / nationality / team)
   searchInput.addEventListener('input', e => {
-    const term = e.target.value.trim().toLowerCase();
+    const term = e.target.value.trim();
     if (!term) {
       renderGrid(window.__allPlayers);
       return;
     }
+    const qNorm = normalizeStr(term);
     const filtered = window.__allPlayers.filter(p => {
+      const nameNorm = normalizeStr(p.name);
+      const posNorm = normalizeStr(p.position);
+      const natNorm = normalizeStr(p.nationality);
+      const teamsNorm = (p.teamsPlayed || []).map(t => normalizeStr(t));
       return (
-        p.name.toLowerCase().includes(term) ||
-        p.position.toLowerCase().includes(term) ||
-        p.nationality.toLowerCase().includes(term) ||
-        p.teamsPlayed.some(team => team.toLowerCase().includes(term))
+        nameNorm.includes(qNorm) ||
+        posNorm.includes(qNorm) ||
+        natNorm.includes(qNorm) ||
+        teamsNorm.some(t => t.includes(qNorm))
       );
     });
     renderGrid(filtered);

@@ -497,10 +497,27 @@ function initEventListeners() {
         return;
       }
 
-      const filtered = FOOTBALLERS.filter(p => 
-        p.name.toLowerCase().includes(query.toLowerCase()) ||
-        p.nationality.toLowerCase().includes(query.toLowerCase())
-      );
+      function normalizeStr(str) {
+        return (str || '')
+          .toLowerCase()
+          .replace(/ğ/g, 'g')
+          .replace(/ü/g, 'u')
+          .replace(/ş/g, 's')
+          .replace(/ı/g, 'i')
+          .replace(/ö/g, 'o')
+          .replace(/ç/g, 'c')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+      }
+
+      const qNorm = normalizeStr(query);
+
+      const filtered = FOOTBALLERS.filter(p => {
+        const nameNorm = normalizeStr(p.name);
+        const natNorm = normalizeStr(p.nationality);
+        const idNorm = normalizeStr(p.id);
+        return nameNorm.includes(qNorm) || natNorm.includes(qNorm) || idNorm.includes(qNorm);
+      });
 
       UI.renderAutocompleteList(filtered, (selected) => {
         AppState.selectedPlayer = selected;

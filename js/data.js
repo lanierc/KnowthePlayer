@@ -1,6 +1,6 @@
 /**
  * Comprehensive Football Database for 1v1 Football Quiz
- * Contains 65 Top Global Clubs & 163 Iconic/Modern Footballers
+ * Contains 65 Top Global Clubs & 284 Iconic/Modern Footballers
  * Complete Historical Club Careers
  */
 
@@ -2100,7 +2100,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-purple-500 to-blue-600",
     "teamsPlayed": [
       "barcelona",
-      "psg"
+      "psg",
+      "rennes",
+      "dortmund"
     ],
     "details": "FC Barcelona, PSG"
   },
@@ -2140,7 +2142,11 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "valencia",
       "man_city",
-      "barcelona"
+      "barcelona",
+      "atletico",
+      "liverpool",
+      "chelsea",
+      "ac_milan"
     ],
     "details": "Valencia, Manchester City, FC Barcelona"
   },
@@ -2479,7 +2485,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-blue-800",
     "teamsPlayed": [
       "lille",
-      "benfica"
+      "benfica",
+      "barcelona"
     ],
     "details": "Lille, Benfica"
   },
@@ -2629,7 +2636,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "dortmund",
       "bayern",
-      "psv"
+      "psv",
+      "frankfurt"
     ],
     "details": "Borussia Dortmund, Bayern München, PSV"
   },
@@ -2812,6 +2820,1704 @@ let FOOTBALLERS = [
       "inter"
     ],
     "details": "Galatasaray, Inter Milan, Parma"
+  },
+  {
+    "id": "j_sancho",
+    "name": "Jadon Sancho",
+    "position": "Kanat",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "JS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "dortmund",
+      "man_utd",
+      "chelsea"
+    ],
+    "details": "Dortmund, Man Utd, Chelsea"
+  },
+  {
+    "id": "c_palmer",
+    "name": "Cole Palmer",
+    "position": "Ofansif Orta Saha",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "CP",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "man_city",
+      "chelsea"
+    ],
+    "details": "Man City, Chelsea"
+  },
+  {
+    "id": "c_pulisic",
+    "name": "Christian Pulisic",
+    "position": "Kanat",
+    "nationality": "ABD 🇺🇸",
+    "avatar": "CP",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "dortmund",
+      "chelsea",
+      "ac_milan"
+    ],
+    "details": "Dortmund, Chelsea, Ac Milan"
+  },
+  {
+    "id": "o_giroud",
+    "name": "Olivier Giroud",
+    "position": "Santrafor",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "OG",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "arsenal",
+      "chelsea",
+      "ac_milan"
+    ],
+    "details": "Arsenal, Chelsea, Ac Milan"
+  },
+  {
+    "id": "h_mkhitaryan",
+    "name": "Henrikh Mkhitaryan",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Ermenistan 🇦🇲",
+    "avatar": "HM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "dortmund",
+      "man_utd",
+      "arsenal",
+      "roma",
+      "inter"
+    ],
+    "details": "Dortmund, Man Utd, Arsenal, Roma, Inter"
+  },
+  {
+    "id": "d_luiz",
+    "name": "David Luiz",
+    "position": "Stoper",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "DL",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "chelsea",
+      "psg",
+      "arsenal",
+      "flamengo",
+      "man_city",
+      "aston_villa",
+      "juventus"
+    ],
+    "details": "Benfica, Chelsea, Psg, Arsenal, Flamengo"
+  },
+  {
+    "id": "willian",
+    "name": "Willian",
+    "position": "Kanat",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "W",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "chelsea",
+      "arsenal"
+    ],
+    "details": "Chelsea, Arsenal"
+  },
+  {
+    "id": "n_kante",
+    "name": "N'Golo Kanté",
+    "position": "Orta Saha",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "K",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "leicester",
+      "chelsea",
+      "al_ittihad"
+    ],
+    "details": "Leicester, Chelsea, Al Ittihad"
+  },
+  {
+    "id": "ederson",
+    "name": "Ederson",
+    "position": "Kaleci",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "E",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "man_city"
+    ],
+    "details": "Benfica, Man City"
+  },
+  {
+    "id": "r_dias",
+    "name": "Ruben Dias",
+    "position": "Stoper",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "RD",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "man_city"
+    ],
+    "details": "Benfica, Man City"
+  },
+  {
+    "id": "d_jota",
+    "name": "Diogo Jota",
+    "position": "Forvet",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "DJ",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "atletico",
+      "porto",
+      "liverpool"
+    ],
+    "details": "Atletico, Porto, Liverpool"
+  },
+  {
+    "id": "l_diaz",
+    "name": "Luis Díaz",
+    "position": "Kanat",
+    "nationality": "Kolombiya 🇨🇴",
+    "avatar": "LD",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "porto",
+      "liverpool"
+    ],
+    "details": "Porto, Liverpool"
+  },
+  {
+    "id": "d_nunez",
+    "name": "Darwin Núñez",
+    "position": "Santrafor",
+    "nationality": "Uruguay 🇺🇾",
+    "avatar": "DN",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "liverpool"
+    ],
+    "details": "Benfica, Liverpool"
+  },
+  {
+    "id": "c_gakpo",
+    "name": "Cody Gakpo",
+    "position": "Forvet",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "CG",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "psv",
+      "liverpool"
+    ],
+    "details": "Psv, Liverpool"
+  },
+  {
+    "id": "antony",
+    "name": "Antony",
+    "position": "Kanat",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "A",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "man_utd"
+    ],
+    "details": "Ajax, Man Utd"
+  },
+  {
+    "id": "l_martinez",
+    "name": "Lisandro Martínez",
+    "position": "Stoper",
+    "nationality": "Arjantin 🇦🇷",
+    "avatar": "LM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "man_utd"
+    ],
+    "details": "Ajax, Man Utd"
+  },
+  {
+    "id": "f_jong",
+    "name": "Frenkie de Jong",
+    "position": "Orta Saha",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "FD",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "barcelona"
+    ],
+    "details": "Ajax, Barcelona"
+  },
+  {
+    "id": "h_ziyech",
+    "name": "Hakim Ziyech",
+    "position": "Kanat",
+    "nationality": "Fas 🇲🇦",
+    "avatar": "HZ",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "chelsea",
+      "galatasaray"
+    ],
+    "details": "Ajax, Chelsea, Galatasaray"
+  },
+  {
+    "id": "n_mazraoui",
+    "name": "Noussair Mazraoui",
+    "position": "Bek",
+    "nationality": "Fas 🇲🇦",
+    "avatar": "NM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "bayern",
+      "man_utd"
+    ],
+    "details": "Ajax, Bayern, Man Utd"
+  },
+  {
+    "id": "r_gravenberch",
+    "name": "Ryan Gravenberch",
+    "position": "Orta Saha",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "RG",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "bayern",
+      "liverpool"
+    ],
+    "details": "Ajax, Bayern, Liverpool"
+  },
+  {
+    "id": "x_simons",
+    "name": "Xavi Simons",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "XS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "psg",
+      "psv",
+      "rb_leipzig"
+    ],
+    "details": "Psg, Psv, Rb Leipzig"
+  },
+  {
+    "id": "d_olmo",
+    "name": "Dani Olmo",
+    "position": "Ofansif Orta Saha",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "DO",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "rb_leipzig",
+      "barcelona"
+    ],
+    "details": "Rb Leipzig, Barcelona"
+  },
+  {
+    "id": "m_hummels",
+    "name": "Mats Hummels",
+    "position": "Stoper",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "MH",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "bayern",
+      "dortmund",
+      "roma"
+    ],
+    "details": "Bayern, Dortmund, Roma"
+  },
+  {
+    "id": "t_kroos",
+    "name": "Toni Kroos",
+    "position": "Orta Saha",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "TK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "bayern",
+      "leverkusen",
+      "real_madrid"
+    ],
+    "details": "Bayern, Leverkusen, Real Madrid"
+  },
+  {
+    "id": "isco",
+    "name": "Isco",
+    "position": "Ofansif Orta Saha",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "I",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "sevilla"
+    ],
+    "details": "Real Madrid, Sevilla"
+  },
+  {
+    "id": "m_asensio",
+    "name": "Marco Asensio",
+    "position": "Kanat",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "MA",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "psg"
+    ],
+    "details": "Real Madrid, Psg"
+  },
+  {
+    "id": "s_khedira",
+    "name": "Sami Khedira",
+    "position": "Orta Saha",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "SK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "stuttgart",
+      "real_madrid",
+      "juventus"
+    ],
+    "details": "Stuttgart, Real Madrid, Juventus"
+  },
+  {
+    "id": "a_robben",
+    "name": "Arjen Robben",
+    "position": "Kanat",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "AR",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "psv",
+      "chelsea",
+      "real_madrid",
+      "bayern"
+    ],
+    "details": "Psv, Chelsea, Real Madrid, Bayern"
+  },
+  {
+    "id": "f_ribery",
+    "name": "Franck Ribéry",
+    "position": "Kanat",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "FR",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "galatasaray",
+      "marseille",
+      "bayern",
+      "fiorentina"
+    ],
+    "details": "Galatasaray, Marseille, Bayern, Fiorentina"
+  },
+  {
+    "id": "r_nainggolan",
+    "name": "Radja Nainggolan",
+    "position": "Orta Saha",
+    "nationality": "Belçika 🇧🇪",
+    "avatar": "RN",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "roma",
+      "inter"
+    ],
+    "details": "Roma, Inter"
+  },
+  {
+    "id": "d_mertens",
+    "name": "Dries Mertens",
+    "position": "Forvet",
+    "nationality": "Belçika 🇧🇪",
+    "avatar": "DM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "psv",
+      "napoli",
+      "galatasaray"
+    ],
+    "details": "Psv, Napoli, Galatasaray"
+  },
+  {
+    "id": "r_leo",
+    "name": "Rafael Leão",
+    "position": "Kanat",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "RL",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "sporting",
+      "lille",
+      "ac_milan"
+    ],
+    "details": "Sporting, Lille, Ac Milan"
+  },
+  {
+    "id": "t_hernandez",
+    "name": "Theo Hernández",
+    "position": "Sol Bek",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "TH",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "atletico",
+      "real_madrid",
+      "real_sociedad",
+      "ac_milan"
+    ],
+    "details": "Atletico, Real Madrid, Real Sociedad, Ac Milan"
+  },
+  {
+    "id": "b_diaz",
+    "name": "Brahim Díaz",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Fas 🇲🇦",
+    "avatar": "BD",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "man_city",
+      "real_madrid",
+      "ac_milan"
+    ],
+    "details": "Man City, Real Madrid, Ac Milan"
+  },
+  {
+    "id": "m_brozovi",
+    "name": "Marcelo Brozović",
+    "position": "Orta Saha",
+    "nationality": "Hırvatistan 🇭🇷",
+    "avatar": "MB",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "inter",
+      "al_nassr"
+    ],
+    "details": "Inter, Al Nassr"
+  },
+  {
+    "id": "m_kriniar",
+    "name": "Milan Škriniar",
+    "position": "Stoper",
+    "nationality": "Slovakya 🇸🇰",
+    "avatar": "MŠ",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "inter",
+      "psg"
+    ],
+    "details": "Inter, Psg"
+  },
+  {
+    "id": "a_hakimi",
+    "name": "Achraf Hakimi",
+    "position": "Sağ Bek",
+    "nationality": "Fas 🇲🇦",
+    "avatar": "AH",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "dortmund",
+      "inter",
+      "psg"
+    ],
+    "details": "Real Madrid, Dortmund, Inter, Psg"
+  },
+  {
+    "id": "marquinhos",
+    "name": "Marquinhos",
+    "position": "Stoper",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "M",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "roma",
+      "psg"
+    ],
+    "details": "Roma, Psg"
+  },
+  {
+    "id": "e_milito",
+    "name": "Éder Militão",
+    "position": "Stoper",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "ÉM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "porto",
+      "real_madrid"
+    ],
+    "details": "Porto, Real Madrid"
+  },
+  {
+    "id": "j_oblak",
+    "name": "Jan Oblak",
+    "position": "Kaleci",
+    "nationality": "Slovenya 🇸🇮",
+    "avatar": "JO",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "atletico"
+    ],
+    "details": "Benfica, Atletico"
+  },
+  {
+    "id": "i_rakiti",
+    "name": "Ivan Rakitić",
+    "position": "Orta Saha",
+    "nationality": "Hırvatistan 🇭🇷",
+    "avatar": "IR",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "schalke",
+      "sevilla",
+      "barcelona"
+    ],
+    "details": "Schalke, Sevilla, Barcelona"
+  },
+  {
+    "id": "pedro",
+    "name": "Pedro",
+    "position": "Kanat",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "P",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "barcelona",
+      "chelsea",
+      "roma",
+      "lazio"
+    ],
+    "details": "Barcelona, Chelsea, Roma, Lazio"
+  },
+  {
+    "id": "raphinha",
+    "name": "Raphinha",
+    "position": "Kanat",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "R",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "rennes",
+      "sporting",
+      "barcelona"
+    ],
+    "details": "Rennes, Sporting, Barcelona"
+  },
+  {
+    "id": "j_felix",
+    "name": "João Félix",
+    "position": "Forvet",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "JF",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "atletico",
+      "chelsea",
+      "barcelona"
+    ],
+    "details": "Benfica, Atletico, Chelsea, Barcelona"
+  },
+  {
+    "id": "j_musiala",
+    "name": "Jamal Musiala",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "JM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "chelsea",
+      "bayern"
+    ],
+    "details": "Chelsea, Bayern"
+  },
+  {
+    "id": "m_rashford",
+    "name": "Marcus Rashford",
+    "position": "Forvet",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "MR",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "man_utd",
+      "aston_villa"
+    ],
+    "details": "Man Utd, Aston Villa"
+  },
+  {
+    "id": "j_grealish",
+    "name": "Jack Grealish",
+    "position": "Kanat",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "JG",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "aston_villa",
+      "man_city"
+    ],
+    "details": "Aston Villa, Man City"
+  },
+  {
+    "id": "e_martinez",
+    "name": "Emiliano Martínez",
+    "position": "Kaleci",
+    "nationality": "Arjantin 🇦🇷",
+    "avatar": "EM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "arsenal",
+      "aston_villa"
+    ],
+    "details": "Arsenal, Aston Villa"
+  },
+  {
+    "id": "s_heungmin",
+    "name": "Son Heung-min",
+    "position": "Forvet",
+    "nationality": "Güney Kore 🇰🇷",
+    "avatar": "SH",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "leverkusen",
+      "tottenham"
+    ],
+    "details": "Leverkusen, Tottenham"
+  },
+  {
+    "id": "d_kulusevski",
+    "name": "Dejan Kulusevski",
+    "position": "Kanat",
+    "nationality": "İsveç 🇸🇪",
+    "avatar": "DK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "juventus",
+      "tottenham"
+    ],
+    "details": "Juventus, Tottenham"
+  },
+  {
+    "id": "a_isak",
+    "name": "Alexander Isak",
+    "position": "Santrafor",
+    "nationality": "İsveç 🇸🇪",
+    "avatar": "AI",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "dortmund",
+      "real_sociedad",
+      "newcastle"
+    ],
+    "details": "Dortmund, Real Sociedad, Newcastle"
+  },
+  {
+    "id": "s_tonali",
+    "name": "Sandro Tonali",
+    "position": "Orta Saha",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "ST",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ac_milan",
+      "newcastle"
+    ],
+    "details": "Ac Milan, Newcastle"
+  },
+  {
+    "id": "b_guimaraes",
+    "name": "Bruno Guimarães",
+    "position": "Orta Saha",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "BG",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "lyon",
+      "newcastle"
+    ],
+    "details": "Lyon, Newcastle"
+  },
+  {
+    "id": "k_walker",
+    "name": "Kyle Walker",
+    "position": "Sağ Bek",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "KW",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "tottenham",
+      "man_city",
+      "ac_milan"
+    ],
+    "details": "Tottenham, Man City, Ac Milan"
+  },
+  {
+    "id": "l_digne",
+    "name": "Lucas Digne",
+    "position": "Sol Bek",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "LD",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "psg",
+      "roma",
+      "barcelona",
+      "everton",
+      "aston_villa"
+    ],
+    "details": "Psg, Roma, Barcelona, Everton, Aston Villa"
+  },
+  {
+    "id": "m_stegen",
+    "name": "Marc-André ter Stegen",
+    "position": "Kaleci",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "MTS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "monchengladbach",
+      "barcelona"
+    ],
+    "details": "Monchengladbach, Barcelona"
+  },
+  {
+    "id": "a_tchouameni",
+    "name": "Aurélien Tchouaméni",
+    "position": "Orta Saha",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "AT",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "monaco",
+      "real_madrid"
+    ],
+    "details": "Monaco, Real Madrid"
+  },
+  {
+    "id": "d_carvajal",
+    "name": "Dani Carvajal",
+    "position": "Sağ Bek",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "DC",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "leverkusen",
+      "real_madrid"
+    ],
+    "details": "Leverkusen, Real Madrid"
+  },
+  {
+    "id": "n_fernandez",
+    "name": "Nacho Fernández",
+    "position": "Stoper",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "NF",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "al_ittihad"
+    ],
+    "details": "Real Madrid, Al Ittihad"
+  },
+  {
+    "id": "m_hermoso",
+    "name": "Mario Hermoso",
+    "position": "Stoper",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "MH",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "atletico",
+      "roma"
+    ],
+    "details": "Real Madrid, Atletico, Roma"
+  },
+  {
+    "id": "y_carrasco",
+    "name": "Yannick Carrasco",
+    "position": "Kanat",
+    "nationality": "Belçika 🇧🇪",
+    "avatar": "YC",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "monaco",
+      "atletico",
+      "al_ittihad"
+    ],
+    "details": "Monaco, Atletico, Al Ittihad"
+  },
+  {
+    "id": "s_umtiti",
+    "name": "Samuel Umtiti",
+    "position": "Stoper",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "SU",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "lyon",
+      "barcelona"
+    ],
+    "details": "Lyon, Barcelona"
+  },
+  {
+    "id": "c_lenglet",
+    "name": "Clément Lenglet",
+    "position": "Stoper",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "CL",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "sevilla",
+      "barcelona",
+      "tottenham",
+      "aston_villa"
+    ],
+    "details": "Sevilla, Barcelona, Tottenham, Aston Villa"
+  },
+  {
+    "id": "f_chiesa",
+    "name": "Federico Chiesa",
+    "position": "Kanat",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "FC",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "fiorentina",
+      "juventus",
+      "liverpool"
+    ],
+    "details": "Fiorentina, Juventus, Liverpool"
+  },
+  {
+    "id": "m_locatelli",
+    "name": "Manuel Locatelli",
+    "position": "Orta Saha",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "ML",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ac_milan",
+      "juventus"
+    ],
+    "details": "Ac Milan, Juventus"
+  },
+  {
+    "id": "w_mckennie",
+    "name": "Weston McKennie",
+    "position": "Orta Saha",
+    "nationality": "ABD 🇺🇸",
+    "avatar": "WM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "schalke",
+      "juventus"
+    ],
+    "details": "Schalke, Juventus"
+  },
+  {
+    "id": "t_abraham",
+    "name": "Tammy Abraham",
+    "position": "Santrafor",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "TA",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "chelsea",
+      "roma",
+      "ac_milan"
+    ],
+    "details": "Chelsea, Roma, Ac Milan"
+  },
+  {
+    "id": "c_smalling",
+    "name": "Chris Smalling",
+    "position": "Stoper",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "CS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "man_utd",
+      "roma"
+    ],
+    "details": "Man Utd, Roma"
+  },
+  {
+    "id": "w_szczesny",
+    "name": "Wojciech Szczęsny",
+    "position": "Kaleci",
+    "nationality": "Polonya 🇵🇱",
+    "avatar": "WS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "arsenal",
+      "roma",
+      "juventus",
+      "barcelona"
+    ],
+    "details": "Arsenal, Roma, Juventus, Barcelona"
+  },
+  {
+    "id": "g_chiellini",
+    "name": "Giorgio Chiellini",
+    "position": "Stoper",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "GC",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "juventus",
+      "la_galaxy"
+    ],
+    "details": "Juventus, La Galaxy"
+  },
+  {
+    "id": "l_bonucci",
+    "name": "Leonardo Bonucci",
+    "position": "Stoper",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "LB",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "inter",
+      "juventus",
+      "ac_milan"
+    ],
+    "details": "Inter, Juventus, Ac Milan"
+  },
+  {
+    "id": "m_mandzukic",
+    "name": "Mario Mandžukić",
+    "position": "Santrafor",
+    "nationality": "Hırvatistan 🇭🇷",
+    "avatar": "MM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "wolfsburg",
+      "bayern",
+      "atletico",
+      "juventus",
+      "ac_milan"
+    ],
+    "details": "Wolfsburg, Bayern, Atletico, Juventus, Ac Milan"
+  },
+  {
+    "id": "j_cuadrado",
+    "name": "Juan Cuadrado",
+    "position": "Kanat",
+    "nationality": "Kolombiya 🇨🇴",
+    "avatar": "JC",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "fiorentina",
+      "chelsea",
+      "juventus",
+      "inter"
+    ],
+    "details": "Fiorentina, Chelsea, Juventus, Inter"
+  },
+  {
+    "id": "f_kostic",
+    "name": "Filip Kostić",
+    "position": "Kanat",
+    "nationality": "Sırbistan 🇷🇸",
+    "avatar": "FK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "stuttgart",
+      "frankfurt",
+      "juventus"
+    ],
+    "details": "Stuttgart, Frankfurt, Juventus"
+  },
+  {
+    "id": "f_tomori",
+    "name": "Fikayo Tomori",
+    "position": "Stoper",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "FT",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "chelsea",
+      "ac_milan"
+    ],
+    "details": "Chelsea, Ac Milan"
+  },
+  {
+    "id": "m_maignan",
+    "name": "Mike Maignan",
+    "position": "Kaleci",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "MM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "lille",
+      "ac_milan"
+    ],
+    "details": "Lille, Ac Milan"
+  },
+  {
+    "id": "g_xhaka",
+    "name": "Granit Xhaka",
+    "position": "Orta Saha",
+    "nationality": "İsviçre 🇨🇭",
+    "avatar": "GX",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "monchengladbach",
+      "arsenal",
+      "leverkusen"
+    ],
+    "details": "Monchengladbach, Arsenal, Leverkusen"
+  },
+  {
+    "id": "p_schick",
+    "name": "Patrik Schick",
+    "position": "Forvet",
+    "nationality": "Çekya 🇨🇿",
+    "avatar": "PS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "roma",
+      "rb_leipzig",
+      "leverkusen"
+    ],
+    "details": "Roma, Rb Leipzig, Leverkusen"
+  },
+  {
+    "id": "d_upamecano",
+    "name": "Dayot Upamecano",
+    "position": "Stoper",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "DU",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "rb_leipzig",
+      "bayern"
+    ],
+    "details": "Rb Leipzig, Bayern"
+  },
+  {
+    "id": "a_davies",
+    "name": "Alphonso Davies",
+    "position": "Sol Bek",
+    "nationality": "Kanada 🇨🇦",
+    "avatar": "AD",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "bayern",
+      "real_madrid"
+    ],
+    "details": "Bayern, Real Madrid"
+  },
+  {
+    "id": "m_sabitzer",
+    "name": "Marcel Sabitzer",
+    "position": "Orta Saha",
+    "nationality": "Avusturya 🇦🇹",
+    "avatar": "MS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "rb_leipzig",
+      "bayern",
+      "dortmund"
+    ],
+    "details": "Rb Leipzig, Bayern, Dortmund"
+  },
+  {
+    "id": "n_sule",
+    "name": "Niklas Süle",
+    "position": "Stoper",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "NS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "bayern",
+      "dortmund"
+    ],
+    "details": "Bayern, Dortmund"
+  },
+  {
+    "id": "r_muani",
+    "name": "Randal Kolo Muani",
+    "position": "Forvet",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "RKM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "frankfurt",
+      "psg",
+      "juventus"
+    ],
+    "details": "Frankfurt, Psg, Juventus"
+  },
+  {
+    "id": "b_barcola",
+    "name": "Bradley Barcola",
+    "position": "Kanat",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "BB",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "lyon",
+      "psg"
+    ],
+    "details": "Lyon, Psg"
+  },
+  {
+    "id": "m_verratti",
+    "name": "Marco Verratti",
+    "position": "Orta Saha",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "MV",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "psg",
+      "al_hilal"
+    ],
+    "details": "Psg, Al Hilal"
+  },
+  {
+    "id": "a_herrera",
+    "name": "Ander Herrera",
+    "position": "Orta Saha",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "AH",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_sociedad",
+      "man_utd",
+      "psg",
+      "athletic_bilbao"
+    ],
+    "details": "Real Sociedad, Man Utd, Psg, Athletic Bilbao"
+  },
+  {
+    "id": "n_pepe",
+    "name": "Nicolas Pépé",
+    "position": "Kanat",
+    "nationality": "Fildişi Sahili 🇨🇮",
+    "avatar": "NP",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "lille",
+      "arsenal"
+    ],
+    "details": "Lille, Arsenal"
+  },
+  {
+    "id": "fabinho",
+    "name": "Fabinho",
+    "position": "Ön Libero",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "F",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "monaco",
+      "liverpool",
+      "al_ittihad"
+    ],
+    "details": "Monaco, Liverpool, Al Ittihad"
+  },
+  {
+    "id": "w_yedder",
+    "name": "Wissam Ben Yedder",
+    "position": "Forvet",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "WBY",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "sevilla",
+      "monaco"
+    ],
+    "details": "Sevilla, Monaco"
+  },
+  {
+    "id": "g_ramos",
+    "name": "Gonçalo Ramos",
+    "position": "Santrafor",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "GR",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "psg"
+    ],
+    "details": "Benfica, Psg"
+  },
+  {
+    "id": "j_mario",
+    "name": "João Mário",
+    "position": "Orta Saha",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "JM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "sporting",
+      "inter",
+      "west_ham",
+      "benfica"
+    ],
+    "details": "Sporting, Inter, West Ham, Benfica"
+  },
+  {
+    "id": "vitinha",
+    "name": "Vitinha",
+    "position": "Orta Saha",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "V",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "porto",
+      "psg"
+    ],
+    "details": "Porto, Psg"
+  },
+  {
+    "id": "r_neves",
+    "name": "Rúben Neves",
+    "position": "Orta Saha",
+    "nationality": "Portekiz 🇵🇹",
+    "avatar": "RN",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "porto",
+      "al_hilal"
+    ],
+    "details": "Porto, Al Hilal"
+  },
+  {
+    "id": "l_torreira",
+    "name": "Lucas Torreira",
+    "position": "Ön Libero",
+    "nationality": "Uruguay 🇺🇾",
+    "avatar": "LT",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "arsenal",
+      "atletico",
+      "fiorentina",
+      "galatasaray"
+    ],
+    "details": "Arsenal, Atletico, Fiorentina, Galatasaray"
+  },
+  {
+    "id": "f_muslera",
+    "name": "Fernando Muslera",
+    "position": "Kaleci",
+    "nationality": "Uruguay 🇺🇾",
+    "avatar": "FM",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "lazio",
+      "galatasaray"
+    ],
+    "details": "Lazio, Galatasaray"
+  },
+  {
+    "id": "d_kuyt",
+    "name": "Dirk Kuyt",
+    "position": "Forvet",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "DK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "feyenoord",
+      "liverpool",
+      "fenerbahce"
+    ],
+    "details": "Feyenoord, Liverpool, Fenerbahce"
+  },
+  {
+    "id": "l_karius",
+    "name": "Loris Karius",
+    "position": "Kaleci",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "LK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "liverpool",
+      "besiktas",
+      "newcastle"
+    ],
+    "details": "Liverpool, Besiktas, Newcastle"
+  },
+  {
+    "id": "m_gomez",
+    "name": "Mario Gómez",
+    "position": "Santrafor",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "MG",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "stuttgart",
+      "bayern",
+      "fiorentina",
+      "besiktas",
+      "wolfsburg"
+    ],
+    "details": "Stuttgart, Bayern, Fiorentina, Besiktas, Wolfsburg"
+  },
+  {
+    "id": "d_ba",
+    "name": "Demba Ba",
+    "position": "Santrafor",
+    "nationality": "Senegal 🇸🇳",
+    "avatar": "DB",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "west_ham",
+      "newcastle",
+      "chelsea",
+      "besiktas"
+    ],
+    "details": "West Ham, Newcastle, Chelsea, Besiktas"
+  },
+  {
+    "id": "a_telles",
+    "name": "Alex Telles",
+    "position": "Sol Bek",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "AT",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "galatasaray",
+      "inter",
+      "porto",
+      "man_utd",
+      "sevilla",
+      "al_nassr"
+    ],
+    "details": "Galatasaray, Inter, Porto, Man Utd, Sevilla, Al Nassr"
+  },
+  {
+    "id": "a_talisca",
+    "name": "Anderson Talisca",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "AT",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "benfica",
+      "besiktas",
+      "al_nassr"
+    ],
+    "details": "Benfica, Besiktas, Al Nassr"
+  },
+  {
+    "id": "ronaldinho",
+    "name": "Ronaldinho",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "R",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "psg",
+      "barcelona",
+      "ac_milan",
+      "flamengo"
+    ],
+    "details": "Psg, Barcelona, Ac Milan, Flamengo"
+  },
+  {
+    "id": "s_etoo",
+    "name": "Samuel Eto'o",
+    "position": "Santrafor",
+    "nationality": "Kamerun 🇨🇲",
+    "avatar": "SE",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "barcelona",
+      "inter",
+      "chelsea",
+      "everton"
+    ],
+    "details": "Real Madrid, Barcelona, Inter, Chelsea, Everton"
+  },
+  {
+    "id": "c_seedorf",
+    "name": "Clarence Seedorf",
+    "position": "Orta Saha",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "CS",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "real_madrid",
+      "inter",
+      "ac_milan"
+    ],
+    "details": "Ajax, Real Madrid, Inter, Ac Milan"
+  },
+  {
+    "id": "e_davids",
+    "name": "Edgar Davids",
+    "position": "Orta Saha",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "ED",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "ac_milan",
+      "juventus",
+      "barcelona",
+      "inter",
+      "tottenham"
+    ],
+    "details": "Ajax, Ac Milan, Juventus, Barcelona, Inter, Tottenham"
+  },
+  {
+    "id": "p_vieira",
+    "name": "Patrick Vieira",
+    "position": "Orta Saha",
+    "nationality": "Fransa 🇫🇷",
+    "avatar": "PV",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ac_milan",
+      "arsenal",
+      "juventus",
+      "inter",
+      "man_city"
+    ],
+    "details": "Ac Milan, Arsenal, Juventus, Inter, Man City"
+  },
+  {
+    "id": "m_ballack",
+    "name": "Michael Ballack",
+    "position": "Orta Saha",
+    "nationality": "Almanya 🇩🇪",
+    "avatar": "MB",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "leverkusen",
+      "bayern",
+      "chelsea"
+    ],
+    "details": "Leverkusen, Bayern, Chelsea"
+  },
+  {
+    "id": "c_vieri",
+    "name": "Christian Vieri",
+    "position": "Santrafor",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "CV",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "juventus",
+      "atletico",
+      "lazio",
+      "inter",
+      "ac_milan",
+      "fiorentina",
+      "monaco"
+    ],
+    "details": "Juventus, Atletico, Lazio, Inter, Ac Milan, Fiorentina, Monaco"
+  },
+  {
+    "id": "r_babel",
+    "name": "Ryan Babel",
+    "position": "Kanat",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "RB",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "liverpool",
+      "besiktas",
+      "galatasaray"
+    ],
+    "details": "Ajax, Liverpool, Besiktas, Galatasaray"
+  },
+  {
+    "id": "s_kagawa",
+    "name": "Shinji Kagawa",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Japonya 🇯🇵",
+    "avatar": "SK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "dortmund",
+      "man_utd",
+      "besiktas"
+    ],
+    "details": "Dortmund, Man Utd, Besiktas"
+  },
+  {
+    "id": "a_oxladechamberlain",
+    "name": "Alex Oxlade-Chamberlain",
+    "position": "Orta Saha",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "AO",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "arsenal",
+      "liverpool",
+      "besiktas"
+    ],
+    "details": "Arsenal, Liverpool, Besiktas"
+  },
+  {
+    "id": "w_weghorst",
+    "name": "Wout Weghorst",
+    "position": "Santrafor",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "WW",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "wolfsburg",
+      "besiktas",
+      "man_utd",
+      "ajax"
+    ],
+    "details": "Wolfsburg, Besiktas, Man Utd, Ajax"
+  },
+  {
+    "id": "a_negredo",
+    "name": "Álvaro Negredo",
+    "position": "Santrafor",
+    "nationality": "İspanya 🇪🇸",
+    "avatar": "ÁN",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "sevilla",
+      "man_city",
+      "valencia",
+      "besiktas"
+    ],
+    "details": "Real Madrid, Sevilla, Man City, Valencia, Besiktas"
+  },
+  {
+    "id": "e_adebayor",
+    "name": "Emmanuel Adebayor",
+    "position": "Santrafor",
+    "nationality": "Togo 🇹🇬",
+    "avatar": "EA",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "monaco",
+      "arsenal",
+      "man_city",
+      "real_madrid",
+      "tottenham"
+    ],
+    "details": "Monaco, Arsenal, Man City, Real Madrid, Tottenham"
+  },
+  {
+    "id": "m_owen",
+    "name": "Michael Owen",
+    "position": "Santrafor",
+    "nationality": "İngiltere 🇬🇧",
+    "avatar": "MO",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "liverpool",
+      "real_madrid",
+      "newcastle",
+      "man_utd"
+    ],
+    "details": "Liverpool, Real Madrid, Newcastle, Man Utd"
+  },
+  {
+    "id": "robinho",
+    "name": "Robinho",
+    "position": "Kanat",
+    "nationality": "Brezilya 🇧🇷",
+    "avatar": "R",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "santos",
+      "real_madrid",
+      "man_city",
+      "ac_milan"
+    ],
+    "details": "Santos, Real Madrid, Man City, Ac Milan"
+  },
+  {
+    "id": "p_kluivert",
+    "name": "Patrick Kluivert",
+    "position": "Santrafor",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "PK",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "ac_milan",
+      "barcelona",
+      "newcastle",
+      "valencia",
+      "psv"
+    ],
+    "details": "Ajax, Ac Milan, Barcelona, Newcastle, Valencia, Psv"
+  },
+  {
+    "id": "m_overmars",
+    "name": "Marc Overmars",
+    "position": "Kanat",
+    "nationality": "Hollanda 🇳🇱",
+    "avatar": "MO",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "ajax",
+      "arsenal",
+      "barcelona"
+    ],
+    "details": "Ajax, Arsenal, Barcelona"
+  },
+  {
+    "id": "g_batistuta",
+    "name": "Gabriel Batistuta",
+    "position": "Santrafor",
+    "nationality": "Arjantin 🇦🇷",
+    "avatar": "GB",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "river_plate",
+      "fiorentina",
+      "roma",
+      "inter"
+    ],
+    "details": "River Plate, Fiorentina, Roma, Inter"
+  },
+  {
+    "id": "g_hagi",
+    "name": "Gheorghe Hagi",
+    "position": "Ofansif Orta Saha",
+    "nationality": "Romanya 🇷🇴",
+    "avatar": "GH",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "real_madrid",
+      "barcelona",
+      "galatasaray"
+    ],
+    "details": "Real Madrid, Barcelona, Galatasaray"
+  },
+  {
+    "id": "f_inzaghi",
+    "name": "Filippo Inzaghi",
+    "position": "Santrafor",
+    "nationality": "İtalya 🇮🇹",
+    "avatar": "FI",
+    "avatarBg": "from-blue-500 to-indigo-600",
+    "teamsPlayed": [
+      "juventus",
+      "ac_milan"
+    ],
+    "details": "Juventus, Ac Milan"
   }
 ];
 

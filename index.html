@@ -51,6 +51,14 @@
     </div>
     
     <div class="flex items-center gap-3">
+      <!-- Database & Player List Button -->
+      <a href="players.html" title="Yerel DB: Takım ve Oyuncular" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-emerald-500/30 hover:border-emerald-500/70 text-xs font-semibold text-slate-200 hover:text-emerald-300 transition-all shadow-md hover:shadow-emerald-500/10 group">
+        <i data-lucide="database" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform"></i>
+        <span class="hidden sm:inline">Yerel DB: Takımlar & Oyuncular</span>
+        <span class="sm:hidden">DB Listesi</span>
+        <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-bold font-mono">764+</span>
+      </a>
+
       <!-- Sound Mute/Unmute Toggle -->
       <button id="btn-toggle-sound" title="Ses Aç/Kapat" class="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 transition-colors">
         <i id="sound-icon" data-lucide="volume-2" class="w-5 h-5"></i>
@@ -62,9 +70,6 @@
       </span>
     </div>
   </header>
-<nav class="w-full max-w-5xl px-4 py-2 flex justify-center gap-4">
-  <a href="players.html" class="text-neon hover:text-neon-blue transition-colors font-semibold">Oyuncular</a>
-</nav>
 
   <!-- Notification Toast Container -->
   <div id="match-notification" class="fixed top-20 z-50 transition-all duration-300 opacity-0 -translate-y-4 pointer-events-none">

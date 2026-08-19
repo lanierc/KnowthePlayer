@@ -14,6 +14,10 @@ const https = require('https');
 const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname)));
+
+// Load curated Football Teams and Footballers Database
+const { FOOTBALL_TEAMS, FOOTBALLERS } = require('./js/data.js');
+
 // API endpoint to expose all players
 app.get('/api/players', (req, res) => {
   res.json(FOOTBALLERS);
@@ -43,9 +47,6 @@ const io = new Server(server, {
     methods: ['GET', 'POST']
   }
 });
-
-// Load curated Football Teams and Footballers Database
-const { FOOTBALL_TEAMS, FOOTBALLERS } = require('./js/data.js');
 
 const GAME_MATCHUPS = [
   { team1: 'real_madrid', team2: 'juventus', validPlayerIds: ['c_ronaldo', 'a_di_maria', 'g_higuain', 'a_morata', 'n_anelka', 'z_ibrahimovic', 'f_cannavaro'] },

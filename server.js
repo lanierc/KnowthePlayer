@@ -112,9 +112,44 @@ async function getRandomMatchup(roomCode, teams = null, dataSource = 'LOCAL') {
     [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
   }
 
-  let chosen = candidates.find(m => !recent.some(r => areSameMatchup(r, m)));
+  let chosen = null;
+
+  // Find a non-recent matchup that has at least one valid player
+  for (const m of candidates) {
+    if (!recent.some(r => areSameMatchup(r, m))) {
+      let validIds = m.validPlayerIds;
+      if (!validIds) {
+        validIds = await getDynamicValidPlayers(m.team1, m.team2, dataSource);
+      }
+      if (validIds && validIds.length > 0) {
+        m.validPlayerIds = validIds;
+        chosen = m;
+        break;
+      }
+    }
+  }
+
+  // Fallback: If no non-recent valid matchup found, pick any valid matchup
   if (!chosen) {
-    chosen = candidates[Math.floor(Math.random() * candidates.length)];
+    for (const m of candidates) {
+      let validIds = m.validPlayerIds;
+      if (!validIds) {
+        validIds = await getDynamicValidPlayers(m.team1, m.team2, dataSource);
+      }
+      if (validIds && validIds.length > 0) {
+        m.validPlayerIds = validIds;
+        chosen = m;
+        break;
+      }
+    }
+  }
+
+  // Extreme fallback (should not happen if data is rich)
+  if (!chosen) {
+    chosen = candidates[0];
+    if (!chosen.validPlayerIds) {
+      chosen.validPlayerIds = await getDynamicValidPlayers(chosen.team1, chosen.team2, dataSource);
+    }
   }
 
   if (roomCode) {
@@ -122,10 +157,6 @@ async function getRandomMatchup(roomCode, teams = null, dataSource = 'LOCAL') {
     rooms[roomCode].recentMatchups = rooms[roomCode].recentMatchups || [];
     rooms[roomCode].recentMatchups.unshift(normalizeMatchup(chosen));
     if (rooms[roomCode].recentMatchups.length > 5) rooms[roomCode].recentMatchups.pop();
-  }
-
-  if (!chosen.validPlayerIds) {
-    chosen.validPlayerIds = await getDynamicValidPlayers(chosen.team1, chosen.team2, dataSource);
   }
 
   return chosen;

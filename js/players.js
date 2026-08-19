@@ -1,6 +1,6 @@
 /**
  * players.js - Interactive Local Database Explorer (Players & Teams)
- * Support for Turkish Search Normalization, Grouped League Views, and Team Modal
+ * Support for Turkish Search Normalization, Grouped League Views, Team Modal, Multi-Criteria Filtering & Sorting
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('global-search');
   const clearSearchBtn = document.getElementById('clear-search');
   const countryFilter = document.getElementById('country-filter');
+  const positionFilter = document.getElementById('position-filter');
+  const clubCountFilter = document.getElementById('club-count-filter');
+  const sortFilter = document.getElementById('sort-filter');
+  
   const resultsCount = document.getElementById('results-count');
   const activeTagFilter = document.getElementById('active-tag-filter');
   const activeTagText = document.getElementById('active-tag-text');
@@ -90,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tabTeamsBtn.className = 'flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm transition-all text-slate-400 hover:text-white';
       tabTeamsBtn.querySelector('span:last-child').className = 'px-2 py-0.5 rounded-full text-[11px] bg-slate-800 text-slate-300 font-mono font-bold';
       
+      if (positionFilter) positionFilter.parentElement.style.display = '';
       sectionPlayers.classList.remove('hidden');
       sectionTeams.classList.add('hidden');
     } else {
@@ -120,10 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .trim();
   }
 
-  // Filter and render
+  // Main Filter and Render Function
   function renderCurrentView() {
     const query = normalizeStr(searchInput.value);
-    const country = countryFilter.value;
+    const country = countryFilter ? countryFilter.value : '';
+    const position = positionFilter ? positionFilter.value : '';
+    const minClubs = clubCountFilter ? parseInt(clubCountFilter.value, 10) || 0 : 0;
+    const sort = sortFilter ? sortFilter.value : 'name_asc';
 
     if (searchInput.value.trim().length > 0) {
       clearSearchBtn.classList.remove('hidden');
@@ -142,9 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (currentTab === 'players') {
-      renderPlayers(query, country);
+      renderPlayers(query, country, position, minClubs, sort);
     } else {
-      renderTeams(query, country);
+      renderTeams(query, country, sort);
     }
 
     if (window.lucide) {
@@ -152,20 +160,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Render Players
-  function renderPlayers(query, country) {
+  // Render Players with Multi-Filter and Sorting
+  function renderPlayers(query, country, position, minClubs, sort) {
     let filtered = allPlayers.filter(p => {
-      // Team filter
+      // 1. Team filter
       if (activeTeamFilter && !(p.teamsPlayed || []).includes(activeTeamFilter)) {
         return false;
       }
 
-      // Country filter
+      // 2. Country / Nationality filter
       if (country && !p.nationality.toLowerCase().includes(country.toLowerCase())) {
         return false;
       }
 
-      // Search query
+      // 3. Position filter
+      if (position) {
+        const pPos = normalizeStr(p.position);
+        const posKeywords = position.split(',').map(s => normalizeStr(s.trim()));
+        const posMatch = posKeywords.some(kw => pPos.includes(kw));
+        if (!posMatch) return false;
+      }
+
+      // 4. Minimum clubs filter
+      if (minClubs > 0) {
+        if ((p.teamsPlayed || []).length < minClubs) {
+          return false;
+        }
+      }
+
+      // 5. Search query
       if (query) {
         const nameNorm = normalizeStr(p.name);
         const posNorm = normalizeStr(p.position);
@@ -187,6 +210,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     });
 
+    // Sort Players
+    filtered.sort((a, b) => {
+      if (sort === 'name_asc') {
+        return a.name.localeCompare(b.name, 'tr');
+      } else if (sort === 'name_desc') {
+        return b.name.localeCompare(a.name, 'tr');
+      } else if (sort === 'clubs_desc') {
+        return (b.teamsPlayed || []).length - (a.teamsPlayed || []).length;
+      }
+      return 0;
+    });
+
     resultsCount.textContent = `Toplam ${filtered.length} Oyuncu listeleniyor`;
 
     if (filtered.length === 0) {
@@ -197,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     emptyState.classList.add('hidden');
     playersGrid.innerHTML = filtered.map(p => {
+      const clubCount = (p.teamsPlayed || []).length;
       const teamPills = (p.teamsPlayed || []).map(tid => {
         const tObj = allTeams.find(t => t.id === tid);
         const tName = tObj ? tObj.name : tid.replace(/_/g, ' ');
@@ -214,18 +250,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }).join('');
 
       return `
-        <div class="glass-panel glass-panel-glow p-4 rounded-2xl flex flex-col justify-between bg-darkCard border border-slate-800/80 hover:border-emerald-500/40 transition-all group">
+        <div class="glass-panel glass-panel-glow p-4 rounded-2xl flex flex-col justify-between bg-darkCard border border-slate-800/80 hover:border-emerald-500/40 transition-all group shadow-md">
           <div>
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr ${p.avatarBg || 'from-emerald-500 to-teal-700'} flex items-center justify-center text-sm font-black text-white shadow-md flex-shrink-0 group-hover:scale-105 transition-transform">
-                ${p.avatar || 'FC'}
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-3 overflow-hidden">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr ${p.avatarBg || 'from-emerald-500 to-teal-700'} flex items-center justify-center text-sm font-black text-white shadow-md flex-shrink-0 group-hover:scale-105 transition-transform">
+                  ${p.avatar || 'FC'}
+                </div>
+                <div class="overflow-hidden">
+                  <h3 class="text-white font-bold text-sm sm:text-base leading-snug group-hover:text-neon transition-colors truncate" title="${p.name}">
+                    ${p.name}
+                  </h3>
+                  <p class="text-xs text-slate-400 font-medium">${p.position} • ${p.nationality}</p>
+                </div>
               </div>
-              <div class="overflow-hidden">
-                <h3 class="text-white font-bold text-sm sm:text-base leading-snug group-hover:text-neon transition-colors truncate" title="${p.name}">
-                  ${p.name}
-                </h3>
-                <p class="text-xs text-slate-400 font-medium">${p.position} • ${p.nationality}</p>
-              </div>
+              <span class="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-slate-800/90 text-slate-300 border border-slate-700/60 flex-shrink-0" title="${clubCount} Farklı Kulüp">
+                ${clubCount} Kulüp
+              </span>
             </div>
             
             <div class="border-t border-slate-800/60 pt-2.5">
@@ -240,8 +281,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
   }
 
-  // Render Teams Grouped by Country / League
-  function renderTeams(query, country) {
+  // Render Teams Grouped by Country / League with Sorting
+  function renderTeams(query, country, sort) {
     let filteredTeams = allTeams.filter(t => {
       if (country && !t.country.toLowerCase().includes(country.toLowerCase())) {
         return false;
@@ -276,6 +317,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     teamsContainer.innerHTML = Object.entries(groups).map(([groupCountry, teams]) => {
+      // Sort teams within group
+      teams.sort((a, b) => {
+        if (sort === 'name_desc') {
+          return b.name.localeCompare(a.name, 'tr');
+        } else if (sort === 'clubs_desc') {
+          const countA = allPlayers.filter(p => (p.teamsPlayed || []).includes(a.id)).length;
+          const countB = allPlayers.filter(p => (p.teamsPlayed || []).includes(b.id)).length;
+          return countB - countA;
+        }
+        return a.name.localeCompare(b.name, 'tr');
+      });
+
       const teamCards = teams.map(t => {
         // Count how many DB players played for this team
         const count = allPlayers.filter(p => (p.teamsPlayed || []).includes(t.id)).length;
@@ -318,6 +371,31 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
   }
+
+  // Global helper for quick filter chips
+  window.applyQuickFilter = function(type, value) {
+    if (type === 'country' && countryFilter) {
+      countryFilter.value = value;
+    } else if (type === 'position' && positionFilter) {
+      positionFilter.value = value;
+      switchTab('players');
+    } else if (type === 'count' && clubCountFilter) {
+      clubCountFilter.value = value;
+      switchTab('players');
+    }
+    renderCurrentView();
+  };
+
+  // Reset all filters
+  window.resetAllFilters = function() {
+    if (searchInput) searchInput.value = '';
+    if (countryFilter) countryFilter.value = '';
+    if (positionFilter) positionFilter.value = '';
+    if (clubCountFilter) clubCountFilter.value = '0';
+    if (sortFilter) sortFilter.value = 'name_asc';
+    activeTeamFilter = null;
+    renderCurrentView();
+  };
 
   // Global helper to filter by team
   window.filterByTeam = function(teamId) {
@@ -380,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCurrentView();
   });
 
-  // Search input and country filters
+  // Search input and dropdown filters
   searchInput.addEventListener('input', () => {
     renderCurrentView();
   });
@@ -390,7 +468,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCurrentView();
   });
 
-  countryFilter.addEventListener('change', () => {
-    renderCurrentView();
-  });
+  if (countryFilter) countryFilter.addEventListener('change', renderCurrentView);
+  if (positionFilter) positionFilter.addEventListener('change', renderCurrentView);
+  if (clubCountFilter) clubCountFilter.addEventListener('change', renderCurrentView);
+  if (sortFilter) sortFilter.addEventListener('change', renderCurrentView);
 });
+

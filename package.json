@@ -1,7 +1,7 @@
 {
-  "name": "know-the-player",
+  "name": "guess-the-player",
   "version": "1.0.0",
-  "description": "Know the Player - Real-time 1v1 Football Quiz SPA with Node.js and Socket.io",
+  "description": "Guess the Player - Real-time 1v1 Football Quiz SPA with Node.js and Socket.io",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -7,48 +7,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const playerCountEl = document.getElementById('player-count');
   const teamCountEl = document.getElementById('team-count');
 
-  const API_BASE_URL = window.API_SERVER_URL || '';
-
-  // If running on GitHub Pages or another static host,
-  // set window.API_SERVER_URL = 'https://your-backend.example.com' in players.html
-  // so the players page can retrieve live backend data.
-
-  const renderLocalData = () => {
-    const players = typeof FOOTBALLERS !== 'undefined' ? FOOTBALLERS : [];
-    const teams = typeof FOOTBALL_TEAMS !== 'undefined' ? FOOTBALL_TEAMS : [];
-    window.__allPlayers = players;
-    window.__allTeams = teams;
-    const effectiveTeams = deriveTeams(players, teams);
-    renderStats(players, effectiveTeams);
-    renderTeams(effectiveTeams);
-    renderGrid(players);
-  };
-
-  // Fetch players and teams from server API when available; otherwise fall back to local data
-  const playersEndpoint = API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, '')}/api/players` : '/api/players';
-  const teamsEndpoint = API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, '')}/api/teams` : '/api/teams';
-
-  Promise.all([fetch(playersEndpoint), fetch(teamsEndpoint)])
-      .then(([playersRes, teamsRes]) => {
-        if (!playersRes.ok) throw new Error('Players API failed');
-        if (!teamsRes.ok) throw new Error('Teams API failed');
-        return Promise.all([playersRes.json(), teamsRes.json()]);
-      })
-      .then(([players, teams]) => {
-        if (!Array.isArray(players)) players = [];
-        if (!Array.isArray(teams)) teams = [];
-        window.__allPlayers = players;
-        window.__allTeams = teams;
-        const effectiveTeams = deriveTeams(players, teams);
-        renderStats(players, effectiveTeams);
-        renderTeams(effectiveTeams);
-        renderGrid(players);
-      })
-      .catch(err => {
-        console.error('Failed to load players or teams:', err);
-        renderLocalData();
-      });
-  }
+  // Fetch players and teams from server API
+  Promise.all([fetch('/api/players'), fetch('/api/teams')])
+    .then(([playersRes, teamsRes]) => {
+      if (!playersRes.ok) throw new Error('Players API failed');
+      if (!teamsRes.ok) throw new Error('Teams API failed');
+      return Promise.all([playersRes.json(), teamsRes.json()]);
+    })
+    .then(([players, teams]) => {
+      if (!Array.isArray(players)) players = [];
+      if (!Array.isArray(teams)) teams = [];
+      window.__allPlayers = players;
+      window.__allTeams = teams;
+      const effectiveTeams = deriveTeams(players, teams);
+      renderStats(players, effectiveTeams);
+      renderTeams(effectiveTeams);
+      renderGrid(players);
+    })
+    .catch(err => {
+      console.error('Failed to load players or teams:', err);
+      const players = window.__allPlayers || (typeof FOOTBALLERS !== 'undefined' ? FOOTBALLERS : []);
+      const teams = window.__allTeams || (typeof FOOTBALL_TEAMS !== 'undefined' ? FOOTBALL_TEAMS : []);
+      const effectiveTeams = deriveTeams(players, teams);
+      renderStats(players, effectiveTeams);
+      renderTeams(effectiveTeams);
+      renderGrid(players);
+    });
 
   function deriveTeams(players, teams) {
     if (Array.isArray(teams) && teams.length > 0) return teams;

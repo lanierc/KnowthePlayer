@@ -38,29 +38,17 @@
   </nav>
   <main class="w-full max-w-6xl px-4 py-6 flex-grow flex flex-col items-center">
     <h2 class="text-3xl font-bold text-neon mb-6">Tüm Oyuncular</h2>
-    <input id="player-search" type="text" placeholder="Oyuncu ara..." class="w-full max-w-md mb-4 px-4 py-2 rounded-xl bg-slate-900 text-white placeholder-slate-500 focus:outline-none" />
-    <div class="flex gap-4 text-sm text-slate-400 mb-4">
-      <span id="player-count">Oyuncu: 0</span>
-      <span id="team-count">Kulüp: 0</span>
-    </div>
-    <section class="w-full mb-8">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-lg font-semibold text-white">Kulüpler</h3>
-      </div>
-      <div id="teams-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
-    </section>
+<input id="player-search" type="text" placeholder="Oyuncu ara..." class="w-full max-w-md mb-4 px-4 py-2 rounded-xl bg-slate-900 text-white placeholder-slate-500 focus:outline-none" />
+<div class="flex gap-4 text-sm text-slate-400 mb-4">
+  <span id="player-count">Oyuncu: 0</span>
+  <span id="team-count">Kulüp: 0</span>
+</div>
     <div id="players-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full"></div>
   </main>
   <footer class="w-full max-w-5xl px-4 py-4 text-center text-xs text-slate-500 border-t border-slate-900">
     Football Matchup 1v1 SPA • Real-Time Socket.io • Dual Game Modes
   </footer>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    // Eğer players.html GitHub Pages veya başka bir statik host üzerinden servis ediliyorsa,
-    // canlı API verisi için backend URL ayarlayabilirsiniz:
-    // window.API_SERVER_URL = 'https://your-backend.example.com';
-  </script>
-  <script src="js/data.js"></script>
   <script src="js/players.js"></script>
 </body>
 </html>

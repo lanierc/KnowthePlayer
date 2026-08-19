@@ -1,6 +1,7 @@
 /**
  * Comprehensive Football Database for 1v1 Football Quiz
- * Contains 100+ Top Global Clubs & 200+ Iconic/Modern Footballers
+ * Contains 246+ Top Global Clubs & 208+ Iconic/Modern Footballers
+ * Complete Historical Club Careers
  */
 
 const FOOTBALL_TEAMS = [
@@ -759,6 +760,972 @@ const FOOTBALL_TEAMS = [
     "short": "ATL",
     "color": "#800000",
     "country": "ABD 🇺🇸"
+  },
+  {
+    "id": "new_york_red_bulls",
+    "name": "New York Red Bulls",
+    "short": "NYR",
+    "color": "#ED1E36",
+    "country": "ABD 🇺🇸"
+  },
+  {
+    "id": "new_york_city",
+    "name": "New York City FC",
+    "short": "NYC",
+    "color": "#6CADDF",
+    "country": "ABD 🇺🇸"
+  },
+  {
+    "id": "dc_united",
+    "name": "D.C. United",
+    "short": "DCU",
+    "color": "#000000",
+    "country": "ABD 🇺🇸"
+  },
+  {
+    "id": "orlando_city",
+    "name": "Orlando City SC",
+    "short": "ORL",
+    "color": "#612B82",
+    "country": "ABD 🇺🇸"
+  },
+  {
+    "id": "malmo",
+    "name": "Malmö FF",
+    "short": "MFF",
+    "color": "#75B2DD",
+    "country": "İsveç 🇸🇪"
+  },
+  {
+    "id": "celtic",
+    "name": "Celtic FC",
+    "short": "CEL",
+    "color": "#018749",
+    "country": "İskoçya 🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+  },
+  {
+    "id": "rangers",
+    "name": "Rangers FC",
+    "short": "RAN",
+    "color": "#0038A8",
+    "country": "İskoçya 🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+  },
+  {
+    "id": "gremio",
+    "name": "Grêmio",
+    "short": "GRE",
+    "color": "#0D80BF",
+    "country": "Brezilya 🇧🇷"
+  },
+  {
+    "id": "internacional",
+    "name": "SC Internacional",
+    "short": "INT",
+    "color": "#E50000",
+    "country": "Brezilya 🇧🇷"
+  },
+  {
+    "id": "cruzeiro",
+    "name": "Cruzeiro EC",
+    "short": "CRU",
+    "color": "#00529F",
+    "country": "Brezilya 🇧🇷"
+  },
+  {
+    "id": "vasco_da_gama",
+    "name": "Vasco da Gama",
+    "short": "VAS",
+    "color": "#000000",
+    "country": "Brezilya 🇧🇷"
+  },
+  {
+    "id": "flamengo",
+    "name": "CR Flamengo",
+    "short": "FLA",
+    "color": "#C3281E",
+    "country": "Brezilya 🇧🇷"
+  },
+  {
+    "id": "botafogo",
+    "name": "Botafogo FR",
+    "short": "BOT",
+    "color": "#000000",
+    "country": "Brezilya 🇧🇷"
+  },
+  {
+    "id": "sao_paulo",
+    "name": "São Paulo FC",
+    "short": "SAO",
+    "color": "#DA291C",
+    "country": "Brezilya 🇧🇷"
+  },
+  {
+    "id": "racing_club",
+    "name": "Racing Club",
+    "short": "RAC",
+    "color": "#18A0FB",
+    "country": "Arjantin 🇦🇷"
+  },
+  {
+    "id": "independiente",
+    "name": "CA Independiente",
+    "short": "IND",
+    "color": "#E30613",
+    "country": "Arjantin 🇦🇷"
+  },
+  {
+    "id": "san_lorenzo",
+    "name": "San Lorenzo",
+    "short": "SLO",
+    "color": "#0A2240",
+    "country": "Arjantin 🇦🇷"
+  },
+  {
+    "id": "rosario_central",
+    "name": "Rosario Central",
+    "short": "ROS",
+    "color": "#003399",
+    "country": "Arjantin 🇦🇷"
+  },
+  {
+    "id": "newells_old_boys",
+    "name": "Newell's Old Boys",
+    "short": "NOB",
+    "color": "#000000",
+    "country": "Arjantin 🇦🇷"
+  },
+  {
+    "id": "estudiantes",
+    "name": "Estudiantes LP",
+    "short": "EST",
+    "color": "#E30613",
+    "country": "Arjantin 🇦🇷"
+  },
+  {
+    "id": "velez_sarsfield",
+    "name": "Vélez Sarsfield",
+    "short": "VEL",
+    "color": "#004B87",
+    "country": "Arjantin 🇦🇷"
+  },
+  {
+    "id": "nacional",
+    "name": "Club Nacional",
+    "short": "NAC",
+    "color": "#0038A8",
+    "country": "Uruguay 🇺🇾"
+  },
+  {
+    "id": "penarol",
+    "name": "CA Peñarol",
+    "short": "PEN",
+    "color": "#FDB913",
+    "country": "Uruguay 🇺🇾"
+  },
+  {
+    "id": "villarreal",
+    "name": "Villarreal CF",
+    "short": "VIL",
+    "color": "#FFE600",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "betis",
+    "name": "Real Betis",
+    "short": "BET",
+    "color": "#0BB364",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "athletic_bilbao",
+    "name": "Athletic Bilbao",
+    "short": "ATH",
+    "color": "#EE2524",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "celta",
+    "name": "Celta Vigo",
+    "short": "CEL",
+    "color": "#87D8F7",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "mallorca",
+    "name": "RCD Mallorca",
+    "short": "MLL",
+    "color": "#E30613",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "osasuna",
+    "name": "CA Osasuna",
+    "short": "OSA",
+    "color": "#8A1538",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "getafe",
+    "name": "Getafe CF",
+    "short": "GET",
+    "color": "#00539F",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "valladolid",
+    "name": "Real Valladolid",
+    "short": "VLL",
+    "color": "#582C83",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "alaves",
+    "name": "Deportivo Alavés",
+    "short": "ALA",
+    "color": "#0055A5",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "cadiz",
+    "name": "Cádiz CF",
+    "short": "CAD",
+    "color": "#FEE100",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "granada",
+    "name": "Granada CF",
+    "short": "GRA",
+    "color": "#A6192E",
+    "country": "İspanya 🇪🇸"
+  },
+  {
+    "id": "torino",
+    "name": "Torino FC",
+    "short": "TOR",
+    "color": "#8A1C27",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "genoa",
+    "name": "Genoa CFC",
+    "short": "GEN",
+    "color": "#A6192E",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "hellas_verona",
+    "name": "Hellas Verona",
+    "short": "VER",
+    "color": "#002F6C",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "cagliari",
+    "name": "Cagliari Calcio",
+    "short": "CAG",
+    "color": "#9E1B32",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "sassuolo",
+    "name": "US Sassuolo",
+    "short": "SAS",
+    "color": "#00A352",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "lecce",
+    "name": "US Lecce",
+    "short": "LEC",
+    "color": "#FFD100",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "monza",
+    "name": "AC Monza",
+    "short": "MON",
+    "color": "#E30613",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "empoli",
+    "name": "Empoli FC",
+    "short": "EMP",
+    "color": "#005BAA",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "salernitana",
+    "name": "US Salernitana",
+    "short": "SAL",
+    "color": "#8B0000",
+    "country": "İtalya 🇮🇹"
+  },
+  {
+    "id": "stuttgart",
+    "name": "VfB Stuttgart",
+    "short": "VFB",
+    "color": "#E30613",
+    "country": "Almanya 🇩🇪"
+  },
+  {
+    "id": "frankfurt",
+    "name": "Eintracht Frankfurt",
+    "short": "SGE",
+    "color": "#E1000F",
+    "country": "Almanya 🇩🇪"
+  },
+  {
+    "id": "mainz",
+    "name": "FSV Mainz 05",
+    "short": "M05",
+    "color": "#C8102E",
+    "country": "Almanya 🇩🇪"
+  },
+  {
+    "id": "augsburg",
+    "name": "FC Augsburg",
+    "short": "FCA",
+    "color": "#BA1B23",
+    "country": "Almanya 🇩🇪"
+  },
+  {
+    "id": "freiburg",
+    "name": "SC Freiburg",
+    "short": "SCF",
+    "color": "#000000",
+    "country": "Almanya 🇩🇪"
+  },
+  {
+    "id": "union_berlin",
+    "name": "1. FC Union Berlin",
+    "short": "FCU",
+    "color": "#EE1C25",
+    "country": "Almanya 🇩🇪"
+  },
+  {
+    "id": "koln",
+    "name": "1. FC Köln",
+    "short": "KOE",
+    "color": "#ED1C24",
+    "country": "Almanya 🇩🇪"
+  },
+  {
+    "id": "stade_rennais",
+    "name": "Stade Rennais",
+    "short": "REN",
+    "color": "#E30613",
+    "country": "Fransa 🇫🇷"
+  },
+  {
+    "id": "toulouse",
+    "name": "Toulouse FC",
+    "short": "TFC",
+    "color": "#582C83",
+    "country": "Fransa 🇫🇷"
+  },
+  {
+    "id": "strasbourg",
+    "name": "RC Strasbourg",
+    "short": "RCS",
+    "color": "#0072CE",
+    "country": "Fransa 🇫🇷"
+  },
+  {
+    "id": "reims",
+    "name": "Stade de Reims",
+    "short": "SDR",
+    "color": "#ED1C24",
+    "country": "Fransa 🇫🇷"
+  },
+  {
+    "id": "montpellier",
+    "name": "Montpellier HSC",
+    "short": "MHS",
+    "color": "#003366",
+    "country": "Fransa 🇫🇷"
+  },
+  {
+    "id": "braga",
+    "name": "SC Braga",
+    "short": "BRA",
+    "color": "#E30613",
+    "country": "Portekiz 🇵🇹"
+  },
+  {
+    "id": "vitoria_guimaraes",
+    "name": "Vitória de Guimarães",
+    "short": "VSC",
+    "color": "#000000",
+    "country": "Portekiz 🇵🇹"
+  },
+  {
+    "id": "adana_demirspor",
+    "name": "Adana Demirspor",
+    "short": "ADS",
+    "color": "#004B87",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "samsunspor",
+    "name": "Samsunspor",
+    "short": "SAM",
+    "color": "#E30613",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "antalyaspor",
+    "name": "Antalyaspor",
+    "short": "ANT",
+    "color": "#E30613",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "konyaspor",
+    "name": "Konyaspor",
+    "short": "KON",
+    "color": "#008037",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "sivasspor",
+    "name": "Sivasspor",
+    "short": "SIV",
+    "color": "#E30613",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "kasimpasa",
+    "name": "Kasımpaşa SK",
+    "short": "KAS",
+    "color": "#002D62",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "alanyaspor",
+    "name": "Alanyaspor",
+    "short": "ALA",
+    "color": "#F58220",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "rizespor",
+    "name": "Çaykur Rizespor",
+    "short": "RIZ",
+    "color": "#008000",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "gaziantep",
+    "name": "Gaziantep FK",
+    "short": "GFK",
+    "color": "#A6192E",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "kayserispor",
+    "name": "Kayserispor",
+    "short": "KAY",
+    "color": "#FFD100",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "eyupspor",
+    "name": "Eyüpspor",
+    "short": "EYU",
+    "color": "#582C83",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "fatih_karagumruk",
+    "name": "Fatih Karagümrük",
+    "short": "FKM",
+    "color": "#E30613",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "goztepe",
+    "name": "Göztepe SK",
+    "short": "GOZ",
+    "color": "#FFD100",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "bursaspor",
+    "name": "Bursaspor",
+    "short": "BUR",
+    "color": "#008000",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "eskisehirspor",
+    "name": "Eskişehirspor",
+    "short": "ESK",
+    "color": "#000000",
+    "country": "Türkiye 🇹🇷"
+  },
+  {
+    "id": "al_shabab",
+    "name": "Al Shabab FC",
+    "short": "SHB",
+    "color": "#000000",
+    "country": "Suudi Arabistan 🇸🇦"
+  },
+  {
+    "id": "al_ettifaq",
+    "name": "Al Ettifaq FC",
+    "short": "ETT",
+    "color": "#008000",
+    "country": "Suudi Arabistan 🇸🇦"
+  },
+  {
+    "id": "al_qadsiah",
+    "name": "Al Qadsiah FC",
+    "short": "QAD",
+    "color": "#A6192E",
+    "country": "Suudi Arabistan 🇸🇦"
+  },
+  {
+    "id": "west_brom",
+    "name": "West Brom",
+    "short": "WES",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "dinamo_zagreb",
+    "name": "Dinamo Zagreb",
+    "short": "DIN",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "bochum",
+    "name": "Bochum",
+    "short": "BOC",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "danubio",
+    "name": "Danubio",
+    "short": "DAN",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "juventude",
+    "name": "Juventude",
+    "short": "JUV",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "austria_wien",
+    "name": "Austria Wien",
+    "short": "AUS",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "banfield",
+    "name": "Banfield",
+    "short": "BAN",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "fortuna_sittard",
+    "name": "Fortuna Sittard",
+    "short": "FOR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "istanbulspor",
+    "name": "Istanbulspor",
+    "short": "IST",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "watford",
+    "name": "Watford",
+    "short": "WAT",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "manisaspor",
+    "name": "Manisaspor",
+    "short": "MAN",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "cska_moscow",
+    "name": "Cska Moscow",
+    "short": "CSK",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "genclerbirligi",
+    "name": "Genclerbirligi",
+    "short": "GEN",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "karlsruher",
+    "name": "Karlsruher",
+    "short": "KAR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "hamburg",
+    "name": "Hamburg",
+    "short": "HAM",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "sheffield_utd",
+    "name": "Sheffield Utd",
+    "short": "SHE",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "blackburn",
+    "name": "Blackburn",
+    "short": "BLA",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "derby_county",
+    "name": "Derby County",
+    "short": "DER",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "groningen",
+    "name": "Groningen",
+    "short": "GRO",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "stromsgodset",
+    "name": "Stromsgodset",
+    "short": "STR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "heerenveen",
+    "name": "Heerenveen",
+    "short": "HEE",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "vitesse",
+    "name": "Vitesse",
+    "short": "VIT",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "caen",
+    "name": "Caen",
+    "short": "CAE",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "zurich",
+    "name": "Zurich",
+    "short": "ZUR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "sochaux",
+    "name": "Sochaux",
+    "short": "SOC",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "roeselare",
+    "name": "Roeselare",
+    "short": "ROE",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "club_brugge",
+    "name": "Club Brugge",
+    "short": "CLU",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "hajduk_split",
+    "name": "Hajduk Split",
+    "short": "HAJ",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "ufa",
+    "name": "Ufa",
+    "short": "UFA",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "wigan",
+    "name": "Wigan",
+    "short": "WIG",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "newport",
+    "name": "Newport",
+    "short": "NEW",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "peterborough",
+    "name": "Peterborough",
+    "short": "PET",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "leeds",
+    "name": "Leeds",
+    "short": "LEE",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "america_mineiro",
+    "name": "America Mineiro",
+    "short": "AME",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "novara",
+    "name": "Novara",
+    "short": "NOV",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "liefering",
+    "name": "Liefering",
+    "short": "LIE",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "malaga",
+    "name": "Malaga",
+    "short": "MAL",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "leganes",
+    "name": "Leganes",
+    "short": "LEG",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "instituto",
+    "name": "Instituto",
+    "short": "INS",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "partizan",
+    "name": "Partizan",
+    "short": "PAR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "copenhagen",
+    "name": "Copenhagen",
+    "short": "COP",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "sturm_graz",
+    "name": "Sturm Graz",
+    "short": "STU",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "coventry",
+    "name": "Coventry",
+    "short": "COV",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "norwich",
+    "name": "Norwich",
+    "short": "NOR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "aberdeen",
+    "name": "Aberdeen",
+    "short": "ABE",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "barnsley",
+    "name": "Barnsley",
+    "short": "BAR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "ipswich",
+    "name": "Ipswich",
+    "short": "IPS",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "huddersfield",
+    "name": "Huddersfield",
+    "short": "HUD",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "lorient",
+    "name": "Lorient",
+    "short": "LOR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "gent",
+    "name": "Gent",
+    "short": "GEN",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "argentinos_juniors",
+    "name": "Argentinos Juniors",
+    "short": "ARG",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "ascoli",
+    "name": "Ascoli",
+    "short": "ASC",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "girona",
+    "name": "Girona",
+    "short": "GIR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "bolton",
+    "name": "Bolton",
+    "short": "BOL",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "sunderland",
+    "name": "Sunderland",
+    "short": "SUN",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "vitoria",
+    "name": "Vitoria",
+    "short": "VIT",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "delhi_dynamos",
+    "name": "Delhi Dynamos",
+    "short": "DEL",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "real_zaragoza",
+    "name": "Real Zaragoza",
+    "short": "REA",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "anzhi",
+    "name": "Anzhi",
+    "short": "ANZ",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "deportivo",
+    "name": "Deportivo",
+    "short": "DEP",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "vicenza",
+    "name": "Vicenza",
+    "short": "VIC",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "coritiba",
+    "name": "Coritiba",
+    "short": "COR",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
+  },
+  {
+    "id": "sakaryaspor",
+    "name": "Sakaryaspor",
+    "short": "SAK",
+    "color": "#3b82f6",
+    "country": "Dünya 🌍"
   }
 ];
 
@@ -789,7 +1756,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "barcelona",
       "psg",
-      "inter_miami"
+      "inter_miami",
+      "newells_old_boys"
     ],
     "details": "FC Barcelona (2004-2021), PSG (2021-2023), Inter Miami"
   },
@@ -803,7 +1771,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "barcelona",
       "psg",
-      "al_hilal"
+      "al_hilal",
+      "santos"
     ],
     "details": "FC Barcelona, PSG, Al Hilal"
   },
@@ -858,7 +1827,8 @@ let FOOTBALLERS = [
     "avatar": "V7",
     "avatarBg": "from-amber-400 to-purple-600",
     "teamsPlayed": [
-      "real_madrid"
+      "real_madrid",
+      "flamengo"
     ],
     "details": "Real Madrid (2018-günümüz)"
   },
@@ -871,7 +1841,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-slate-700 to-amber-500",
     "teamsPlayed": [
       "real_madrid",
-      "al_ittihad"
+      "al_ittihad",
+      "lyon"
     ],
     "details": "Real Madrid efsanesi (2009-2023)"
   },
@@ -889,7 +1860,9 @@ let FOOTBALLERS = [
       "barcelona",
       "psg",
       "man_utd",
-      "ajax"
+      "ajax",
+      "malmo",
+      "la_galaxy"
     ],
     "details": "Ajax, Juventus, Inter, AC Milan, Barcelona, PSG, Man Utd"
   },
@@ -905,7 +1878,8 @@ let FOOTBALLERS = [
       "juventus",
       "psg",
       "man_utd",
-      "benfica"
+      "benfica",
+      "rosario_central"
     ],
     "details": "Benfica, Real Madrid, Man Utd, PSG, Juventus"
   },
@@ -922,7 +1896,8 @@ let FOOTBALLERS = [
       "ac_milan",
       "chelsea",
       "napoli",
-      "inter_miami"
+      "inter_miami",
+      "river_plate"
     ],
     "details": "Real Madrid, Napoli, Juventus, AC Milan, Chelsea, Inter Miami"
   },
@@ -967,7 +1942,11 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "psg",
       "barcelona",
-      "ac_milan"
+      "ac_milan",
+      "gremio",
+      "flamengo",
+      "atletico_mineiro",
+      "fluminense"
     ],
     "details": "PSG, FC Barcelona, AC Milan"
   },
@@ -980,7 +1959,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-black",
     "teamsPlayed": [
       "ac_milan",
-      "real_madrid"
+      "real_madrid",
+      "sao_paulo",
+      "orlando_city"
     ],
     "details": "AC Milan (2003-2009), Real Madrid (2009-2013)"
   },
@@ -994,7 +1975,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "real_madrid",
       "bayern",
-      "liverpool"
+      "liverpool",
+      "real_sociedad"
     ],
     "details": "Liverpool, Real Madrid, Bayern München"
   },
@@ -1008,7 +1990,9 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "inter",
       "ac_milan",
-      "juventus"
+      "juventus",
+      "brescia",
+      "new_york_city"
     ],
     "details": "Inter Milan, AC Milan, Juventus"
   },
@@ -1039,7 +2023,8 @@ let FOOTBALLERS = [
       "monaco",
       "juventus",
       "arsenal",
-      "barcelona"
+      "barcelona",
+      "new_york_red_bulls"
     ],
     "details": "Monaco, Juventus, Arsenal, FC Barcelona"
   },
@@ -1084,7 +2069,9 @@ let FOOTBALLERS = [
       "real_madrid",
       "arsenal",
       "fenerbahce",
-      "basaksehir"
+      "basaksehir",
+      "schalke",
+      "werder_bremen"
     ],
     "details": "Real Madrid, Arsenal, Fenerbahçe"
   },
@@ -1118,7 +2105,8 @@ let FOOTBALLERS = [
       "chelsea",
       "juventus",
       "liverpool",
-      "man_city"
+      "man_city",
+      "west_brom"
     ],
     "details": "PSG, Arsenal, Real Madrid, Liverpool, Man City, Fenerbahçe, Chelsea, Juventus"
   },
@@ -1135,7 +2123,8 @@ let FOOTBALLERS = [
       "liverpool",
       "barcelona",
       "bayern",
-      "aston_villa"
+      "aston_villa",
+      "vasco_da_gama"
     ],
     "details": "Inter, Liverpool, FC Barcelona, Bayern, Aston Villa"
   },
@@ -1151,7 +2140,9 @@ let FOOTBALLERS = [
       "juventus",
       "bayern",
       "barcelona",
-      "inter"
+      "inter",
+      "flamengo",
+      "athletico_paranaense"
     ],
     "details": "Bayer Leverkusen, Juventus, Bayern, Barcelona, Inter"
   },
@@ -1196,7 +2187,8 @@ let FOOTBALLERS = [
       "man_utd",
       "inter",
       "marseille",
-      "udinese"
+      "udinese",
+      "river_plate"
     ],
     "details": "FC Barcelona, Arsenal, Man Utd, Inter, Marseille"
   },
@@ -1213,7 +2205,9 @@ let FOOTBALLERS = [
       "barcelona",
       "atletico",
       "inter_miami",
-      "nantes"
+      "nantes",
+      "nacional",
+      "gremio"
     ],
     "details": "Ajax, Liverpool, Barcelona, Atletico Madrid, Inter Miami"
   },
@@ -1241,7 +2235,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-white to-amber-500",
     "teamsPlayed": [
       "tottenham",
-      "real_madrid"
+      "real_madrid",
+      "southampton",
+      "la_galaxy"
     ],
     "details": "Tottenham Hotspur, Real Madrid"
   },
@@ -1254,7 +2250,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-blue-700",
     "teamsPlayed": [
       "tottenham",
-      "real_madrid"
+      "real_madrid",
+      "dinamo_zagreb"
     ],
     "details": "Tottenham Hotspur, Real Madrid (2012-günümüz)"
   },
@@ -1269,7 +2266,8 @@ let FOOTBALLERS = [
       "chelsea",
       "man_city",
       "werder_bremen",
-      "wolfsburg"
+      "wolfsburg",
+      "genk"
     ],
     "details": "Chelsea, Manchester City"
   },
@@ -1300,7 +2298,8 @@ let FOOTBALLERS = [
       "arsenal",
       "barcelona",
       "chelsea",
-      "monaco"
+      "monaco",
+      "como"
     ],
     "details": "Arsenal, FC Barcelona, Chelsea, Monaco"
   },
@@ -1320,7 +2319,8 @@ let FOOTBALLERS = [
       "chelsea",
       "marseille",
       "lille",
-      "saint_etienne"
+      "saint_etienne",
+      "al_qadsiah"
     ],
     "details": "AC Milan, Dortmund, Arsenal, Barcelona, Chelsea, Marseille"
   },
@@ -1334,7 +2334,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "dortmund",
       "man_city",
-      "barcelona"
+      "barcelona",
+      "bochum"
     ],
     "details": "Borussia Dortmund, Manchester City, FC Barcelona"
   },
@@ -1352,7 +2353,8 @@ let FOOTBALLERS = [
       "juventus",
       "man_city",
       "bayern",
-      "barcelona"
+      "barcelona",
+      "al_hilal"
     ],
     "details": "Benfica, Valencia, Inter, Juventus, Man City, Bayern, Barcelona"
   },
@@ -1369,7 +2371,9 @@ let FOOTBALLERS = [
       "monaco",
       "man_utd",
       "chelsea",
-      "galatasaray"
+      "galatasaray",
+      "river_plate",
+      "rayo"
     ],
     "details": "Porto, Atletico Madrid, Monaco, Man Utd, Chelsea, Galatasaray"
   },
@@ -1432,7 +2436,10 @@ let FOOTBALLERS = [
       "porto",
       "inter",
       "chelsea",
-      "besiktas"
+      "besiktas",
+      "al_ahli",
+      "kasimpasa",
+      "vitoria_guimaraes"
     ],
     "details": "Sporting CP, Barcelona, Porto, Inter, Chelsea, Beşiktaş"
   },
@@ -1449,7 +2456,11 @@ let FOOTBALLERS = [
       "ac_milan",
       "liverpool",
       "marseille",
-      "nice"
+      "nice",
+      "brescia",
+      "monza",
+      "adana_demirspor",
+      "genoa"
     ],
     "details": "Inter, Man City, AC Milan, Liverpool, Marseille"
   },
@@ -1477,7 +2488,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-blue-900",
     "teamsPlayed": [
       "tottenham",
-      "bayern"
+      "bayern",
+      "leicester"
     ],
     "details": "Tottenham Hotspur (2009-2023), Bayern München (2023-günümüz)"
   },
@@ -1495,7 +2507,8 @@ let FOOTBALLERS = [
       "roma",
       "napoli",
       "anderlecht",
-      "everton"
+      "everton",
+      "west_brom"
     ],
     "details": "Chelsea, Everton, Man Utd, Inter, AS Roma, Napoli"
   },
@@ -1556,7 +2569,8 @@ let FOOTBALLERS = [
       "napoli",
       "chelsea",
       "al_hilal",
-      "genk"
+      "genk",
+      "metz"
     ],
     "details": "Napoli, Chelsea, Al Hilal"
   },
@@ -1616,7 +2630,8 @@ let FOOTBALLERS = [
       "man_utd",
       "valencia",
       "palermo",
-      "boca_juniors"
+      "boca_juniors",
+      "danubio"
     ],
     "details": "Palermo, Napoli, PSG, Manchester United, Valencia"
   },
@@ -1631,7 +2646,8 @@ let FOOTBALLERS = [
       "ac_milan",
       "psg",
       "chelsea",
-      "fluminense"
+      "fluminense",
+      "juventude"
     ],
     "details": "AC Milan, PSG, Chelsea"
   },
@@ -1645,7 +2661,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "bayern",
       "real_madrid",
-      "hoffenheim"
+      "hoffenheim",
+      "austria_wien"
     ],
     "details": "Bayern München (2010-2021), Real Madrid (2021-günümüz)"
   },
@@ -1734,7 +2751,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-yellow-400",
     "teamsPlayed": [
       "man_utd",
-      "fenerbahce"
+      "fenerbahce",
+      "internacional",
+      "shakhtar"
     ],
     "details": "Manchester United, Fenerbahçe"
   },
@@ -1764,7 +2783,8 @@ let FOOTBALLERS = [
       "benfica",
       "tottenham",
       "galatasaray",
-      "besiktas"
+      "besiktas",
+      "rizespor"
     ],
     "details": "Benfica, Tottenham, Galatasaray, Beşiktaş"
   },
@@ -1782,7 +2802,8 @@ let FOOTBALLERS = [
       "valencia",
       "besiktas",
       "fenerbahce",
-      "galatasaray"
+      "galatasaray",
+      "crystal_palace"
     ],
     "details": "Marseille, Chelsea, Dortmund, Valencia, Beşiktaş, Fenerbahçe, Galatasaray"
   },
@@ -1798,7 +2819,9 @@ let FOOTBALLERS = [
       "dortmund",
       "sevilla",
       "lazio",
-      "besiktas"
+      "besiktas",
+      "genoa",
+      "torino"
     ],
     "details": "Juventus, Dortmund, Sevilla, Lazio, Beşiktaş"
   },
@@ -1812,7 +2835,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "porto",
       "real_madrid",
-      "man_utd"
+      "man_utd",
+      "sao_paulo"
     ],
     "details": "FC Porto, Real Madrid (2013-2022), Manchester United"
   },
@@ -1827,7 +2851,8 @@ let FOOTBALLERS = [
       "inter",
       "real_madrid",
       "chelsea",
-      "man_city"
+      "man_city",
+      "dinamo_zagreb"
     ],
     "details": "Inter Milan, Real Madrid, Chelsea, Manchester City"
   },
@@ -1869,7 +2894,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-slate-900",
     "teamsPlayed": [
       "man_utd",
-      "everton"
+      "everton",
+      "dc_united"
     ],
     "details": "Everton, Manchester United efsanesi (2004-2017)"
   },
@@ -1883,7 +2909,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "chelsea",
       "man_city",
-      "west_ham"
+      "west_ham",
+      "new_york_city"
     ],
     "details": "Chelsea efsanesi, Manchester City"
   },
@@ -1895,7 +2922,8 @@ let FOOTBALLERS = [
     "avatar": "SG8",
     "avatarBg": "from-red-600 to-amber-400",
     "teamsPlayed": [
-      "liverpool"
+      "liverpool",
+      "la_galaxy"
     ],
     "details": "Liverpool efsanesi (1998-2015)"
   },
@@ -1947,7 +2975,8 @@ let FOOTBALLERS = [
     "avatar": "JZ4",
     "avatarBg": "from-blue-700 to-black",
     "teamsPlayed": [
-      "inter"
+      "inter",
+      "banfield"
     ],
     "details": "Inter Milan efsanesi (1995-2014)"
   },
@@ -1963,7 +2992,9 @@ let FOOTBALLERS = [
       "inter",
       "chelsea",
       "ac_milan",
-      "parma"
+      "parma",
+      "river_plate",
+      "genoa"
     ],
     "details": "Parma, Lazio, Inter, Chelsea, AC Milan"
   },
@@ -1977,7 +3008,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "atletico",
       "man_city",
-      "barcelona"
+      "barcelona",
+      "independiente"
     ],
     "details": "Atletico Madrid, Manchester City, FC Barcelona"
   },
@@ -1993,7 +3025,8 @@ let FOOTBALLERS = [
       "man_city",
       "juventus",
       "boca_juniors",
-      "west_ham"
+      "west_ham",
+      "corinthians"
     ],
     "details": "West Ham, Man Utd, Man City, Juventus"
   },
@@ -2022,7 +3055,8 @@ let FOOTBALLERS = [
       "real_madrid",
       "psg",
       "levante",
-      "nottingham"
+      "nottingham",
+      "newells_old_boys"
     ],
     "details": "Real Madrid (2014-2019), PSG (2019-2024)"
   },
@@ -2040,7 +3074,9 @@ let FOOTBALLERS = [
       "bayern",
       "everton",
       "olympiacos",
-      "rayo"
+      "rayo",
+      "banfield",
+      "sao_paulo"
     ],
     "details": "Porto, Monaco, Real Madrid, Bayern München, Everton"
   },
@@ -2056,7 +3092,9 @@ let FOOTBALLERS = [
       "fenerbahce",
       "trabzonspor",
       "galatasaray",
-      "lille"
+      "lille",
+      "antalyaspor",
+      "fortuna_sittard"
     ],
     "details": "Beşiktaş, Fenerbahçe, Trabzonspor, Galatasaray, Lille (Fransa Şampiyonu)"
   },
@@ -2071,7 +3109,9 @@ let FOOTBALLERS = [
       "besiktas",
       "fenerbahce",
       "trabzonspor",
-      "galatasaray"
+      "galatasaray",
+      "istanbulspor",
+      "eskisehirspor"
     ],
     "details": "Beşiktaş, Fenerbahçe, Trabzonspor, Galatasaray efsanesi"
   },
@@ -2085,7 +3125,9 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "chelsea",
       "bournemouth",
-      "man_city"
+      "man_city",
+      "reading",
+      "watford"
     ],
     "details": "Chelsea, Bournemouth, Manchester City"
   },
@@ -2099,7 +3141,9 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "galatasaray",
       "atletico",
-      "barcelona"
+      "barcelona",
+      "manisaspor",
+      "basaksehir"
     ],
     "details": "Galatasaray, Atletico Madrid, FC Barcelona"
   },
@@ -2115,7 +3159,8 @@ let FOOTBALLERS = [
       "inter",
       "newcastle",
       "fenerbahce",
-      "atletico"
+      "atletico",
+      "basaksehir"
     ],
     "details": "Galatasaray, Inter Milan, Newcastle, Fenerbahçe, Atletico Madrid"
   },
@@ -2130,7 +3175,8 @@ let FOOTBALLERS = [
       "galatasaray",
       "valencia",
       "fenerbahce",
-      "besiktas"
+      "besiktas",
+      "basaksehir"
     ],
     "details": "Galatasaray, Valencia, Fenerbahçe, Beşiktaş"
   },
@@ -2145,7 +3191,12 @@ let FOOTBALLERS = [
       "galatasaray",
       "fenerbahce",
       "inter",
-      "besiktas"
+      "besiktas",
+      "manisaspor",
+      "cska_moscow",
+      "fatih_karagumruk",
+      "basaksehir",
+      "eyupspor"
     ],
     "details": "Galatasaray, Fenerbahçe, Inter Milan, Beşiktaş"
   },
@@ -2158,7 +3209,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-blue-600 to-yellow-400",
     "teamsPlayed": [
       "fenerbahce",
-      "besiktas"
+      "besiktas",
+      "genclerbirligi",
+      "rizespor"
     ],
     "details": "Fenerbahçe, Beşiktaş"
   },
@@ -2172,7 +3225,9 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "leverkusen",
       "ac_milan",
-      "inter"
+      "inter",
+      "karlsruher",
+      "hamburg"
     ],
     "details": "Bayer Leverkusen, AC Milan, Inter Milan"
   },
@@ -2186,7 +3241,10 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "besiktas",
       "everton",
-      "fenerbahce"
+      "fenerbahce",
+      "frankfurt",
+      "gaziantep",
+      "crystal_palace"
     ],
     "details": "Beşiktaş, Everton, Fenerbahçe"
   },
@@ -2200,7 +3258,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "fenerbahce",
       "barcelona",
-      "besiktas"
+      "besiktas",
+      "antalyaspor"
     ],
     "details": "Fenerbahçe, FC Barcelona, Beşiktaş"
   },
@@ -2213,7 +3272,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-amber-500",
     "teamsPlayed": [
       "trabzonspor",
-      "galatasaray"
+      "galatasaray",
+      "manisaspor"
     ],
     "details": "Trabzonspor, Galatasaray efsanesi"
   },
@@ -2227,7 +3287,17 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "fenerbahce",
       "galatasaray",
-      "feyenoord"
+      "feyenoord",
+      "brighton",
+      "sheffield_utd",
+      "toulouse",
+      "olympiacos",
+      "blackburn",
+      "bursaspor",
+      "celtic",
+      "corinthians",
+      "derby_county",
+      "fatih_karagumruk"
     ],
     "details": "Fenerbahçe, Galatasaray, Feyenoord"
   },
@@ -2251,7 +3321,9 @@ let FOOTBALLERS = [
     "avatar": "AB1",
     "avatarBg": "from-purple-400 to-gold-600",
     "teamsPlayed": [
-      "liverpool"
+      "liverpool",
+      "internacional",
+      "roma"
     ],
     "details": "Liverpool"
   },
@@ -2275,7 +3347,9 @@ let FOOTBALLERS = [
     "avatar": "DG1",
     "avatarBg": "from-blue-700 to-white",
     "teamsPlayed": [
-      "man_utd"
+      "man_utd",
+      "atletico",
+      "fiorentina"
     ],
     "details": "Manchester United"
   },
@@ -2287,7 +3361,10 @@ let FOOTBALLERS = [
     "avatar": "VD1",
     "avatarBg": "from-yellow-400 to-black",
     "teamsPlayed": [
-      "liverpool"
+      "liverpool",
+      "groningen",
+      "celtic",
+      "southampton"
     ],
     "details": "Liverpool"
   },
@@ -2336,7 +3413,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-green-500 to-black",
     "teamsPlayed": [
       "inter_miami",
-      "man_utd"
+      "man_utd",
+      "ajax",
+      "inter"
     ],
     "details": "Manchester United, Inter Miami"
   },
@@ -2476,7 +3555,12 @@ let FOOTBALLERS = [
     "avatar": "MO9",
     "avatarBg": "from-red-600 to-grey-500",
     "teamsPlayed": [
-      "arsenal"
+      "arsenal",
+      "stromsgodset",
+      "real_madrid",
+      "heerenveen",
+      "vitesse",
+      "real_sociedad"
     ],
     "details": "Arsenal"
   },
@@ -2504,7 +3588,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-blue-800",
     "teamsPlayed": [
       "rb_leipzig",
-      "chelsea"
+      "chelsea",
+      "stuttgart",
+      "tottenham"
     ],
     "details": "RB Leipzig, Chelsea"
   },
@@ -2517,7 +3603,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-sky-400 to-green-600",
     "teamsPlayed": [
       "chelsea",
-      "man_utd"
+      "man_utd",
+      "vitesse",
+      "derby_county"
     ],
     "details": "Chelsea, Manchester United"
   },
@@ -2586,7 +3674,9 @@ let FOOTBALLERS = [
       "ac_milan",
       "barcelona",
       "inter",
-      "corinthians"
+      "corinthians",
+      "cruzeiro",
+      "psv"
     ],
     "details": "FC Barcelona, Inter, Real Madrid, AC Milan, Corinthians"
   },
@@ -2661,7 +3751,8 @@ let FOOTBALLERS = [
     "avatar": "JN8",
     "avatarBg": "from-green-400 to-sky-500",
     "teamsPlayed": [
-      "benfica"
+      "benfica",
+      "psg"
     ],
     "details": "Benfica genç yeteneği"
   },
@@ -2725,7 +3816,9 @@ let FOOTBALLERS = [
     "avatar": "RD16",
     "avatarBg": "from-amber-400 to-slate-700",
     "teamsPlayed": [
-      "man_city"
+      "man_city",
+      "villarreal",
+      "atletico"
     ],
     "details": "Manchester City"
   },
@@ -2737,7 +3830,9 @@ let FOOTBALLERS = [
     "avatar": "JA9",
     "avatarBg": "from-red-600 to-white",
     "teamsPlayed": [
-      "man_city"
+      "man_city",
+      "river_plate",
+      "atletico"
     ],
     "details": "Manchester City"
   },
@@ -2761,7 +3856,9 @@ let FOOTBALLERS = [
     "avatar": "TL11",
     "avatarBg": "from-red-600 to-blue-800",
     "teamsPlayed": [
-      "atletico"
+      "atletico",
+      "caen",
+      "monaco"
     ],
     "details": "Atlético Madrid"
   },
@@ -2774,7 +3871,12 @@ let FOOTBALLERS = [
     "avatarBg": "from-green-500 to-slate-700",
     "teamsPlayed": [
       "psg",
-      "ac_milan"
+      "ac_milan",
+      "zurich",
+      "wolfsburg",
+      "psv",
+      "torino",
+      "betis"
     ],
     "details": "PSG, AC Milan"
   },
@@ -2801,7 +3903,16 @@ let FOOTBALLERS = [
     "avatar": "IP44",
     "avatarBg": "from-sky-400 to-red-600",
     "teamsPlayed": [
-      "inter"
+      "inter",
+      "sochaux",
+      "roeselare",
+      "club_brugge",
+      "dortmund",
+      "wolfsburg",
+      "bayern",
+      "tottenham",
+      "hajduk_split",
+      "psv"
     ],
     "details": "Inter Milan"
   },
@@ -2826,7 +3937,10 @@ let FOOTBALLERS = [
     "avatarBg": "from-yellow-400 to-sky-500",
     "teamsPlayed": [
       "man_city",
-      "arsenal"
+      "arsenal",
+      "shakhtar",
+      "ufa",
+      "psv"
     ],
     "details": "Manchester City, Arsenal"
   },
@@ -2863,7 +3977,8 @@ let FOOTBALLERS = [
     "avatar": "RJ24",
     "avatarBg": "from-blue-600 to-white",
     "teamsPlayed": [
-      "chelsea"
+      "chelsea",
+      "wigan"
     ],
     "details": "Chelsea FC"
   },
@@ -2875,7 +3990,11 @@ let FOOTBALLERS = [
     "avatar": "BW4",
     "avatarBg": "from-white to-sky-400",
     "teamsPlayed": [
-      "arsenal"
+      "arsenal",
+      "brighton",
+      "newport",
+      "peterborough",
+      "leeds"
     ],
     "details": "Arsenal"
   },
@@ -2887,7 +4006,8 @@ let FOOTBALLERS = [
     "avatar": "GD99",
     "avatarBg": "from-black to-red-600",
     "teamsPlayed": [
-      "psg"
+      "psg",
+      "ac_milan"
     ],
     "details": "Paris Saint-Germain"
   },
@@ -2899,7 +4019,10 @@ let FOOTBALLERS = [
     "avatar": "PN7",
     "avatarBg": "from-red-600 to-sky-500",
     "teamsPlayed": [
-      "wolves"
+      "wolves",
+      "braga",
+      "lazio",
+      "chelsea"
     ],
     "details": "Wolverhampton Wanderers"
   },
@@ -2912,7 +4035,10 @@ let FOOTBALLERS = [
     "avatarBg": "from-green-500 to-yellow-400",
     "teamsPlayed": [
       "tottenham",
-      "everton"
+      "everton",
+      "america_mineiro",
+      "fluminense",
+      "watford"
     ],
     "details": "Tottenham, Everton"
   },
@@ -2924,7 +4050,11 @@ let FOOTBALLERS = [
     "avatar": "BF18",
     "avatarBg": "from-amber-400 to-red-600",
     "teamsPlayed": [
-      "man_utd"
+      "man_utd",
+      "novara",
+      "udinese",
+      "sampdoria",
+      "sporting"
     ],
     "details": "Manchester United"
   },
@@ -2937,7 +4067,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-blue-800",
     "teamsPlayed": [
       "arsenal",
-      "chelsea"
+      "chelsea",
+      "leverkusen"
     ],
     "details": "Chelsea, Arsenal"
   },
@@ -2962,7 +4093,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-gold-400",
     "teamsPlayed": [
       "liverpool",
-      "rb_salzburg"
+      "rb_salzburg",
+      "liefering",
+      "rb_leipzig"
     ],
     "details": "RB Salzburg, Liverpool"
   },
@@ -2986,7 +4119,10 @@ let FOOTBALLERS = [
     "avatar": "YN9",
     "avatarBg": "from-red-600 to-green-700",
     "teamsPlayed": [
-      "sevilla"
+      "sevilla",
+      "malaga",
+      "leganes",
+      "fenerbahce"
     ],
     "details": "Sevilla FC"
   },
@@ -3011,7 +4147,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-white to-black",
     "teamsPlayed": [
       "bayern",
-      "juventus"
+      "juventus",
+      "ajax",
+      "man_utd"
     ],
     "details": "Juventus, Bayern"
   },
@@ -3023,7 +4161,8 @@ let FOOTBALLERS = [
     "avatar": "RDG11",
     "avatarBg": "from-amber-400 to-purple-600",
     "teamsPlayed": [
-      "real_madrid"
+      "real_madrid",
+      "santos"
     ],
     "details": "Real Madrid"
   },
@@ -3061,7 +4200,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-blue-800",
     "teamsPlayed": [
       "rb_leipzig",
-      "chelsea"
+      "chelsea",
+      "psg"
     ],
     "details": "RB Leipzig, Chelsea"
   },
@@ -3073,7 +4213,8 @@ let FOOTBALLERS = [
     "avatar": "LM10",
     "avatarBg": "from-red-600 to-blue-800",
     "teamsPlayed": [
-      "inter"
+      "inter",
+      "racing_club"
     ],
     "details": "Inter"
   },
@@ -3087,7 +4228,9 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "juventus",
       "roma",
-      "inter_miami"
+      "inter_miami",
+      "instituto",
+      "palermo"
     ],
     "details": "Juventus, Roma, Inter Miami"
   },
@@ -3100,7 +4243,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-black",
     "teamsPlayed": [
       "fiorentina",
-      "juventus"
+      "juventus",
+      "partizan"
     ],
     "details": "Fiorentina, Juventus"
   },
@@ -3113,7 +4257,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-sky-400 to-amber-500",
     "teamsPlayed": [
       "atalanta",
-      "man_utd"
+      "man_utd",
+      "copenhagen",
+      "sturm_graz"
     ],
     "details": "Atalanta, Manchester United"
   },
@@ -3126,7 +4272,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-sky-400 to-purple-600",
     "teamsPlayed": [
       "fulham",
-      "liverpool"
+      "liverpool",
+      "blackburn"
     ],
     "details": "Fulham, Liverpool"
   },
@@ -3139,7 +4286,10 @@ let FOOTBALLERS = [
     "avatarBg": "from-amber-400 to-slate-900",
     "teamsPlayed": [
       "leicester",
-      "tottenham"
+      "tottenham",
+      "coventry",
+      "norwich",
+      "aberdeen"
     ],
     "details": "Leicester City, Tottenham Hotspur"
   },
@@ -3152,7 +4302,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-green-500 to-black",
     "teamsPlayed": [
       "sporting",
-      "fulham"
+      "fulham",
+      "braga",
+      "bayern"
     ],
     "details": "Sporting CP, Fulham"
   },
@@ -3189,7 +4341,12 @@ let FOOTBALLERS = [
     "avatar": "IT17",
     "avatarBg": "from-amber-400 to-red-600",
     "teamsPlayed": [
-      "brentford"
+      "brentford",
+      "newcastle",
+      "barnsley",
+      "wigan",
+      "peterborough",
+      "al_ahli"
     ],
     "details": "Brentford"
   },
@@ -3201,7 +4358,11 @@ let FOOTBALLERS = [
     "avatar": "TC6",
     "avatarBg": "from-blue-600 to-amber-400",
     "teamsPlayed": [
-      "chelsea"
+      "chelsea",
+      "ipswich",
+      "huddersfield",
+      "lorient",
+      "crystal_palace"
     ],
     "details": "Chelsea"
   },
@@ -3213,7 +4374,9 @@ let FOOTBALLERS = [
     "avatar": "CW9",
     "avatarBg": "from-red-600 to-white",
     "teamsPlayed": [
-      "newcastle"
+      "newcastle",
+      "coventry",
+      "bournemouth"
     ],
     "details": "Newcastle United"
   },
@@ -3226,7 +4389,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-blue-800",
     "teamsPlayed": [
       "lille",
-      "benfica"
+      "benfica",
+      "gent"
     ],
     "details": "Lille, Benfica"
   },
@@ -3239,7 +4403,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-sky-400 to-purple-600",
     "teamsPlayed": [
       "reading",
-      "crystal_palace"
+      "crystal_palace",
+      "bayern"
     ],
     "details": "Crystal Palace"
   },
@@ -3252,7 +4417,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-sky-400 to-red-600",
     "teamsPlayed": [
       "brighton",
-      "liverpool"
+      "liverpool",
+      "argentinos_juniors",
+      "boca_juniors"
     ],
     "details": "Brighton, Liverpool"
   },
@@ -3265,7 +4432,9 @@ let FOOTBALLERS = [
     "avatarBg": "from-red-600 to-white",
     "teamsPlayed": [
       "bologna",
-      "juventus"
+      "juventus",
+      "ascoli",
+      "atalanta"
     ],
     "details": "Bologna, Juventus"
   },
@@ -3278,7 +4447,10 @@ let FOOTBALLERS = [
     "avatarBg": "from-blue-600 to-white",
     "teamsPlayed": [
       "sporting",
-      "tottenham"
+      "tottenham",
+      "girona",
+      "man_city",
+      "valladolid"
     ],
     "details": "Sporting CP, Tottenham Hotspur"
   },
@@ -3307,7 +4479,8 @@ let FOOTBALLERS = [
       "arsenal",
       "werder_bremen",
       "hoffenheim",
-      "bayern"
+      "bayern",
+      "west_brom"
     ],
     "details": "Arsenal, Werder Bremen, Bayern München"
   },
@@ -3321,7 +4494,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "shakhtar",
       "man_utd",
-      "fenerbahce"
+      "fenerbahce",
+      "internacional"
     ],
     "details": "Shakhtar Donetsk, Manchester United, Fenerbahçe"
   },
@@ -3336,7 +4510,10 @@ let FOOTBALLERS = [
       "real_madrid",
       "fiorentina",
       "chelsea",
-      "barcelona"
+      "barcelona",
+      "bolton",
+      "sunderland",
+      "celta"
     ],
     "details": "Real Madrid, Fiorentina, Chelsea, FC Barcelona"
   },
@@ -3350,7 +4527,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "porto",
       "zenit",
-      "atletico_mineiro"
+      "atletico_mineiro",
+      "vitoria"
     ],
     "details": "FC Porto, Zenit Saint Petersburg"
   },
@@ -3386,7 +4564,8 @@ let FOOTBALLERS = [
     "avatar": "ADP10",
     "avatarBg": "from-black to-slate-800",
     "teamsPlayed": [
-      "juventus"
+      "juventus",
+      "delhi_dynamos"
     ],
     "details": "Juventus efsanesi (1993-2012)"
   },
@@ -3413,7 +4592,9 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "real_madrid",
       "inter",
-      "leicester"
+      "leicester",
+      "river_plate",
+      "olympiacos"
     ],
     "details": "Real Madrid, Inter Milan, Leicester City"
   },
@@ -3492,7 +4673,8 @@ let FOOTBALLERS = [
     "avatarBg": "from-slate-700 to-red-600",
     "teamsPlayed": [
       "man_utd",
-      "barcelona"
+      "barcelona",
+      "real_zaragoza"
     ],
     "details": "Manchester United, FC Barcelona"
   },
@@ -3506,7 +4688,11 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "real_madrid",
       "fenerbahce",
-      "inter_miami"
+      "inter_miami",
+      "palmeiras",
+      "inter",
+      "corinthians",
+      "anzhi"
     ],
     "details": "Real Madrid, Fenerbahçe, Inter Miami"
   },
@@ -3520,7 +4706,8 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "palmeiras",
       "roma",
-      "ac_milan"
+      "ac_milan",
+      "sao_paulo"
     ],
     "details": "SE Palmeiras, Roma, AC Milan"
   },
@@ -3535,7 +4722,8 @@ let FOOTBALLERS = [
       "boca_juniors",
       "barcelona",
       "napoli",
-      "sevilla"
+      "sevilla",
+      "newells_old_boys"
     ],
     "details": "Boca Juniors, FC Barcelona, Napoli, Sevilla"
   },
@@ -3549,7 +4737,12 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "barcelona",
       "ac_milan",
-      "olympiacos"
+      "olympiacos",
+      "corinthians",
+      "palmeiras",
+      "deportivo",
+      "cruzeiro",
+      "sao_paulo"
     ],
     "details": "FC Barcelona, AC Milan, Olympiakos"
   },
@@ -3566,7 +4759,8 @@ let FOOTBALLERS = [
       "ac_milan",
       "inter",
       "bologna",
-      "brescia"
+      "brescia",
+      "vicenza"
     ],
     "details": "Fiorentina, Juventus, AC Milan, Inter, Bologna, Brescia"
   },
@@ -3637,7 +4831,11 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "fenerbahce",
       "palmeiras",
-      "porto"
+      "porto",
+      "coritiba",
+      "flamengo",
+      "cruzeiro",
+      "parma"
     ],
     "details": "Fenerbahçe efsanesi, Palmeiras, Porto"
   },
@@ -3651,7 +4849,11 @@ let FOOTBALLERS = [
     "teamsPlayed": [
       "galatasaray",
       "inter",
-      "parma"
+      "parma",
+      "sakaryaspor",
+      "bursaspor",
+      "torino",
+      "blackburn"
     ],
     "details": "Galatasaray, Inter Milan, Parma"
   }

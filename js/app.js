@@ -909,21 +909,31 @@ function initEventListeners() {
   });
 
   // Auth Tabs Toggle
-  if (authTabLogin && authTabRegister && formLogin && formRegister) {
-    authTabLogin.addEventListener('click', () => {
+  const linkSwitchRegister = document.getElementById('link-switch-register');
+  const linkSwitchLogin = document.getElementById('link-switch-login');
+
+  function switchToLogin() {
+    if (authTabLogin && authTabRegister && formLogin && formRegister) {
       authTabLogin.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all bg-emerald-500 text-slate-950 shadow-md';
       authTabRegister.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all text-slate-400 hover:text-white';
       formLogin.classList.remove('hidden');
       formRegister.classList.add('hidden');
-    });
+    }
+  }
 
-    authTabRegister.addEventListener('click', () => {
+  function switchToRegister() {
+    if (authTabLogin && authTabRegister && formLogin && formRegister) {
       authTabRegister.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all bg-emerald-500 text-slate-950 shadow-md';
       authTabLogin.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all text-slate-400 hover:text-white';
       formRegister.classList.remove('hidden');
       formLogin.classList.add('hidden');
-    });
+    }
   }
+
+  if (authTabLogin) authTabLogin.addEventListener('click', switchToLogin);
+  if (authTabRegister) authTabRegister.addEventListener('click', switchToRegister);
+  if (linkSwitchRegister) linkSwitchRegister.addEventListener('click', switchToRegister);
+  if (linkSwitchLogin) linkSwitchLogin.addEventListener('click', switchToLogin);
 
   // Avatar Picker for Registration
   const avatarOpts = document.querySelectorAll('.avatar-opt');

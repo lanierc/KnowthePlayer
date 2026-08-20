@@ -113,8 +113,18 @@ app.post('/api/auth/login', (req, res) => {
   const users = loadUsers();
   const user = users.find(u => u.username.toLowerCase() === cleanUsername.toLowerCase());
 
-  if (!user || user.password !== hashPassword(cleanPassword)) {
-    return res.status(401).json({ success: false, message: 'Kullanıcı adı veya şifre hatalı.' });
+  if (!user) {
+    return res.status(404).json({ 
+      success: false, 
+      message: 'Bu kullanıcı adına ait bir hesap bulunamadı. Lütfen önce "Kayıt Ol" sekmesinden hesap oluşturun.' 
+    });
+  }
+
+  if (user.password !== hashPassword(cleanPassword)) {
+    return res.status(401).json({ 
+      success: false, 
+      message: 'Girdiğiniz şifre hatalı.' 
+    });
   }
 
   res.json({

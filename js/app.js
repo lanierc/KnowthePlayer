@@ -54,6 +54,11 @@ const Auth = {
     const userStatsPill = document.getElementById('user-stats-pill');
     const inputUsername = document.getElementById('input-username');
 
+    const lobbyGuestContainer = document.getElementById('lobby-guest-username-container');
+    const lobbyLoggedInContainer = document.getElementById('lobby-logged-in-container');
+    const lobbyUserAvatar = document.getElementById('lobby-user-avatar');
+    const lobbyUserName = document.getElementById('lobby-user-name');
+
     if (this.currentUser) {
       if (btnOpenAuth) btnOpenAuth.classList.add('hidden');
       if (btnOpenProfile) {
@@ -66,15 +71,31 @@ const Auth = {
         const wins = (this.currentUser.stats && this.currentUser.stats.wins) || 0;
         userStatsPill.textContent = `${wins}G`;
       }
-      if (inputUsername && (!inputUsername.value || inputUsername.value.startsWith('Futbolcu_') || inputUsername.value === 'Oyuncu 1')) {
+      if (inputUsername) {
         inputUsername.value = this.currentUser.username;
-        AppState.username = this.currentUser.username;
       }
+      AppState.username = this.currentUser.username;
+
+      // Hide guest username field in lobby and show logged in banner
+      if (lobbyGuestContainer) lobbyGuestContainer.classList.add('hidden');
+      if (lobbyLoggedInContainer) {
+        lobbyLoggedInContainer.classList.remove('hidden');
+        lobbyLoggedInContainer.classList.add('flex');
+      }
+      if (lobbyUserAvatar) lobbyUserAvatar.textContent = this.currentUser.avatar || '⚽';
+      if (lobbyUserName) lobbyUserName.textContent = this.currentUser.username;
     } else {
       if (btnOpenAuth) btnOpenAuth.classList.remove('hidden');
       if (btnOpenProfile) {
         btnOpenProfile.classList.add('hidden');
         btnOpenProfile.classList.remove('flex');
+      }
+
+      // Show guest username field in lobby and hide logged in banner
+      if (lobbyGuestContainer) lobbyGuestContainer.classList.remove('hidden');
+      if (lobbyLoggedInContainer) {
+        lobbyLoggedInContainer.classList.add('hidden');
+        lobbyLoggedInContainer.classList.remove('flex');
       }
     }
     if (window.lucide) window.lucide.createIcons();
@@ -654,7 +675,7 @@ function initEventListeners() {
 
   if (btnCreateRoom) {
     btnCreateRoom.addEventListener('click', () => {
-      AppState.username = inputUsername.value.trim() || 'Oyuncu 1';
+      AppState.username = Auth.currentUser ? Auth.currentUser.username : (inputUsername.value.trim() || 'Oyuncu 1');
       if (socket) {
         socket.emit('create_room', {
           username: AppState.username,
@@ -681,7 +702,7 @@ function initEventListeners() {
         UI.showNotification('Lütfen geçerli bir Oda Kodu girin!', 'error');
         return;
       }
-      AppState.username = inputUsername.value.trim() || 'Oyuncu 2';
+      AppState.username = Auth.currentUser ? Auth.currentUser.username : (inputUsername.value.trim() || 'Oyuncu 2');
       if (socket) {
         socket.emit('join_room', { roomCode: code, username: AppState.username });
       }
@@ -854,8 +875,16 @@ function initEventListeners() {
     });
   }
 
+  const btnLobbyProfile = document.getElementById('btn-lobby-profile');
+
   if (btnOpenProfile) {
     btnOpenProfile.addEventListener('click', () => {
+      Auth.openProfile();
+    });
+  }
+
+  if (btnLobbyProfile) {
+    btnLobbyProfile.addEventListener('click', () => {
       Auth.openProfile();
     });
   }

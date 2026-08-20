@@ -50,21 +50,39 @@
       </div>
     </div>
     
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Leaderboard Button -->
+      <button id="btn-open-leaderboard" title="Liderlik Sıralaması" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 text-xs font-semibold text-slate-300 hover:text-amber-400 transition-all shadow-md group">
+        <i data-lucide="crown" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform"></i>
+        <span class="hidden md:inline">Sıralama</span>
+      </button>
+
       <!-- Database & Player List Button -->
-      <a href="players.html" title="Yerel DB: Takım ve Oyuncular" class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-emerald-500/30 hover:border-emerald-500/70 text-xs font-semibold text-slate-200 hover:text-emerald-300 transition-all shadow-md hover:shadow-emerald-500/10 group">
+      <a href="players.html" title="Yerel DB: Takım ve Oyuncular" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-emerald-500/30 hover:border-emerald-500/70 text-xs font-semibold text-slate-200 hover:text-emerald-300 transition-all shadow-md hover:shadow-emerald-500/10 group">
         <i data-lucide="database" class="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform"></i>
-        <span class="hidden sm:inline">Yerel DB: Takımlar & Oyuncular</span>
-        <span class="sm:hidden">DB Listesi</span>
+        <span class="hidden sm:inline">Yerel DB</span>
         <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-bold font-mono">764+</span>
       </a>
+
+      <!-- Auth: Logged Out State Button -->
+      <button id="btn-open-auth" title="Giriş Yap / Kayıt Ol" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold transition-all shadow-md">
+        <i data-lucide="user" class="w-4 h-4"></i>
+        <span>Giriş Yap</span>
+      </button>
+
+      <!-- Auth: Logged In State Badge -->
+      <button id="btn-open-profile" title="Profilim ve İstatistiklerim" class="hidden items-center gap-2 px-2.5 py-1.5 rounded-xl bg-slate-900 border border-emerald-500/50 hover:border-emerald-400 text-xs font-bold text-white transition-all shadow-md group">
+        <span id="user-avatar-badge" class="w-6 h-6 rounded-lg bg-emerald-500/20 flex items-center justify-center text-xs">⚽</span>
+        <span id="user-name-badge" class="max-w-[80px] sm:max-w-[120px] truncate">Kullanıcı</span>
+        <span id="user-stats-pill" class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold">0G</span>
+      </button>
 
       <!-- Sound Mute/Unmute Toggle -->
       <button id="btn-toggle-sound" title="Ses Aç/Kapat" class="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 transition-colors">
         <i id="sound-icon" data-lucide="volume-2" class="w-5 h-5"></i>
       </button>
 
-      <span id="socket-status-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
+      <span id="socket-status-badge" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs text-slate-300">
         <span id="socket-status-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
         <span id="socket-status-text">Bağlanılıyor...</span>
       </span>
@@ -515,6 +533,145 @@
     </section>
 
   </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL 1: AUTH (GİRİŞ & KAYIT OL)           -->
+  <!-- ========================================== -->
+  <div id="modal-auth" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+    <div class="glass-panel w-full max-w-md rounded-3xl p-6 relative bg-slate-950 border border-slate-800 shadow-2xl">
+      <button id="btn-close-auth-modal" class="absolute right-4 top-4 p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Modal Tabs -->
+      <div class="flex items-center gap-2 p-1 rounded-xl bg-slate-900 border border-slate-800 mb-5">
+        <button id="auth-tab-login" class="flex-1 py-2 rounded-lg font-bold text-xs transition-all bg-emerald-500 text-slate-950 shadow-md">
+          Giriş Yap
+        </button>
+        <button id="auth-tab-register" class="flex-1 py-2 rounded-lg font-bold text-xs transition-all text-slate-400 hover:text-white">
+          Kayıt Ol
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-login" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Kullanıcı Adı</label>
+          <input type="text" id="login-username" placeholder="Kullanıcı adınız..." required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-emerald-500 text-white placeholder-slate-500 text-sm focus:outline-none transition-colors" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Şifre</label>
+          <input type="password" id="login-password" placeholder="••••••••" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-emerald-500 text-white placeholder-slate-500 text-sm focus:outline-none transition-colors" />
+        </div>
+        <div id="login-error" class="hidden text-xs text-rose-400 font-medium"></div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-colors shadow-lg shadow-emerald-500/20">
+          Giriş Yap
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-register" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Kullanıcı Adı</label>
+          <input type="text" id="reg-username" placeholder="Örn: EfsaneGolcu" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-emerald-500 text-white placeholder-slate-500 text-sm focus:outline-none transition-colors" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Şifre (Min 4 Karakter)</label>
+          <input type="password" id="reg-password" placeholder="••••••••" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-emerald-500 text-white placeholder-slate-500 text-sm focus:outline-none transition-colors" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-400 mb-1.5">Avatarını Seç</label>
+          <div class="flex flex-wrap gap-2" id="reg-avatar-picker">
+            <button type="button" data-avatar="⚽" class="w-9 h-9 rounded-lg bg-emerald-500/20 border-2 border-emerald-500 text-sm flex items-center justify-center avatar-opt">⚽</button>
+            <button type="button" data-avatar="🏆" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 text-sm flex items-center justify-center avatar-opt hover:border-slate-600">🏆</button>
+            <button type="button" data-avatar="🦁" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 text-sm flex items-center justify-center avatar-opt hover:border-slate-600">🦁</button>
+            <button type="button" data-avatar="⚡" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 text-sm flex items-center justify-center avatar-opt hover:border-slate-600">⚡</button>
+            <button type="button" data-avatar="👑" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 text-sm flex items-center justify-center avatar-opt hover:border-slate-600">👑</button>
+            <button type="button" data-avatar="🔥" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 text-sm flex items-center justify-center avatar-opt hover:border-slate-600">🔥</button>
+            <button type="button" data-avatar="🎯" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 text-sm flex items-center justify-center avatar-opt hover:border-slate-600">🎯</button>
+          </div>
+          <input type="hidden" id="reg-avatar-val" value="⚽" />
+        </div>
+        <div id="reg-error" class="hidden text-xs text-rose-400 font-medium"></div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-colors shadow-lg shadow-emerald-500/20">
+          Hesap Oluştur
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 2: USER PROFILE & STATS              -->
+  <!-- ========================================== -->
+  <div id="modal-profile" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+    <div class="glass-panel w-full max-w-md rounded-3xl p-6 relative bg-slate-950 border border-slate-800 shadow-2xl">
+      <button id="btn-close-profile-modal" class="absolute right-4 top-4 p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Profile Header -->
+      <div class="flex items-center gap-3.5 mb-6">
+        <div id="prof-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-700 flex items-center justify-center text-2xl shadow-md border border-emerald-500/30">
+          ⚽
+        </div>
+        <div>
+          <h3 id="prof-username" class="text-lg font-bold text-white leading-tight">Kullanıcı</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Kayıtlı Oyuncu</p>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+          <div class="text-[11px] font-semibold text-slate-400 uppercase">Toplam Maç</div>
+          <div id="prof-matches" class="text-xl font-bold text-white font-mono mt-0.5">0</div>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+          <div class="text-[11px] font-semibold text-emerald-400 uppercase">Galibiyet</div>
+          <div id="prof-wins" class="text-xl font-bold text-emerald-400 font-mono mt-0.5">0</div>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+          <div class="text-[11px] font-semibold text-rose-400 uppercase">Mağlubiyet</div>
+          <div id="prof-losses" class="text-xl font-bold text-rose-400 font-mono mt-0.5">0</div>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
+          <div class="text-[11px] font-semibold text-cyan-400 uppercase">Kazanma Oranı</div>
+          <div id="prof-winrate" class="text-xl font-bold text-cyan-400 font-mono mt-0.5">%0</div>
+        </div>
+      </div>
+
+      <button id="btn-logout" class="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-rose-950/40 text-slate-400 hover:text-rose-400 border border-slate-800 hover:border-rose-900/50 font-semibold text-xs transition-colors flex items-center justify-center gap-2">
+        <i data-lucide="log-out" class="w-4 h-4"></i>
+        <span>Oturumu Kapat</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 3: LEADERBOARD (LİDERLİK SIRALAMASI) -->
+  <!-- ========================================== -->
+  <div id="modal-leaderboard" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-6 relative bg-slate-950 border border-slate-800 shadow-2xl flex flex-col max-h-[85vh]">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3.5 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+            <i data-lucide="crown" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white">Liderlik Tablosu</h3>
+        </div>
+        <button id="btn-close-leaderboard-modal" class="p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="flex-grow overflow-y-auto pr-1">
+        <div id="leaderboard-list" class="space-y-2">
+          <!-- Dynamic Leaderboard Items -->
+          <div class="text-center text-slate-500 py-8 text-xs">Yükleniyor...</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="w-full max-w-5xl px-4 py-4 text-center text-xs text-slate-500 relative z-10 border-t border-slate-900">

@@ -29,8 +29,245 @@ const AppState = {
   dataSource: 'LOCAL' // 'LOCAL' or 'API'
 };
 
+// --- Lightweight User Authentication & Profile Manager ---
+const Auth = {
+  currentUser: null,
+
+  init() {
+    try {
+      const saved = localStorage.getItem('gtp_user');
+      if (saved) {
+        this.currentUser = JSON.parse(saved);
+        this.updateUI();
+        this.refreshProfile();
+      }
+    } catch (e) {
+      console.warn('Error reading saved user:', e);
+    }
+  },
+
+  updateUI() {
+    const btnOpenAuth = document.getElementById('btn-open-auth');
+    const btnOpenProfile = document.getElementById('btn-open-profile');
+    const userAvatarBadge = document.getElementById('user-avatar-badge');
+    const userNameBadge = document.getElementById('user-name-badge');
+    const userStatsPill = document.getElementById('user-stats-pill');
+    const inputUsername = document.getElementById('input-username');
+
+    if (this.currentUser) {
+      if (btnOpenAuth) btnOpenAuth.classList.add('hidden');
+      if (btnOpenProfile) {
+        btnOpenProfile.classList.remove('hidden');
+        btnOpenProfile.classList.add('flex');
+      }
+      if (userAvatarBadge) userAvatarBadge.textContent = this.currentUser.avatar || '⚽';
+      if (userNameBadge) userNameBadge.textContent = this.currentUser.username;
+      if (userStatsPill) {
+        const wins = (this.currentUser.stats && this.currentUser.stats.wins) || 0;
+        userStatsPill.textContent = `${wins}G`;
+      }
+      if (inputUsername && (!inputUsername.value || inputUsername.value.startsWith('Futbolcu_') || inputUsername.value === 'Oyuncu 1')) {
+        inputUsername.value = this.currentUser.username;
+        AppState.username = this.currentUser.username;
+      }
+    } else {
+      if (btnOpenAuth) btnOpenAuth.classList.remove('hidden');
+      if (btnOpenProfile) {
+        btnOpenProfile.classList.add('hidden');
+        btnOpenProfile.classList.remove('flex');
+      }
+    }
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  async login(username, password) {
+    const errEl = document.getElementById('login-error');
+    if (errEl) errEl.classList.add('hidden');
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (!data.success) {
+        if (errEl) {
+          errEl.textContent = data.message || 'Giriş başarısız.';
+          errEl.classList.remove('hidden');
+        }
+        return false;
+      }
+
+      this.currentUser = data.user;
+      localStorage.setItem('gtp_user', JSON.stringify(data.user));
+      this.updateUI();
+      this.closeModals();
+      UI.showNotification(`Hoş geldin, ${data.user.username}! ⚽`, 'success');
+      return true;
+    } catch (e) {
+      if (errEl) {
+        errEl.textContent = 'Bağlantı hatası oluştu.';
+        errEl.classList.remove('hidden');
+      }
+      return false;
+    }
+  },
+
+  async register(username, password, avatar) {
+    const errEl = document.getElementById('reg-error');
+    if (errEl) errEl.classList.add('hidden');
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, avatar })
+      });
+      const data = await res.json();
+      if (!data.success) {
+        if (errEl) {
+          errEl.textContent = data.message || 'Kayıt başarısız.';
+          errEl.classList.remove('hidden');
+        }
+        return false;
+      }
+
+      this.currentUser = data.user;
+      localStorage.setItem('gtp_user', JSON.stringify(data.user));
+      this.updateUI();
+      this.closeModals();
+      UI.showNotification(`Hesabın oluşturuldu! Hoş geldin, ${data.user.username} 🏆`, 'success');
+      return true;
+    } catch (e) {
+      if (errEl) {
+        errEl.textContent = 'Bağlantı hatası oluştu.';
+        errEl.classList.remove('hidden');
+      }
+      return false;
+    }
+  },
+
+  async refreshProfile() {
+    if (!this.currentUser) return;
+    try {
+      const res = await fetch(`/api/auth/profile/${encodeURIComponent(this.currentUser.username)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.user) {
+          this.currentUser = data.user;
+          localStorage.setItem('gtp_user', JSON.stringify(data.user));
+          this.updateUI();
+        }
+      }
+    } catch (e) {}
+  },
+
+  logout() {
+    this.currentUser = null;
+    localStorage.removeItem('gtp_user');
+    this.updateUI();
+    this.closeModals();
+    UI.showNotification('Oturum kapatıldı 👋', 'info');
+  },
+
+  openProfile() {
+    if (!this.currentUser) return;
+    const profAvatar = document.getElementById('prof-avatar');
+    const profUsername = document.getElementById('prof-username');
+    const profMatches = document.getElementById('prof-matches');
+    const profWins = document.getElementById('prof-wins');
+    const profLosses = document.getElementById('prof-losses');
+    const profWinrate = document.getElementById('prof-winrate');
+
+    if (profAvatar) profAvatar.textContent = this.currentUser.avatar || '⚽';
+    if (profUsername) profUsername.textContent = this.currentUser.username;
+    if (profMatches) profMatches.textContent = (this.currentUser.stats && this.currentUser.stats.matches) || 0;
+    if (profWins) profWins.textContent = (this.currentUser.stats && this.currentUser.stats.wins) || 0;
+    if (profLosses) profLosses.textContent = (this.currentUser.stats && this.currentUser.stats.losses) || 0;
+    if (profWinrate) profWinrate.textContent = `%${(this.currentUser.stats && this.currentUser.stats.winRate) || 0}`;
+
+    const modal = document.getElementById('modal-profile');
+    if (modal) {
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 10);
+    }
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  async openLeaderboard() {
+    const modal = document.getElementById('modal-leaderboard');
+    const listEl = document.getElementById('leaderboard-list');
+
+    if (modal) {
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.classList.remove('opacity-0'), 10);
+    }
+
+    if (listEl) listEl.innerHTML = '<div class="text-center text-slate-500 py-8 text-xs">Yükleniyor...</div>';
+
+    try {
+      const res = await fetch('/api/auth/leaderboard');
+      const data = await res.json();
+
+      if (data.success && Array.isArray(data.leaderboard)) {
+        if (data.leaderboard.length === 0) {
+          listEl.innerHTML = '<div class="text-center text-slate-500 py-8 text-xs">Henüz kayıtlı oyuncu yok.</div>';
+          return;
+        }
+
+        listEl.innerHTML = data.leaderboard.map((u, i) => {
+          let rankBadge = `<span class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 text-xs font-bold font-mono flex items-center justify-center">${i + 1}</span>`;
+          if (i === 0) rankBadge = `<span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 text-xs font-black flex items-center justify-center shadow-md shadow-amber-500/30">🥇</span>`;
+          if (i === 1) rankBadge = `<span class="w-6 h-6 rounded-full bg-slate-300 text-slate-950 text-xs font-black flex items-center justify-center shadow-md">🥈</span>`;
+          if (i === 2) rankBadge = `<span class="w-6 h-6 rounded-full bg-amber-700 text-white text-xs font-black flex items-center justify-center shadow-md">🥉</span>`;
+
+          const isMe = this.currentUser && this.currentUser.username.toLowerCase() === u.username.toLowerCase();
+
+          return `
+            <div class="p-3 rounded-2xl ${isMe ? 'bg-emerald-500/10 border border-emerald-500/40' : 'bg-slate-900 border border-slate-800'} flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                ${rankBadge}
+                <div class="w-8 h-8 rounded-xl bg-slate-800 flex items-center justify-center text-sm border border-slate-700">
+                  ${u.avatar || '⚽'}
+                </div>
+                <div>
+                  <div class="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span>${u.username}</span>
+                    ${isMe ? '<span class="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-300 font-bold">SEN</span>' : ''}
+                  </div>
+                  <div class="text-[10px] text-slate-400 font-medium">Toplam ${u.stats.matches} Maç</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-xs font-bold text-emerald-400 font-mono">${u.stats.wins} Galibiyet</div>
+                <div class="text-[10px] text-cyan-400 font-mono font-medium">%${u.stats.winRate} Kazanma</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    } catch (e) {
+      if (listEl) listEl.innerHTML = '<div class="text-center text-rose-400 py-8 text-xs">Sıralama yüklenemedi.</div>';
+    }
+
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  closeModals() {
+    ['modal-auth', 'modal-profile', 'modal-leaderboard'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('opacity-0');
+        setTimeout(() => el.classList.add('hidden'), 200);
+      }
+    });
+  }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   UI.init();
+  Auth.init();
   initSocketListeners();
   initEventListeners();
 });
@@ -286,6 +523,9 @@ function initSocketListeners() {
     }
 
     finishMatch(data.winnerName, data.playerObj, isWinner, data.hostScore, data.guestScore);
+    setTimeout(() => {
+      Auth.refreshProfile();
+    }, 1000);
   });
 
   socket.on('return_to_waiting', () => {
@@ -586,6 +826,114 @@ function initEventListeners() {
   if (btnBackToLobby) {
     btnBackToLobby.addEventListener('click', () => {
       UI.showScreen('screen-lobby');
+    });
+  }
+
+  // --- Auth & Profile & Leaderboard Event Listeners ---
+  const btnOpenAuth = document.getElementById('btn-open-auth');
+  const btnOpenProfile = document.getElementById('btn-open-profile');
+  const btnOpenLeaderboard = document.getElementById('btn-open-leaderboard');
+
+  const btnCloseAuthModal = document.getElementById('btn-close-auth-modal');
+  const btnCloseProfileModal = document.getElementById('btn-close-profile-modal');
+  const btnCloseLeaderboardModal = document.getElementById('btn-close-leaderboard-modal');
+
+  const authTabLogin = document.getElementById('auth-tab-login');
+  const authTabRegister = document.getElementById('auth-tab-register');
+  const formLogin = document.getElementById('form-login');
+  const formRegister = document.getElementById('form-register');
+  const btnLogout = document.getElementById('btn-logout');
+
+  if (btnOpenAuth) {
+    btnOpenAuth.addEventListener('click', () => {
+      const modal = document.getElementById('modal-auth');
+      if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.remove('opacity-0'), 10);
+      }
+    });
+  }
+
+  if (btnOpenProfile) {
+    btnOpenProfile.addEventListener('click', () => {
+      Auth.openProfile();
+    });
+  }
+
+  if (btnOpenLeaderboard) {
+    btnOpenLeaderboard.addEventListener('click', () => {
+      Auth.openLeaderboard();
+    });
+  }
+
+  if (btnCloseAuthModal) btnCloseAuthModal.addEventListener('click', () => Auth.closeModals());
+  if (btnCloseProfileModal) btnCloseProfileModal.addEventListener('click', () => Auth.closeModals());
+  if (btnCloseLeaderboardModal) btnCloseLeaderboardModal.addEventListener('click', () => Auth.closeModals());
+
+  ['modal-auth', 'modal-profile', 'modal-leaderboard'].forEach(id => {
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) Auth.closeModals();
+      });
+    }
+  });
+
+  // Auth Tabs Toggle
+  if (authTabLogin && authTabRegister && formLogin && formRegister) {
+    authTabLogin.addEventListener('click', () => {
+      authTabLogin.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all bg-emerald-500 text-slate-950 shadow-md';
+      authTabRegister.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all text-slate-400 hover:text-white';
+      formLogin.classList.remove('hidden');
+      formRegister.classList.add('hidden');
+    });
+
+    authTabRegister.addEventListener('click', () => {
+      authTabRegister.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all bg-emerald-500 text-slate-950 shadow-md';
+      authTabLogin.className = 'flex-1 py-2 rounded-lg font-bold text-xs transition-all text-slate-400 hover:text-white';
+      formRegister.classList.remove('hidden');
+      formLogin.classList.add('hidden');
+    });
+  }
+
+  // Avatar Picker for Registration
+  const avatarOpts = document.querySelectorAll('.avatar-opt');
+  const avatarInputVal = document.getElementById('reg-avatar-val');
+  avatarOpts.forEach(btn => {
+    btn.addEventListener('click', () => {
+      avatarOpts.forEach(b => {
+        b.className = 'w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 text-sm flex items-center justify-center avatar-opt hover:border-slate-600';
+      });
+      btn.className = 'w-9 h-9 rounded-lg bg-emerald-500/20 border-2 border-emerald-500 text-sm flex items-center justify-center avatar-opt';
+      if (avatarInputVal) avatarInputVal.value = btn.getAttribute('data-avatar') || '⚽';
+    });
+  });
+
+  // Login Form Submit
+  if (formLogin) {
+    formLogin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const u = document.getElementById('login-username').value;
+      const p = document.getElementById('login-password').value;
+      await Auth.login(u, p);
+    });
+  }
+
+  // Register Form Submit
+  if (formRegister) {
+    formRegister.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const u = document.getElementById('reg-username').value;
+      const p = document.getElementById('reg-password').value;
+      const a = avatarInputVal ? avatarInputVal.value : '⚽';
+      await Auth.register(u, p, a);
+    });
+  }
+
+  // Logout Button
+  if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+      Auth.logout();
     });
   }
 }

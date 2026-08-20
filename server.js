@@ -9,14 +9,147 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto');
 const https = require('https');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // Load curated Football Teams and Footballers Database
 const { FOOTBALL_TEAMS, FOOTBALLERS } = require('./js/data.js');
+
+// --- Simple Lightweight User Authentication & Stats Storage ---
+const USERS_FILE = path.join(__dirname, 'data', 'users.json');
+
+function loadUsers() {
+  try {
+    if (!fs.existsSync(USERS_FILE)) {
+      fs.mkdirSync(path.dirname(USERS_FILE), { recursive: true });
+      fs.writeFileSync(USERS_FILE, '[]', 'utf8');
+      return [];
+    }
+    const data = fs.readFileSync(USERS_FILE, 'utf8');
+    return JSON.parse(data || '[]');
+  } catch (err) {
+    console.error('Error loading users.json:', err);
+    return [];
+  }
+}
+
+function saveUsers(users) {
+  try {
+    fs.mkdirSync(path.dirname(USERS_FILE), { recursive: true });
+    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), 'utf8');
+  } catch (err) {
+    console.error('Error saving users.json:', err);
+  }
+}
+
+function hashPassword(password) {
+  return crypto.createHash('sha256').update(String(password)).digest('hex');
+}
+
+function sanitizeUser(user) {
+  return {
+    username: user.username,
+    avatar: user.avatar || '⚽',
+    stats: user.stats || { matches: 0, wins: 0, losses: 0, winRate: 0, score: 0 },
+    createdAt: user.createdAt
+  };
+}
+
+// User Register
+app.post('/api/auth/register', (req, res) => {
+  const { username, password, avatar } = req.body || {};
+  const cleanUsername = String(username || '').trim();
+  const cleanPassword = String(password || '').trim();
+
+  if (!cleanUsername || cleanUsername.length < 3 || cleanUsername.length > 20) {
+    return res.status(400).json({ success: false, message: 'Kullanıcı adı 3-20 karakter arasında olmalıdır.' });
+  }
+  if (!cleanPassword || cleanPassword.length < 4) {
+    return res.status(400).json({ success: false, message: 'Şifre en az 4 karakter olmalıdır.' });
+  }
+
+  const users = loadUsers();
+  const exists = users.some(u => u.username.toLowerCase() === cleanUsername.toLowerCase());
+  if (exists) {
+    return res.status(400).json({ success: false, message: 'Bu kullanıcı adı zaten alınmış.' });
+  }
+
+  const newUser = {
+    username: cleanUsername,
+    password: hashPassword(cleanPassword),
+    avatar: avatar || '⚽',
+    stats: {
+      matches: 0,
+      wins: 0,
+      losses: 0,
+      winRate: 0,
+      score: 0
+    },
+    createdAt: new Date().toISOString()
+  };
+
+  users.push(newUser);
+  saveUsers(users);
+
+  res.json({
+    success: true,
+    message: 'Kayıt başarılı!',
+    user: sanitizeUser(newUser)
+  });
+});
+
+// User Login
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body || {};
+  const cleanUsername = String(username || '').trim();
+  const cleanPassword = String(password || '').trim();
+
+  const users = loadUsers();
+  const user = users.find(u => u.username.toLowerCase() === cleanUsername.toLowerCase());
+
+  if (!user || user.password !== hashPassword(cleanPassword)) {
+    return res.status(401).json({ success: false, message: 'Kullanıcı adı veya şifre hatalı.' });
+  }
+
+  res.json({
+    success: true,
+    message: 'Giriş başarılı!',
+    user: sanitizeUser(user)
+  });
+});
+
+// User Profile
+app.get('/api/auth/profile/:username', (req, res) => {
+  const username = req.params.username;
+  const users = loadUsers();
+  const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'Kullanıcı bulunamadı.' });
+  }
+
+  res.json({ success: true, user: sanitizeUser(user) });
+});
+
+// Leaderboard
+app.get('/api/auth/leaderboard', (req, res) => {
+  const users = loadUsers();
+  const sorted = users
+    .map(sanitizeUser)
+    .sort((a, b) => {
+      if (b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
+      return b.stats.winRate - a.stats.winRate;
+    })
+    .slice(0, 20);
+
+  res.json({ success: true, leaderboard: sorted });
+});
 
 // API endpoint to expose all players
 app.get('/api/players', (req, res) => {
@@ -696,6 +829,42 @@ io.on('connection', (socket) => {
         room.status = 'ENDED';
         const matchWinnerName = isHostWinner ? room.host.username : room.guest.username;
         const matchWinnerId = isHostWinner ? room.host.id : room.guest.id;
+
+        // Auto update registered user stats if any
+        try {
+          const users = loadUsers();
+          let changed = false;
+
+          const hostUser = users.find(u => u.username.toLowerCase() === room.host.username.toLowerCase());
+          if (hostUser) {
+            hostUser.stats = hostUser.stats || { matches: 0, wins: 0, losses: 0, winRate: 0, score: 0 };
+            hostUser.stats.matches++;
+            if (isHostWinner) hostUser.stats.wins++;
+            else hostUser.stats.losses++;
+            hostUser.stats.score += room.host.score;
+            hostUser.stats.winRate = Math.round((hostUser.stats.wins / hostUser.stats.matches) * 100);
+            changed = true;
+          }
+
+          if (room.guest) {
+            const guestUser = users.find(u => u.username.toLowerCase() === room.guest.username.toLowerCase());
+            if (guestUser) {
+              guestUser.stats = guestUser.stats || { matches: 0, wins: 0, losses: 0, winRate: 0, score: 0 };
+              guestUser.stats.matches++;
+              if (isGuestWinner) guestUser.stats.wins++;
+              else guestUser.stats.losses++;
+              guestUser.stats.score += room.guest.score;
+              guestUser.stats.winRate = Math.round((guestUser.stats.wins / guestUser.stats.matches) * 100);
+              changed = true;
+            }
+          }
+
+          if (changed) {
+            saveUsers(users);
+          }
+        } catch (e) {
+          console.error('Error updating match stats:', e);
+        }
 
         io.to(roomCode).emit('match_over', {
           winnerName: matchWinnerName,

@@ -52,11 +52,69 @@ function hashPassword(password) {
   return crypto.createHash('sha256').update(String(password)).digest('hex');
 }
 
+// --- XP & Level System ---
+const LEVEL_THRESHOLDS = [
+  { level: 1, title: 'Çaylak', xp: 0 },
+  { level: 2, title: 'Yedek', xp: 100 },
+  { level: 3, title: 'İlk 11', xp: 300 },
+  { level: 4, title: 'Kaptan', xp: 600 },
+  { level: 5, title: 'Yıldız', xp: 1000 },
+  { level: 6, title: 'Efsane', xp: 1800 },
+  { level: 7, title: "Ballon d'Or", xp: 3000 }
+];
+
+function calculateLevel(xp) {
+  let result = LEVEL_THRESHOLDS[0];
+  for (const t of LEVEL_THRESHOLDS) {
+    if (xp >= t.xp) result = t;
+  }
+  const nextLevel = LEVEL_THRESHOLDS.find(t => t.xp > xp);
+  return {
+    level: result.level,
+    title: result.title,
+    currentXp: xp,
+    nextLevelXp: nextLevel ? nextLevel.xp : null,
+    progress: nextLevel ? Math.round(((xp - result.xp) / (nextLevel.xp - result.xp)) * 100) : 100
+  };
+}
+
+// --- Badge System ---
+const BADGE_DEFINITIONS = [
+  { id: 'first_win', name: 'İlk Galibiyet', icon: '🏆', desc: 'İlk maçını kazan', check: (u) => (u.stats?.wins || 0) >= 1 },
+  { id: 'veteran', name: 'Veteran', icon: '⚡', desc: '5 maç oyna', check: (u) => (u.stats?.matches || 0) >= 5 },
+  { id: 'streak_5', name: 'Seri Canavarı', icon: '🔥', desc: 'Solo modda 5+ seri yap', check: (u) => (u.maxStreak || 0) >= 5 },
+  { id: 'champion', name: 'Şampiyon', icon: '👑', desc: '10 maç kazan', check: (u) => (u.stats?.wins || 0) >= 10 },
+  { id: 'perfect', name: 'Mükemmeliyetçi', icon: '💯', desc: '%80+ kazanma oranı (5+ maç)', check: (u) => (u.stats?.matches || 0) >= 5 && (u.stats?.winRate || 0) >= 80 },
+  { id: 'star', name: 'Yıldız Oyuncu', icon: '🌟', desc: 'Seviye 5\'e ulaş', check: (u) => calculateLevel(u.xp || 0).level >= 5 },
+  { id: 'legend', name: 'Efsane', icon: '💀', desc: '50 maç kazan', check: (u) => (u.stats?.wins || 0) >= 50 },
+  { id: 'sniper', name: 'Keskin Nişancı', icon: '🎯', desc: 'Solo modda 20+ seri yap', check: (u) => (u.maxStreak || 0) >= 20 }
+];
+
+function checkAndAwardBadges(user) {
+  if (!user.badges) user.badges = [];
+  const newBadges = [];
+  for (const badge of BADGE_DEFINITIONS) {
+    if (!user.badges.includes(badge.id) && badge.check(user)) {
+      user.badges.push(badge.id);
+      newBadges.push(badge);
+    }
+  }
+  return newBadges;
+}
+
 function sanitizeUser(user) {
+  const levelInfo = calculateLevel(user.xp || 0);
   return {
     username: user.username,
     avatar: user.avatar || '⚽',
     stats: user.stats || { matches: 0, wins: 0, losses: 0, winRate: 0, score: 0 },
+    xp: user.xp || 0,
+    level: levelInfo.level,
+    levelTitle: levelInfo.title,
+    levelProgress: levelInfo.progress,
+    nextLevelXp: levelInfo.nextLevelXp,
+    maxStreak: user.maxStreak || 0,
+    badges: user.badges || [],
     createdAt: user.createdAt
   };
 }
@@ -91,6 +149,9 @@ app.post('/api/auth/register', (req, res) => {
       winRate: 0,
       score: 0
     },
+    xp: 0,
+    maxStreak: 0,
+    badges: [],
     createdAt: new Date().toISOString()
   };
 
@@ -154,11 +215,51 @@ app.get('/api/auth/leaderboard', (req, res) => {
     .map(sanitizeUser)
     .sort((a, b) => {
       if (b.stats.wins !== a.stats.wins) return b.stats.wins - a.stats.wins;
+      if (b.xp !== a.xp) return b.xp - a.xp;
       return b.stats.winRate - a.stats.winRate;
     })
     .slice(0, 20);
 
   res.json({ success: true, leaderboard: sorted });
+});
+
+// All Badges List
+app.get('/api/auth/badges', (req, res) => {
+  const list = BADGE_DEFINITIONS.map(b => ({
+    id: b.id,
+    name: b.name,
+    icon: b.icon,
+    desc: b.desc
+  }));
+  res.json({ success: true, badges: list });
+});
+
+// Save Solo Streak & XP
+app.post('/api/auth/save-streak', (req, res) => {
+  const { username, streak, xpGained } = req.body || {};
+  const cleanUsername = String(username || '').trim();
+  const streakNum = parseInt(streak, 10) || 0;
+  const xpNum = parseInt(xpGained, 10) || 0;
+
+  const users = loadUsers();
+  const user = users.find(u => u.username.toLowerCase() === cleanUsername.toLowerCase());
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'Kullanıcı bulunamadı.' });
+  }
+
+  user.maxStreak = Math.max(user.maxStreak || 0, streakNum);
+  user.xp = (user.xp || 0) + xpNum;
+  const newBadges = checkAndAwardBadges(user);
+
+  saveUsers(users);
+
+  res.json({
+    success: true,
+    message: 'Streak kaydedildi!',
+    user: sanitizeUser(user),
+    newBadges
+  });
 });
 
 // API endpoint to expose all players
@@ -853,6 +954,11 @@ io.on('connection', (socket) => {
             else hostUser.stats.losses++;
             hostUser.stats.score += room.host.score;
             hostUser.stats.winRate = Math.round((hostUser.stats.wins / hostUser.stats.matches) * 100);
+            
+            // Award XP & check badges
+            const hostXpGain = (isHostWinner ? 50 : 20) + (room.host.score * 10);
+            hostUser.xp = (hostUser.xp || 0) + hostXpGain;
+            checkAndAwardBadges(hostUser);
             changed = true;
           }
 
@@ -865,6 +971,11 @@ io.on('connection', (socket) => {
               else guestUser.stats.losses++;
               guestUser.stats.score += room.guest.score;
               guestUser.stats.winRate = Math.round((guestUser.stats.wins / guestUser.stats.matches) * 100);
+              
+              // Award XP & check badges
+              const guestXpGain = (isGuestWinner ? 50 : 20) + (room.guest.score * 10);
+              guestUser.xp = (guestUser.xp || 0) + guestXpGain;
+              checkAndAwardBadges(guestUser);
               changed = true;
             }
           }
@@ -907,6 +1018,17 @@ io.on('connection', (socket) => {
     } else {
       socket.emit('wrong_guess', { message: 'Yanlış futbolcu! İki takımda da oynamadı.' });
       socket.to(roomCode).emit('opponent_wrong_guess', { username });
+    }
+  });
+
+  socket.on('send_reaction', (data) => {
+    const roomCode = socket.roomCode;
+    if (roomCode) {
+      socket.to(roomCode).emit('opponent_reaction', {
+        username: data.username || 'Rakip',
+        type: data.type || 'emote', // 'emote' or 'chat'
+        content: data.content
+      });
     }
   });
 

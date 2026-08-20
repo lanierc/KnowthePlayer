@@ -196,7 +196,7 @@
               class="btn-neon w-full py-3.5 rounded-xl flex items-center justify-center gap-2 text-sm tracking-wider uppercase font-extrabold"
             >
               <i data-lucide="plus-circle" class="w-5 h-5"></i>
-              Oda Kur (Create Room)
+              Oda Kur (1v1)
             </button>
             
             <button 
@@ -204,7 +204,17 @@
               class="btn-outline-neon w-full py-3 rounded-xl flex items-center justify-center gap-2 text-sm tracking-wider uppercase font-bold"
             >
               <i data-lucide="log-in" class="w-5 h-5"></i>
-              Odaya Katıl (Join Room)
+              Odaya Katıl (1v1)
+            </button>
+
+            <!-- Solo Streak Mode Quick Launch -->
+            <button 
+              id="btn-start-solo-streak" 
+              class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 text-amber-400 hover:text-amber-300 font-extrabold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/10 group"
+            >
+              <span class="text-base group-hover:scale-125 transition-transform">🔥</span>
+              <span>Solo Streak Modu (Tek Başına Oyna)</span>
+              <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-[10px] font-mono text-amber-300">YENİ</span>
             </button>
           </div>
 
@@ -443,7 +453,38 @@
         >
           <!-- Dynamic Items Rendered via js/ui.js -->
         </div>
-      <!-- Fullscreen Round-by-Round Secret Team Selection Modal (Custom Mode) -->
+      </div>
+
+      <!-- In-Game Floating Emoji & Quick Chat Bar -->
+      <div class="w-full flex items-center justify-between gap-2 p-2 rounded-2xl bg-slate-950/70 border border-slate-800 relative z-30">
+        <div class="flex items-center gap-1 sm:gap-2">
+          <span class="text-[11px] font-bold text-slate-500 uppercase px-1 hidden sm:inline">Tepki:</span>
+          <button type="button" data-emote="🔥" class="btn-send-emote p-2 rounded-xl bg-slate-900 hover:bg-slate-800 hover:scale-125 transition-all text-base" title="Ateş">🔥</button>
+          <button type="button" data-emote="🥶" class="btn-send-emote p-2 rounded-xl bg-slate-900 hover:bg-slate-800 hover:scale-125 transition-all text-base" title="Buz">🥶</button>
+          <button type="button" data-emote="🤯" class="btn-send-emote p-2 rounded-xl bg-slate-900 hover:bg-slate-800 hover:scale-125 transition-all text-base" title="Şaşkın">🤯</button>
+          <button type="button" data-emote="👏" class="btn-send-emote p-2 rounded-xl bg-slate-900 hover:bg-slate-800 hover:scale-125 transition-all text-base" title="Alkış">👏</button>
+          <button type="button" data-emote="😂" class="btn-send-emote p-2 rounded-xl bg-slate-900 hover:bg-slate-800 hover:scale-125 transition-all text-base" title="Gülme">😂</button>
+          <button type="button" data-emote="💀" class="btn-send-emote p-2 rounded-xl bg-slate-900 hover:bg-slate-800 hover:scale-125 transition-all text-base" title="Öldüm">💀</button>
+        </div>
+
+        <!-- Quick Chat Popover Toggle -->
+        <div class="relative">
+          <button id="btn-toggle-quick-chat" type="button" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors">
+            <i data-lucide="message-square" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Sohbet</span>
+          </button>
+          <div id="quick-chat-menu" class="absolute right-0 bottom-full mb-2 w-48 p-2 rounded-2xl bg-slate-950 border border-slate-700 shadow-2xl space-y-1 hidden z-50">
+            <button type="button" class="quick-chat-opt w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-500/20 text-xs text-slate-200 hover:text-emerald-300 font-medium transition-colors" data-msg="İyi tahmindi! 👏">İyi tahmindi! 👏</button>
+            <button type="button" class="quick-chat-opt w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-500/20 text-xs text-slate-200 hover:text-emerald-300 font-medium transition-colors" data-msg="Aklıma gelmedi! 🤦">Aklıma gelmedi! 🤦</button>
+            <button type="button" class="quick-chat-opt w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-500/20 text-xs text-slate-200 hover:text-emerald-300 font-medium transition-colors" data-msg="Şanslıydın! 😉">Şanslıydın! 😉</button>
+            <button type="button" class="quick-chat-opt w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-500/20 text-xs text-slate-200 hover:text-emerald-300 font-medium transition-colors" data-msg="Rövanş ister misin? ⚔️">Rövanş ister misin? ⚔️</button>
+            <button type="button" class="quick-chat-opt w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-emerald-500/20 text-xs text-slate-200 hover:text-emerald-300 font-medium transition-colors" data-msg="Hızlıydın! ⚡">Hızlıydın! ⚡</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating reaction animation spawn zone -->
+      <div id="game-reaction-container" class="absolute inset-0 pointer-events-none overflow-hidden z-40"></div>
       <div id="modal-round-team-picker" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
         <div class="glass-panel glass-panel-glow w-full max-w-md p-8 rounded-3xl text-center flex flex-col items-center relative border border-cyan-500/40">
           <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-cyan-500/40 flex items-center justify-center mb-3 shadow-lg shadow-cyan-500/20">
@@ -552,7 +593,169 @@
 
     </section>
 
+
+    <!-- ========================================== -->
+    <!-- 5. SOLO STREAK SCREEN (TEK BAŞINA SERİ)    -->
+    <!-- ========================================== -->
+    <section id="screen-solo-streak" class="w-full max-w-2xl hidden flex-col items-center gap-5 relative">
+      
+      <!-- Top Info Bar: Lives, Streak, Quit -->
+      <div class="w-full glass-panel px-6 py-3 rounded-2xl flex items-center justify-between border border-slate-700/80">
+        <!-- 3 Lives -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-400 font-semibold uppercase mr-1">Can:</span>
+          <div id="solo-lives-container" class="flex items-center gap-1.5 text-xl">
+            <span id="solo-heart-1" class="heart-alive">❤️</span>
+            <span id="solo-heart-2" class="heart-alive">❤️</span>
+            <span id="solo-heart-3" class="heart-alive">❤️</span>
+          </div>
+        </div>
+
+        <!-- Streak Counter -->
+        <div class="flex flex-col items-center">
+          <div class="flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-heading font-black text-lg">
+            <span>🔥</span>
+            <span id="solo-streak-counter">0</span>
+            <span class="text-xs uppercase tracking-wider font-bold">SERİ</span>
+          </div>
+        </div>
+
+        <!-- Exit Button -->
+        <button id="btn-exit-solo" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs text-slate-400 hover:text-rose-400 border border-slate-800 transition-colors flex items-center gap-1">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span>Çık</span>
+        </button>
+      </div>
+
+      <!-- Teams Matchup Card -->
+      <div class="glass-panel w-full p-6 rounded-3xl flex items-center justify-between relative overflow-hidden">
+        <!-- Team 1 -->
+        <div class="flex items-center gap-4 flex-1">
+          <div id="solo-team1-badge" class="w-14 h-14 rounded-2xl bg-amber-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg border-2 border-white/20">
+            RMA
+          </div>
+          <div>
+            <h3 id="solo-team1-name" class="font-heading font-extrabold text-lg md:text-xl text-white">Real Madrid</h3>
+            <span id="solo-team1-country" class="text-xs text-slate-400">İspanya</span>
+          </div>
+        </div>
+
+        <!-- VS & Timer -->
+        <div class="flex flex-col items-center px-4">
+          <div class="vs-badge w-12 h-12 rounded-full bg-slate-950 border-2 border-amber-400 flex items-center justify-center font-heading font-black text-amber-400 text-lg shadow-lg">
+            VS
+          </div>
+          <div id="solo-timer-text" class="font-mono text-sm font-bold text-slate-300 mt-1">25s</div>
+        </div>
+
+        <!-- Team 2 -->
+        <div class="flex items-center gap-4 flex-1 justify-end text-right">
+          <div>
+            <h3 id="solo-team2-name" class="font-heading font-extrabold text-lg md:text-xl text-white">Juventus</h3>
+            <span id="solo-team2-country" class="text-xs text-slate-400">İtalya</span>
+          </div>
+          <div id="solo-team2-badge" class="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center font-black text-white text-xl shadow-lg border-2 border-white/20">
+            JUV
+          </div>
+        </div>
+      </div>
+
+      <!-- Timer Bar -->
+      <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+        <div id="solo-timer-bar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 w-full transition-all duration-300"></div>
+      </div>
+
+      <!-- Search & Controls -->
+      <div class="w-full relative">
+        <div class="glass-panel p-2 rounded-2xl flex items-center gap-2 border border-slate-700/80 focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-400/20 transition-all">
+          <div class="p-3 text-amber-400">
+            <i data-lucide="search" class="w-6 h-6"></i>
+          </div>
+          <input 
+            type="text" 
+            id="solo-search-input"
+            autocomplete="off"
+            placeholder="İki takımın da formasını giymiş futbolcuyu yazın..." 
+            class="w-full bg-transparent text-white placeholder-slate-500 font-semibold text-base focus:outline-none py-2"
+          />
+          
+          <button 
+            id="btn-solo-hint" 
+            class="px-3.5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs uppercase font-extrabold flex items-center gap-1 shrink-0 transition-colors border border-cyan-500/30"
+            title="İpucu Al (Mevki & Ülke)"
+          >
+            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+            <span>İPUCU</span>
+          </button>
+
+          <button 
+            id="btn-submit-solo-guess" 
+            class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs uppercase font-extrabold flex items-center gap-1 shrink-0 transition-all shadow-lg shadow-amber-500/20"
+          >
+            Gönder ↵
+          </button>
+        </div>
+
+        <!-- Solo Autocomplete Dropdown -->
+        <div 
+          id="solo-autocomplete-dropdown" 
+          class="absolute left-0 right-0 top-full mt-2 glass-panel rounded-2xl border border-slate-700/80 shadow-2xl overflow-hidden hidden max-h-72 overflow-y-auto z-40"
+        >
+        </div>
+      </div>
+
+      <!-- Hint Box (Hidden initially) -->
+      <div id="solo-hint-box" class="w-full p-3 rounded-2xl bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs font-semibold hidden flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-cyan-400"></i>
+          <span id="solo-hint-text">İpucu: Mevki & Ülke</span>
+        </div>
+        <span class="text-[10px] text-cyan-400/80 uppercase">İpucu Kullanıldı</span>
+      </div>
+
+    </section>
+
   </main>
+
+  <!-- Solo Streak Game Over Modal -->
+  <div id="modal-solo-gameover" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
+    <div class="glass-panel glass-panel-glow w-full max-w-md p-8 rounded-3xl text-center flex flex-col items-center relative border border-amber-500/40">
+      
+      <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-3xl mb-3 shadow-lg shadow-amber-500/20">
+        🔥
+      </div>
+
+      <h3 class="font-heading text-3xl font-black text-white tracking-wide uppercase">
+        SERİ SONA ERDİ!
+      </h3>
+      <p class="text-xs text-slate-400 mt-1 mb-5">
+        Canların tükendi ama harika bir mücadele verdin.
+      </p>
+
+      <!-- Stats Box -->
+      <div class="w-full grid grid-cols-2 gap-3 mb-5">
+        <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">Bu Oyun Seri</div>
+          <div id="solo-final-streak" class="text-3xl font-black text-amber-400 font-mono mt-0.5">0</div>
+        </div>
+        <div class="p-3 rounded-2xl bg-slate-900 border border-slate-800">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">Kazanılan XP</div>
+          <div id="solo-gained-xp" class="text-3xl font-black text-emerald-400 font-mono mt-0.5">+0</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="w-full space-y-2.5">
+        <button id="btn-solo-restart" class="btn-neon w-full py-3.5 rounded-xl font-extrabold text-sm uppercase flex items-center justify-center gap-2">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          Yeniden Başla
+        </button>
+        <button id="btn-solo-back-lobby" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white font-semibold text-xs uppercase transition-colors">
+          Ana Menüye Dön
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ========================================== -->
   <!-- MODAL 1: AUTH (GİRİŞ & KAYIT OL)           -->
@@ -630,39 +833,76 @@
   <!-- MODAL 2: USER PROFILE & STATS              -->
   <!-- ========================================== -->
   <div id="modal-profile" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
-    <div class="glass-panel w-full max-w-md rounded-3xl p-6 relative bg-slate-950 border border-slate-800 shadow-2xl">
+    <div class="glass-panel w-full max-w-lg rounded-3xl p-6 relative bg-slate-950 border border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto">
       <button id="btn-close-profile-modal" class="absolute right-4 top-4 p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white transition-colors">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <!-- Profile Header -->
-      <div class="flex items-center gap-3.5 mb-6">
+      <div class="flex items-center gap-3.5 mb-5">
         <div id="prof-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-700 flex items-center justify-center text-2xl shadow-md border border-emerald-500/30">
           ⚽
         </div>
         <div>
-          <h3 id="prof-username" class="text-lg font-bold text-white leading-tight">Kullanıcı</h3>
-          <p class="text-xs text-slate-400 mt-0.5">Kayıtlı Oyuncu</p>
+          <div class="flex items-center gap-2">
+            <h3 id="prof-username" class="text-lg font-bold text-white leading-tight">Kullanıcı</h3>
+            <span id="prof-level-badge" class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/40 text-[10px] font-black uppercase font-mono">
+              Lvl 1
+            </span>
+          </div>
+          <p id="prof-level-title" class="text-xs text-emerald-400 font-semibold mt-0.5">Çaylak</p>
+        </div>
+      </div>
+
+      <!-- XP & Level Progress Bar -->
+      <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 mb-5">
+        <div class="flex justify-between items-center text-xs mb-1.5 font-semibold">
+          <span class="text-slate-400 flex items-center gap-1">
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i> Seviye İlerlemesi
+          </span>
+          <span id="prof-xp-text" class="text-emerald-400 font-mono text-[11px]">0 / 100 XP</span>
+        </div>
+        <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+          <div id="prof-xp-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 w-0 transition-all duration-500"></div>
         </div>
       </div>
 
       <!-- Stats Grid -->
-      <div class="grid grid-cols-2 gap-3 mb-6">
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
-          <div class="text-[11px] font-semibold text-slate-400 uppercase">Toplam Maç</div>
-          <div id="prof-matches" class="text-xl font-bold text-white font-mono mt-0.5">0</div>
+      <div class="grid grid-cols-3 gap-2.5 mb-5">
+        <div class="p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[10px] font-semibold text-slate-400 uppercase">Toplam Maç</div>
+          <div id="prof-matches" class="text-lg font-bold text-white font-mono mt-0.5">0</div>
         </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
-          <div class="text-[11px] font-semibold text-emerald-400 uppercase">Galibiyet</div>
-          <div id="prof-wins" class="text-xl font-bold text-emerald-400 font-mono mt-0.5">0</div>
+        <div class="p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[10px] font-semibold text-emerald-400 uppercase">Galibiyet</div>
+          <div id="prof-wins" class="text-lg font-bold text-emerald-400 font-mono mt-0.5">0</div>
         </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
-          <div class="text-[11px] font-semibold text-rose-400 uppercase">Mağlubiyet</div>
-          <div id="prof-losses" class="text-xl font-bold text-rose-400 font-mono mt-0.5">0</div>
+        <div class="p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-center">
+          <div class="text-[10px] font-semibold text-rose-400 uppercase">Mağlubiyet</div>
+          <div id="prof-losses" class="text-lg font-bold text-rose-400 font-mono mt-0.5">0</div>
         </div>
-        <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
-          <div class="text-[11px] font-semibold text-cyan-400 uppercase">Kazanma Oranı</div>
-          <div id="prof-winrate" class="text-xl font-bold text-cyan-400 font-mono mt-0.5">%0</div>
+        <div class="p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-center col-span-1">
+          <div class="text-[10px] font-semibold text-cyan-400 uppercase">Kazanma %</div>
+          <div id="prof-winrate" class="text-lg font-bold text-cyan-400 font-mono mt-0.5">%0</div>
+        </div>
+        <div class="p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-center col-span-2">
+          <div class="text-[10px] font-semibold text-amber-400 uppercase flex items-center justify-center gap-1">
+            <span>🔥</span> En Yüksek Seri (Solo)
+          </div>
+          <div id="prof-max-streak" class="text-lg font-bold text-amber-400 font-mono mt-0.5">0</div>
+        </div>
+      </div>
+
+      <!-- Badges Gallery -->
+      <div class="mb-5">
+        <div class="flex items-center justify-between mb-2.5">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+            <i data-lucide="award" class="w-4 h-4 text-amber-400"></i> Başarım Rozetleri
+          </h4>
+          <span id="prof-badge-count" class="text-[10px] font-mono text-emerald-400 font-bold">0 / 8</span>
+        </div>
+        <div id="prof-badges-grid" class="grid grid-cols-4 gap-2">
+          <!-- Dynamic Badges rendered via js -->
         </div>
       </div>
 

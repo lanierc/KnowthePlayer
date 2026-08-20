@@ -14,7 +14,7 @@ const UI = {
   },
 
   showScreen(screenId) {
-    const screens = ['screen-lobby', 'screen-waiting', 'screen-game', 'screen-result'];
+    const screens = ['screen-lobby', 'screen-waiting', 'screen-game', 'screen-result', 'screen-solo-streak'];
     screens.forEach(id => {
       const el = document.getElementById(id);
       if (el) {
@@ -33,6 +33,25 @@ const UI = {
     setTimeout(() => {
       if (window.lucide) window.lucide.createIcons();
     }, 50);
+  },
+
+  spawnFloatingReaction(containerId, emote) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const el = document.createElement('div');
+    el.className = 'floating-reaction';
+    el.textContent = emote;
+
+    // Random horizontal position within 20% - 80%
+    const randomLeft = 20 + Math.random() * 60;
+    el.style.left = `${randomLeft}%`;
+    el.style.bottom = '20px';
+
+    container.appendChild(el);
+    setTimeout(() => {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    }, 1900);
   },
 
   showNotification(message, type = 'info', duration = 3000) {

@@ -196,17 +196,30 @@ const Auth = {
     if (!this.currentUser) return;
     const profAvatar = document.getElementById('prof-avatar');
     const profUsername = document.getElementById('prof-username');
+    const profLevelBadge = document.getElementById('prof-level-badge');
+    const profLevelTitle = document.getElementById('prof-level-title');
+    const profXpText = document.getElementById('prof-xp-text');
+    const profXpBar = document.getElementById('prof-xp-bar');
     const profMatches = document.getElementById('prof-matches');
     const profWins = document.getElementById('prof-wins');
     const profLosses = document.getElementById('prof-losses');
     const profWinrate = document.getElementById('prof-winrate');
+    const profMaxStreak = document.getElementById('prof-max-streak');
 
     if (profAvatar) profAvatar.textContent = this.currentUser.avatar || '⚽';
     if (profUsername) profUsername.textContent = this.currentUser.username;
+    if (profLevelBadge) profLevelBadge.textContent = `Lvl ${this.currentUser.level || 1}`;
+    if (profLevelTitle) profLevelTitle.textContent = this.currentUser.levelTitle || 'Çaylak';
+    if (profXpText) profXpText.textContent = `${this.currentUser.xp || 0} / ${this.currentUser.nextLevelXp || 100} XP`;
+    if (profXpBar) profXpBar.style.width = `${this.currentUser.levelProgress || 0}%`;
+
     if (profMatches) profMatches.textContent = (this.currentUser.stats && this.currentUser.stats.matches) || 0;
     if (profWins) profWins.textContent = (this.currentUser.stats && this.currentUser.stats.wins) || 0;
     if (profLosses) profLosses.textContent = (this.currentUser.stats && this.currentUser.stats.losses) || 0;
     if (profWinrate) profWinrate.textContent = `%${(this.currentUser.stats && this.currentUser.stats.winRate) || 0}`;
+    if (profMaxStreak) profMaxStreak.textContent = this.currentUser.maxStreak || 0;
+
+    this.loadBadgesGrid();
 
     const modal = document.getElementById('modal-profile');
     if (modal) {
@@ -214,6 +227,34 @@ const Auth = {
       setTimeout(() => modal.classList.remove('opacity-0'), 10);
     }
     if (window.lucide) window.lucide.createIcons();
+  },
+
+  async loadBadgesGrid() {
+    const grid = document.getElementById('prof-badges-grid');
+    const countEl = document.getElementById('prof-badge-count');
+    if (!grid) return;
+
+    try {
+      const res = await fetch('/api/auth/badges');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.badges)) {
+        const userBadges = (this.currentUser && this.currentUser.badges) || [];
+        if (countEl) countEl.textContent = `${userBadges.length} / ${data.badges.length}`;
+
+        grid.innerHTML = data.badges.map(b => {
+          const unlocked = userBadges.includes(b.id);
+          return `
+            <div class="badge-card ${unlocked ? 'unlocked' : 'locked'} p-2.5 rounded-xl border flex flex-col items-center text-center relative group shadow-sm" title="${b.name}: ${b.desc}">
+              <div class="text-2xl mb-1">${b.icon}</div>
+              <div class="text-[11px] font-bold text-white truncate w-full">${b.name}</div>
+              <div class="text-[9px] ${unlocked ? 'text-emerald-400 font-bold' : 'text-slate-500'} truncate w-full mt-0.5">${unlocked ? '✓ Açıldı' : '🔒 Kilitli'}</div>
+            </div>
+          `;
+        }).join('');
+      }
+    } catch (e) {
+      console.warn('Error loading badges:', e);
+    }
   },
 
   async openLeaderboard() {
@@ -255,14 +296,15 @@ const Auth = {
                 <div>
                   <div class="text-sm font-bold text-white flex items-center gap-1.5">
                     <span>${u.username}</span>
+                    <span class="px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold font-mono">Lvl ${u.level || 1}</span>
                     ${isMe ? '<span class="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-300 font-bold">SEN</span>' : ''}
                   </div>
-                  <div class="text-[10px] text-slate-400 font-medium">Toplam ${u.stats.matches} Maç</div>
+                  <div class="text-[10px] text-slate-400 font-medium">${u.stats.matches} Maç • 🔥 ${u.maxStreak || 0} Seri</div>
                 </div>
               </div>
               <div class="text-right">
                 <div class="text-xs font-bold text-emerald-400 font-mono">${u.stats.wins} Galibiyet</div>
-                <div class="text-[10px] text-cyan-400 font-mono font-medium">%${u.stats.winRate} Kazanma</div>
+                <div class="text-[10px] text-cyan-400 font-mono font-medium">${u.xp || 0} XP</div>
               </div>
             </div>
           `;
@@ -283,6 +325,266 @@ const Auth = {
         setTimeout(() => el.classList.add('hidden'), 200);
       }
     });
+  }
+};
+
+// --- Solo Streak Game Controller ---
+const SoloStreak = {
+  lives: 3,
+  streak: 0,
+  currentMatchup: null,
+  validPlayerIds: [],
+  secondsLeft: 25,
+  timerInterval: null,
+  usedHint: false,
+  xpEarned: 0,
+
+  start() {
+    this.lives = 3;
+    this.streak = 0;
+    this.xpEarned = 0;
+    this.closeGameOverModal();
+    this.updateLivesUI();
+    this.updateStreakUI();
+    UI.showScreen('screen-solo-streak');
+    this.nextRound();
+  },
+
+  closeGameOverModal() {
+    const m = document.getElementById('modal-solo-gameover');
+    if (m) m.classList.add('hidden');
+  },
+
+  updateLivesUI() {
+    for (let i = 1; i <= 3; i++) {
+      const h = document.getElementById(`solo-heart-${i}`);
+      if (h) {
+        if (i <= this.lives) {
+          h.className = 'heart-alive';
+          h.textContent = '❤️';
+        } else {
+          h.className = 'heart-dead';
+          h.textContent = '🖤';
+        }
+      }
+    }
+  },
+
+  updateStreakUI() {
+    const el = document.getElementById('solo-streak-counter');
+    if (el) el.textContent = this.streak;
+  },
+
+  pickRandomMatchup() {
+    const validPairs = [];
+    for (let i = 0; i < FOOTBALL_TEAMS.length; i++) {
+      for (let j = i + 1; j < FOOTBALL_TEAMS.length; j++) {
+        const t1 = FOOTBALL_TEAMS[i].id;
+        const t2 = FOOTBALL_TEAMS[j].id;
+        const common = FOOTBALLERS.filter(p => p.teamsPlayed && p.teamsPlayed.includes(t1) && p.teamsPlayed.includes(t2));
+        if (common.length > 0) {
+          validPairs.push({ t1: FOOTBALL_TEAMS[i], t2: FOOTBALL_TEAMS[j], players: common });
+        }
+      }
+    }
+
+    if (validPairs.length === 0) {
+      return { team1: FOOTBALL_TEAMS[0], team2: FOOTBALL_TEAMS[1], players: [] };
+    }
+
+    const chosen = validPairs[Math.floor(Math.random() * validPairs.length)];
+    const swap = Math.random() > 0.5;
+    return {
+      team1: swap ? chosen.t2 : chosen.t1,
+      team2: swap ? chosen.t1 : chosen.t2,
+      players: chosen.players
+    };
+  },
+
+  nextRound() {
+    if (this.timerInterval) clearInterval(this.timerInterval);
+
+    const matchup = this.pickRandomMatchup();
+    this.currentMatchup = matchup;
+    this.validPlayerIds = matchup.players.map(p => p.id);
+    this.usedHint = false;
+
+    const hintBox = document.getElementById('solo-hint-box');
+    if (hintBox) {
+      hintBox.classList.add('hidden');
+      hintBox.classList.remove('flex');
+    }
+
+    const input = document.getElementById('solo-search-input');
+    if (input) {
+      input.value = '';
+      setTimeout(() => input.focus(), 100);
+    }
+
+    const t1Name = document.getElementById('solo-team1-name');
+    const t1Country = document.getElementById('solo-team1-country');
+    const t1Badge = document.getElementById('solo-team1-badge');
+
+    const t2Name = document.getElementById('solo-team2-name');
+    const t2Country = document.getElementById('solo-team2-country');
+    const t2Badge = document.getElementById('solo-team2-badge');
+
+    if (t1Name) t1Name.textContent = matchup.team1.name;
+    if (t1Country) t1Country.textContent = matchup.team1.country;
+    if (t1Badge) {
+      t1Badge.textContent = matchup.team1.shortName || matchup.team1.name.slice(0, 3).toUpperCase();
+      t1Badge.style.backgroundColor = matchup.team1.color || '#f59e0b';
+    }
+
+    if (t2Name) t2Name.textContent = matchup.team2.name;
+    if (t2Country) t2Country.textContent = matchup.team2.country;
+    if (t2Badge) {
+      t2Badge.textContent = matchup.team2.shortName || matchup.team2.name.slice(0, 3).toUpperCase();
+      t2Badge.style.backgroundColor = matchup.team2.color || '#0f172a';
+    }
+
+    this.secondsLeft = 25;
+    this.updateTimerBar();
+
+    this.timerInterval = setInterval(() => {
+      this.secondsLeft--;
+      this.updateTimerBar();
+      if (this.secondsLeft <= 0) {
+        clearInterval(this.timerInterval);
+        this.loseLife('Süre bitti! 1 can kaybettin.');
+      }
+    }, 1000);
+  },
+
+  updateTimerBar() {
+    const timerText = document.getElementById('solo-timer-text');
+    const timerBar = document.getElementById('solo-timer-bar');
+    if (timerText) timerText.textContent = `${this.secondsLeft}s`;
+    if (timerBar) {
+      const pct = (this.secondsLeft / 25) * 100;
+      timerBar.style.width = `${pct}%`;
+      if (this.secondsLeft <= 5) {
+        timerBar.className = 'h-full bg-rose-500 w-full transition-all duration-300';
+      } else {
+        timerBar.className = 'h-full bg-gradient-to-r from-amber-500 to-orange-500 w-full transition-all duration-300';
+      }
+    }
+  },
+
+  submitGuess() {
+    const input = document.getElementById('solo-search-input');
+    if (!input) return;
+    const query = input.value.trim().toLowerCase();
+    if (!query) return;
+
+    const matched = FOOTBALLERS.find(p => p.name.toLowerCase() === query || (p.aliases && p.aliases.some(a => a.toLowerCase() === query)));
+
+    if (matched && this.validPlayerIds.includes(matched.id)) {
+      if (this.timerInterval) clearInterval(this.timerInterval);
+      this.streak++;
+      this.xpEarned += 15;
+      this.updateStreakUI();
+
+      SoundFX.playVictory();
+      Confetti.launch(1500);
+      UI.showNotification(`Harika! ${matched.name} doğru cevap! 🔥 Seri: ${this.streak}`, 'success', 2000);
+
+      setTimeout(() => {
+        this.nextRound();
+      }, 1200);
+    } else {
+      this.loseLife('Yanlış futbolcu! 1 can kaybettin.');
+    }
+  },
+
+  hint() {
+    if (this.usedHint) {
+      UI.showNotification('Bu tur için ipucunu zaten kullandın.', 'info');
+      return;
+    }
+    this.usedHint = true;
+    const hintBox = document.getElementById('solo-hint-box');
+    const hintText = document.getElementById('solo-hint-text');
+
+    if (this.currentMatchup && this.currentMatchup.players.length > 0) {
+      const sample = this.currentMatchup.players[0];
+      if (hintText) hintText.textContent = `İpucu: Mevki: ${sample.position || 'Bilinmiyor'} | Ülke: ${sample.country || 'Dünya'}`;
+      if (hintBox) {
+        hintBox.classList.remove('hidden');
+        hintBox.classList.add('flex');
+      }
+      SoundFX.playClick();
+    }
+  },
+
+  loseLife(msg) {
+    this.lives--;
+    this.updateLivesUI();
+    SoundFX.playError();
+    UI.showNotification(msg, 'error', 2000);
+
+    if (this.lives <= 0) {
+      this.gameOver();
+    } else {
+      if (this.timerInterval) clearInterval(this.timerInterval);
+      setTimeout(() => {
+        this.nextRound();
+      }, 1000);
+    }
+  },
+
+  async gameOver() {
+    if (this.timerInterval) clearInterval(this.timerInterval);
+    SoundFX.playError();
+
+    const finalStreakEl = document.getElementById('solo-final-streak');
+    const gainedXpEl = document.getElementById('solo-gained-xp');
+    if (finalStreakEl) finalStreakEl.textContent = this.streak;
+    if (gainedXpEl) gainedXpEl.textContent = `+${this.xpEarned} XP`;
+
+    if (Auth.currentUser) {
+      try {
+        const res = await fetch('/api/auth/save-streak', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: Auth.currentUser.username,
+            streak: this.streak,
+            xpGained: this.xpEarned
+          })
+        });
+        const data = await res.json();
+        if (data.success && data.user) {
+          Auth.currentUser = data.user;
+          localStorage.setItem('gtp_user', JSON.stringify(data.user));
+          Auth.updateUI();
+
+          if (Array.isArray(data.newBadges) && data.newBadges.length > 0) {
+            data.newBadges.forEach(b => {
+              setTimeout(() => {
+                UI.showNotification(`🎖️ Yeni Rozet: ${b.name}!`, 'success', 4000);
+                Confetti.launch(2000);
+              }, 1000);
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('Error saving streak stats:', e);
+      }
+    }
+
+    const modal = document.getElementById('modal-solo-gameover');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    if (window.lucide) window.lucide.createIcons();
+  },
+
+  quit() {
+    if (this.timerInterval) clearInterval(this.timerInterval);
+    this.closeGameOverModal();
+    UI.showScreen('screen-lobby');
   }
 };
 
@@ -561,6 +863,16 @@ function initSocketListeners() {
     UI.hideRoundTeamModal();
     updateWaitingRoomUI();
     UI.showNotification(`⚠️ ${data.message}`, 'error', 4000);
+  });
+
+  socket.on('opponent_reaction', (data) => {
+    if (data.type === 'emote') {
+      UI.spawnFloatingReaction('game-reaction-container', data.content);
+      SoundFX.playClick();
+    } else if (data.type === 'chat') {
+      UI.showNotification(`${data.username}: "${data.content}"`, 'typing', 3500);
+      SoundFX.playClick();
+    }
   });
 
   socket.on('error_message', (data) => {
@@ -973,6 +1285,155 @@ function initEventListeners() {
   if (btnLogout) {
     btnLogout.addEventListener('click', () => {
       Auth.logout();
+    });
+  }
+
+  // --- Solo Streak Mode Event Listeners ---
+  const btnStartSoloStreak = document.getElementById('btn-start-solo-streak');
+  const btnExitSolo = document.getElementById('btn-exit-solo');
+  const btnSoloHint = document.getElementById('btn-solo-hint');
+  const btnSubmitSoloGuess = document.getElementById('btn-submit-solo-guess');
+  const btnSoloRestart = document.getElementById('btn-solo-restart');
+  const btnSoloBackLobby = document.getElementById('btn-solo-back-lobby');
+  const soloSearchInput = document.getElementById('solo-search-input');
+  const soloDropdown = document.getElementById('solo-autocomplete-dropdown');
+
+  if (btnStartSoloStreak) {
+    btnStartSoloStreak.addEventListener('click', () => {
+      SoloStreak.start();
+    });
+  }
+
+  if (btnExitSolo) {
+    btnExitSolo.addEventListener('click', () => {
+      SoloStreak.quit();
+    });
+  }
+
+  if (btnSoloHint) {
+    btnSoloHint.addEventListener('click', () => {
+      SoloStreak.hint();
+    });
+  }
+
+  if (btnSubmitSoloGuess) {
+    btnSubmitSoloGuess.addEventListener('click', () => {
+      SoloStreak.submitGuess();
+    });
+  }
+
+  if (btnSoloRestart) {
+    btnSoloRestart.addEventListener('click', () => {
+      SoloStreak.start();
+    });
+  }
+
+  if (btnSoloBackLobby) {
+    btnSoloBackLobby.addEventListener('click', () => {
+      SoloStreak.quit();
+    });
+  }
+
+  if (soloSearchInput && soloDropdown) {
+    soloSearchInput.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      if (!q || q.length < 2) {
+        soloDropdown.classList.add('hidden');
+        return;
+      }
+
+      const matches = FOOTBALLERS.filter(p => {
+        const nameMatch = p.name.toLowerCase().includes(q);
+        const aliasMatch = p.aliases && p.aliases.some(a => a.toLowerCase().includes(q));
+        return nameMatch || aliasMatch;
+      }).slice(0, 7);
+
+      if (matches.length === 0) {
+        soloDropdown.classList.add('hidden');
+        return;
+      }
+
+      soloDropdown.innerHTML = matches.map(p => `
+        <div class="solo-auto-item px-4 py-2.5 hover:bg-amber-500/20 text-slate-200 hover:text-white cursor-pointer flex items-center justify-between text-xs transition-colors" data-player="${p.name}">
+          <span class="font-bold">${p.name}</span>
+          <span class="text-[10px] text-slate-400">${p.details || p.position || ''}</span>
+        </div>
+      `).join('');
+
+      soloDropdown.classList.remove('hidden');
+
+      soloDropdown.querySelectorAll('.solo-auto-item').forEach(item => {
+        item.addEventListener('click', () => {
+          soloSearchInput.value = item.getAttribute('data-player');
+          soloDropdown.classList.add('hidden');
+          SoloStreak.submitGuess();
+        });
+      });
+    });
+
+    soloSearchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        soloDropdown.classList.add('hidden');
+        SoloStreak.submitGuess();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!soloSearchInput.contains(e.target) && !soloDropdown.contains(e.target)) {
+        soloDropdown.classList.add('hidden');
+      }
+    });
+  }
+
+  // --- In-Game Reactions & Quick Chat ---
+  const btnSendEmotes = document.querySelectorAll('.btn-send-emote');
+  btnSendEmotes.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const emote = btn.getAttribute('data-emote');
+      if (emote) {
+        if (socket) {
+          socket.emit('send_reaction', {
+            type: 'emote',
+            content: emote,
+            username: AppState.username
+          });
+        }
+        UI.spawnFloatingReaction('game-reaction-container', emote);
+        SoundFX.playClick();
+      }
+    });
+  });
+
+  const btnToggleQuickChat = document.getElementById('btn-toggle-quick-chat');
+  const quickChatMenu = document.getElementById('quick-chat-menu');
+  if (btnToggleQuickChat && quickChatMenu) {
+    btnToggleQuickChat.addEventListener('click', () => {
+      quickChatMenu.classList.toggle('hidden');
+    });
+
+    const quickChatOpts = document.querySelectorAll('.quick-chat-opt');
+    quickChatOpts.forEach(opt => {
+      opt.addEventListener('click', () => {
+        const msg = opt.getAttribute('data-msg');
+        if (msg) {
+          if (socket) {
+            socket.emit('send_reaction', {
+              type: 'chat',
+              content: msg,
+              username: AppState.username
+            });
+          }
+          UI.showNotification(`Sen: "${msg}"`, 'typing', 2000);
+          SoundFX.playClick();
+        }
+        quickChatMenu.classList.add('hidden');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!btnToggleQuickChat.contains(e.target) && !quickChatMenu.contains(e.target)) {
+        quickChatMenu.classList.add('hidden');
+      }
     });
   }
 }

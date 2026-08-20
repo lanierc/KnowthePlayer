@@ -473,6 +473,8 @@ async function startNextRound(roomCode) {
     });
   } else {
     room.roundNumber++;
+    room.status = 'PLAYING';
+    room.roundLocked = false;
     const matchup = await getRandomMatchup(roomCode, room.allTeams, room.dataSource);
     room.currentMatchup = matchup;
 
@@ -906,10 +908,10 @@ io.on('connection', (socket) => {
     const roomCode = socket.roomCode;
     const room = rooms[roomCode];
 
-    if (!room || room.status !== 'PLAYING') return;
+    if (!room || room.status !== 'PLAYING' || room.roundLocked) return;
 
     const { playerId, username } = data;
-    const validIds = room.currentMatchup.validPlayerIds;
+    const validIds = (room.currentMatchup && room.currentMatchup.validPlayerIds) || [];
     
     let isCorrect = validIds.includes(playerId);
 
@@ -920,7 +922,12 @@ io.on('connection', (socket) => {
       }
     }
 
+    // Re-check after async fetch
+    if (!room || room.status !== 'PLAYING' || room.roundLocked) return;
+
     if (isCorrect) {
+      // Instantly lock this round so opponent cannot score or trigger round_won
+      room.roundLocked = true;
       if (room.timerInterval) clearInterval(room.timerInterval);
 
       if (socket.id === room.host.id) {
@@ -999,6 +1006,8 @@ io.on('connection', (socket) => {
           team2Name: team2Obj.name
         });
       } else {
+        room.status = 'ROUND_TRANSITION';
+
         io.to(roomCode).emit('round_won', {
           roundWinnerName: username,
           roundWinnerSocketId: socket.id,
@@ -1010,7 +1019,7 @@ io.on('connection', (socket) => {
         });
 
         setTimeout(() => {
-          if (rooms[roomCode] && (rooms[roomCode].status === 'PLAYING' || rooms[roomCode].status === 'SELECTING_ROUND_TEAMS')) {
+          if (rooms[roomCode] && (rooms[roomCode].status === 'ROUND_TRANSITION' || rooms[roomCode].status === 'SELECTING_ROUND_TEAMS')) {
             startNextRound(roomCode);
           }
         }, 3500);
@@ -1038,23 +1047,48 @@ io.on('connection', (socket) => {
     if (room) {
       if (room.timerInterval) clearInterval(room.timerInterval);
       room.status = 'WAITING';
+      room.roundLocked = false;
       room.host.score = 0;
       if (room.guest) room.guest.score = 0;
       io.to(roomCode).emit('return_to_waiting');
     }
   });
 
-  socket.on('disconnect', () => {
-    const roomCode = socket.roomCode;
+  function handleLeaveRoom(s) {
+    const roomCode = s.roomCode;
+    if (!roomCode || !rooms[roomCode]) return;
     const room = rooms[roomCode];
 
-    if (room) {
-      if (room.timerInterval) clearInterval(room.timerInterval);
-      socket.to(roomCode).emit('opponent_disconnected', {
-        message: 'Rakip oyundan ayrıldı.'
+    if (room.timerInterval) clearInterval(room.timerInterval);
+
+    if (s.id === room.host.id) {
+      // Host left -> inform guest and terminate room
+      s.to(roomCode).emit('opponent_disconnected', {
+        message: 'Oda sahibi ayrıldı. Lobiye yönlendiriliyorsunuz.'
       });
       delete rooms[roomCode];
+    } else if (room.guest && s.id === room.guest.id) {
+      // Guest left -> reset room for host
+      room.guest = null;
+      room.status = 'WAITING';
+      room.roundLocked = false;
+      room.host.score = 0;
+      room.roundNumber = 1;
+      s.to(roomCode).emit('opponent_disconnected', {
+        message: 'Rakip oyundan ayrıldı.'
+      });
     }
+
+    s.leave(roomCode);
+    delete s.roomCode;
+  }
+
+  socket.on('leave_room', () => {
+    handleLeaveRoom(socket);
+  });
+
+  socket.on('disconnect', () => {
+    handleLeaveRoom(socket);
   });
 });
 

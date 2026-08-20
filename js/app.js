@@ -26,7 +26,8 @@ const AppState = {
   allTeams: [],
   mySelectedTeam: 'real_madrid',
   opponentHasSelectedTeam: true,
-  dataSource: 'LOCAL' // 'LOCAL' or 'API'
+  dataSource: 'LOCAL', // 'LOCAL' or 'API'
+  roundLocked: false
 };
 
 // --- Lightweight User Authentication & Profile Manager ---
@@ -607,6 +608,55 @@ function resetPassButton() {
   }
 }
 
+function enableSearchInput() {
+  AppState.roundLocked = false;
+  const searchInput = document.getElementById('player-search-input');
+  const btnSubmit = document.getElementById('btn-submit-guess');
+  if (searchInput) {
+    searchInput.disabled = false;
+    searchInput.value = '';
+    setTimeout(() => searchInput.focus(), 100);
+  }
+  if (btnSubmit) {
+    btnSubmit.disabled = false;
+    btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+  }
+}
+
+function disableSearchInput() {
+  AppState.roundLocked = true;
+  const searchInput = document.getElementById('player-search-input');
+  const btnSubmit = document.getElementById('btn-submit-guess');
+  if (searchInput) {
+    searchInput.disabled = true;
+  }
+  if (btnSubmit) {
+    btnSubmit.disabled = true;
+    btnSubmit.classList.add('opacity-50', 'cursor-not-allowed');
+  }
+  UI.hideAutocomplete();
+}
+
+function leaveRoomAndGoToLobby() {
+  if (AppState.timerInterval) clearInterval(AppState.timerInterval);
+  if (SoloStreak.timerInterval) clearInterval(SoloStreak.timerInterval);
+  SoloStreak.closeGameOverModal();
+  UI.hideRoundTeamModal();
+
+  if (socket && AppState.roomCode) {
+    socket.emit('leave_room');
+  }
+
+  AppState.roomCode = '';
+  AppState.currentMatchup = null;
+  AppState.roundLocked = false;
+  AppState.hostScore = 0;
+  AppState.guestScore = 0;
+  AppState.opponentJoined = false;
+
+  UI.showScreen('screen-lobby');
+}
+
 function initSocketListeners() {
   if (!socket) return;
 
@@ -720,6 +770,7 @@ function initSocketListeners() {
     UI.showScreen('screen-game');
 
     UI.runCountdown(() => {
+      enableSearchInput();
       startRoundTimer();
       UI.showNotification(`⚽ Maç Başladı! ${data.team1Obj.name} ✖ ${data.team2Obj.name} ortak oyuncusunu bulun!`, 'info', 4000);
     });
@@ -727,6 +778,7 @@ function initSocketListeners() {
 
   socket.on('round_won', (data) => {
     if (AppState.timerInterval) clearInterval(AppState.timerInterval);
+    disableSearchInput();
 
     AppState.hostScore = data.hostScore;
     AppState.guestScore = data.guestScore;
@@ -746,6 +798,7 @@ function initSocketListeners() {
 
   socket.on('round_draw', (data) => {
     if (AppState.timerInterval) clearInterval(AppState.timerInterval);
+    disableSearchInput();
 
     SoundFX.playError();
     UI.showNotification(`⏰ ${data.message} Yeni tura geçiliyor...`, 'error', 3500);
@@ -779,6 +832,7 @@ function initSocketListeners() {
 
   socket.on('round_skipped', (data) => {
     if (AppState.timerInterval) clearInterval(AppState.timerInterval);
+    disableSearchInput();
 
     SoundFX.playWhistle();
     resetPassButton();
@@ -814,6 +868,7 @@ function initSocketListeners() {
     UI.showScreen('screen-game');
 
     UI.runCountdown(() => {
+      enableSearchInput();
       startRoundTimer();
       UI.showNotification(`⚽ Tur ${data.roundNumber}! ${data.team1Obj.name} ✖ ${data.team2Obj.name}`, 'info', 3000);
     });
@@ -834,6 +889,7 @@ function initSocketListeners() {
 
   socket.on('match_over', (data) => {
     if (AppState.timerInterval) clearInterval(AppState.timerInterval);
+    disableSearchInput();
     UI.hideRoundTeamModal();
 
     const isWinner = data.winnerSocketId === socket.id;
@@ -861,8 +917,20 @@ function initSocketListeners() {
   socket.on('opponent_disconnected', (data) => {
     AppState.opponentJoined = false;
     UI.hideRoundTeamModal();
-    updateWaitingRoomUI();
-    UI.showNotification(`⚠️ ${data.message}`, 'error', 4000);
+    if (AppState.timerInterval) clearInterval(AppState.timerInterval);
+
+    if (UI.activeScreen === 'screen-game' || UI.activeScreen === 'screen-result') {
+      UI.showNotification(`⚠️ ${data.message}`, 'error', 4000);
+      if (AppState.isHost) {
+        updateWaitingRoomUI();
+        UI.showScreen('screen-waiting');
+      } else {
+        leaveRoomAndGoToLobby();
+      }
+    } else {
+      updateWaitingRoomUI();
+      UI.showNotification(`⚠️ ${data.message}`, 'error', 4000);
+    }
   });
 
   socket.on('opponent_reaction', (data) => {
@@ -1149,6 +1217,7 @@ function initEventListeners() {
 
   const btnPlayAgain = document.getElementById('btn-play-again');
   const btnBackToLobby = document.getElementById('btn-back-lobby');
+  const btnHeaderLogo = document.getElementById('btn-header-logo');
 
   if (btnPlayAgain) {
     btnPlayAgain.addEventListener('click', () => {
@@ -1158,7 +1227,13 @@ function initEventListeners() {
 
   if (btnBackToLobby) {
     btnBackToLobby.addEventListener('click', () => {
-      UI.showScreen('screen-lobby');
+      leaveRoomAndGoToLobby();
+    });
+  }
+
+  if (btnHeaderLogo) {
+    btnHeaderLogo.addEventListener('click', () => {
+      leaveRoomAndGoToLobby();
     });
   }
 
@@ -1535,6 +1610,8 @@ function startRoundTimer() {
 }
 
 function submitGuess() {
+  if (AppState.roundLocked) return;
+
   const searchInput = document.getElementById('player-search-input');
   const typedName = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
